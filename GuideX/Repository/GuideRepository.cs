@@ -1,6 +1,7 @@
 using GuideX.Data;
 using GuideX.DTOs;
 using GuideX.Entities;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace GuideX.Repository
@@ -10,36 +11,40 @@ namespace GuideX.Repository
         private readonly GuideXpContext _context;
 
         public GuideRepository(GuideXpContext context) { _context = context; }
-
-        public IEnumerable<GuidesDTO> GetGuides()
+        public async Task<IEnumerable<GuideDetailDTO>> GetGuidesAsync()
         {
-            //return _context.VwGuideDetails.ToArray();
-            var vwGuideDetails = _context.VwGuideDetails.ToArray();
+            // מפעילים את הפרוצדורה ומחזירים את התוצאות
+            //var guides = await _context.Set<GuideDetailDTO>()
+            //    .FromSqlRaw("EXEC GetAllGuideDetails")
+            //    .ToArrayAsync();
 
-            return vwGuideDetails.Select(detail => new GuidesDTO
-            {
-                GuideId = detail.GuideId,
-                UserId = detail.UserId,
-                FirstName = detail.FirstName,
-                LastName = detail.LastName,
-                IdNumber = detail.IdNumber,
-                City = detail.City,
-                PhoneNumber = detail.PhoneNumber,
-                Email = detail.Email,
-                ReligiousId = detail.ReligiousId,
-                ReligiousName = detail.ReligiousName,
-                RegionId = detail.RegionId,
-                RegionName = detail.RegionName
-            });
+
+            //return guides;
+            var guides = await _context.Guides
+       .Include(g => g.GuidesRegion) // טוען את אזורי ההתמחות של כל מדריכה
+       .Select(g => new GuideDetailDTO
+       {
+           GuideId = g.GuideId,
+           UserId = g.UserId,
+           FirstName = g.User.FirstName,
+           LastName = g.User.LastName,
+           IdNumber = g.User.IdNumber,
+           City = g.User.City,
+           PhoneNumber = g.User.PhoneNumber,
+           Email = g.User.Email,
+           ReligiousId = g.ReligiousId,
+           // מערך אזורי ההתמחות של המדריכה (RegionId מתוך טבלת ה-GuidesRegion)
+           RegionId = g.GuidesRegion.Select(r => r.RegionId).ToArray()
+       })
+       .ToListAsync();
+
+            return guides;
         }
-
-        /// <summary>
-        /// יוצר (או מוצא) משתמש, יוצר מדריך, מחבר אליו אזורי התמחות (GuidesRegions)
-        /// וקבצים (UpFiles). מחזיר את ה-GuideId החדש.
-        /// </summary>
-        public async Task<int> CreateGuideAsync(GuideUploadDto dto, List<(string FileName, string PathToFile, bool IsPicture)> files)
+        public async Task<RegisterGuideResult> CreateGuideAsync(GuideUploadDto dto, List<(string FileName, string PathToFile, bool IsPicture)> files)
         {
-            // 1) משתמש — מחפש לפי ת"ז, אחרת יוצר חדש
+            var regionIds = (dto.RegionIds ?? new List<int>()).Distinct().ToArray();
+
+            // 1) משתמש — מחפש לפי ת"ז, אחרת יוצר חדש; קיים = מעדכן את פרטיו
             User? user = null;
             if (!string.IsNullOrWhiteSpace(dto.IdNumber))
             {
@@ -59,30 +64,67 @@ namespace GuideX.Repository
                     UserPassword = dto.UserPassword ?? string.Empty
                 };
                 _context.Users.Add(user);
-                await _context.SaveChangesAsync(); // מקבל UserId
+            }
+            else
+            {
+                // משתמש קיים — מעדכנים את פרטיו
+                user.FirstName = dto.FirstName ?? user.FirstName;
+                user.LastName = dto.LastName ?? user.LastName;
+                if (!string.IsNullOrWhiteSpace(dto.City)) user.City = dto.City;
+                if (!string.IsNullOrWhiteSpace(dto.PhoneNumber)) user.PhoneNumber = dto.PhoneNumber;
+                if (!string.IsNullOrWhiteSpace(dto.Email)) user.Email = dto.Email;
+                if (!string.IsNullOrWhiteSpace(dto.UserPassword)) user.UserPassword = dto.UserPassword;
             }
 
-            // 2) מדריך
-            var guide = new Guide
+            await _context.SaveChangesAsync(); // מחזיר/מעדכן UserId
+
+            // 2) מדריך — קיים? נעדכן. אחרת ניצור חדש.
+            //    (כל שאילתה חדשה מ-`dto.IdNumber` תחזיר את אותו User → אותו Guide)
+            var guide = await _context.Guides
+                .Include(g => g.GuidesRegion)
+                .Include(g => g.UpFiles)
+                .FirstOrDefaultAsync(g => g.UserId == user.UserId);
+
+            var newGuide = guide == null;
+            if (newGuide)
             {
-                UserId = user.UserId,
-                ReligiousId = int.TryParse(dto.ReligiousId, out var religiousId) ? religiousId : 0,
-                GuidesRegions = (dto.RegionIds ?? new List<int>())
-                    .Distinct()
-                    .Select(r => new GuidesRegion { RegionId = r })
-                    .ToList(),
-                UpFiles = files.Select(f => new UpFile
+                guide = new Guide { UserId = user.UserId };
+                _context.Guides.Add(guide);
+            }
+
+            // עדה
+            guide.ReligiousId = int.TryParse(dto.ReligiousId, out var religiousId) ? religiousId : guide.ReligiousId;
+
+            // אזורי התמחות — מחליפים את הרשימה הקיימת.
+            // ה-GuideId של השורות משום לא מוקצה כאן מפורשות; EF Core
+            // ממלא אותו מה-relationship (עבור Guide חדש — אחרי ה-Save,
+            // ועבור Guide קיים — מהערך האמיתי) ולכן אין צורך/אסור להקצות ידנית.
+            _context.GuidesRegion.RemoveRange(guide.GuidesRegion);
+            guide.GuidesRegion = regionIds
+                .Select(r => new GuidesRegion { RegionId = r })
+                .ToList();
+
+            // קבצים — מוסיפים את הקבצים החדשים (לא מוחקים ישנים)
+            foreach (var f in files)
+            {
+                guide.UpFiles.Add(new UpFile
                 {
                     FileName = f.FileName,
                     PathToFile = f.PathToFile,
                     IsPicture = f.IsPicture
-                }).ToList()
+                });
+            }
+
+            await _context.SaveChangesAsync(); // מקבל GuideId + שומר את האזורים והקבצים
+
+            // 3) מעדכנים את ה-GuideId בשורות GuidesRegion החדשות שנוצרו
+            //    (אם זה Guide חדש, ה-GuidesRegion נשמרו עם GuideId=0 לפני ה-Save)
+            return new RegisterGuideResult
+            {
+                GuideId = guide.GuideId,
+                UserId = user.UserId,
+                RegionIds = regionIds
             };
-
-            _context.Guides.Add(guide);
-            await _context.SaveChangesAsync(); // מקבל GuideId + מזהה את הקבצים
-
-            return guide.GuideId;
         }
 
         /// <summary>מחזיר את קבצי המדריך (UpFiles) לפי GuideId — כולל PathToFile לשליפה.</summary>
@@ -102,5 +144,7 @@ namespace GuideX.Repository
                 .AsNoTracking()
                 .FirstOrDefaultAsync(f => f.FileId == fileId);
         }
+
+
     }
 }

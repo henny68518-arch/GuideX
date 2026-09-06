@@ -17,10 +17,10 @@ public partial class GuidesRegion
     public int RegionId { get; set; }
 
     [ForeignKey("GuideId")]
-    [InverseProperty("GuidesRegions")]
+    [InverseProperty("GuidesRegion")]
     public virtual Guide Guide { get; set; } = null!;
 
     [ForeignKey("RegionId")]
-    [InverseProperty("GuidesRegions")]
+    [InverseProperty("GuidesRegion")]
     public virtual Region Region { get; set; } = null!;
 }

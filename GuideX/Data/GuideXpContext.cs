@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using GuideX.DTOs;
 using GuideX.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -30,7 +31,7 @@ public partial class GuideXpContext : DbContext
 
     public virtual DbSet<Guide> Guides { get; set; }
 
-    public virtual DbSet<GuidesRegion> GuidesRegions { get; set; }
+    public virtual DbSet<GuidesRegion> GuidesRegion { get; set; }
 
     public virtual DbSet<Hostel> Hostels { get; set; }
 
@@ -59,6 +60,7 @@ public partial class GuideXpContext : DbContext
     public virtual DbSet<VwGuideDetail> VwGuideDetails { get; set; }
 
     public virtual DbSet<WalkingTrail> WalkingTrails { get; set; }
+    public DbSet<GuideDetailDTO> GuideDetails { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -156,11 +158,11 @@ public partial class GuideXpContext : DbContext
         {
             entity.HasKey(e => e.GuidesRegionId).HasName("PK__GuidesRe__BC04EE6F718FE96D");
 
-            entity.HasOne(d => d.Guide).WithMany(p => p.GuidesRegions)
+            entity.HasOne(d => d.Guide).WithMany(p => p.GuidesRegion)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__GuidesReg__Guide__70DDC3D8");
 
-            entity.HasOne(d => d.Region).WithMany(p => p.GuidesRegions)
+            entity.HasOne(d => d.Region).WithMany(p => p.GuidesRegion)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__GuidesReg__Regio__6FE99F9F");
         });

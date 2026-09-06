@@ -17,16 +17,17 @@ namespace GuideX.Services
             _env = env;
         }
 
-        public IEnumerable<GuidesDTO> GetAllGuides()
+        public async Task<IEnumerable<GuideDetailDTO>> GetAllGuides()
         {
-            return _repo.GetGuides().ToArray();
+            return await _repo.GetGuidesAsync(); // מחזירים את התוצאה מהקריאה האסינכרונית ישירות
         }
 
         /// <summary>
-        /// שומר את הקבצים (קורות חיים ותעודות) לדיסק, ואז קורא ל-Repository
-        /// ליצירת User+Guide+GuidesRegions+UpFiles. מחזיר את ה-GuideId החדש.
+        /// רושם/מעדכן מדריכה (User + Guide + אזורי התמחות + קבצים) ומחזיר
+        /// אובייקט תשובה הכולל את ה-GuideId וגם את מערך אזורי ההתמחות
+        /// ("המקומות שהיא מדריכה בהם" — RegionIds).
         /// </summary>
-        public async Task<int> RegisterGuideAsync(GuideUploadDto dto)
+        public async Task<RegisterGuideResult> RegisterGuideAsync(GuideUploadDto dto)
         {
             var filesMetas = new List<(string FileName, string PathToFile, bool IsPicture)>();
 
@@ -79,14 +80,25 @@ namespace GuideX.Services
             Directory.CreateDirectory(uploadDir);
 
             var originalName = Path.GetFileName(file.FileName);
-            var storedName = prefix + Guid.NewGuid().ToString("N") + Path.GetExtension(originalName);
+            var extension = Path.GetExtension(originalName);
+
+            // שם מאוחסן קצר — כדי שהנתיב הכולל (uploads/guides/<name>)
+            // לא יחרוג מאורך עמודת PathToFile (50 תווים).
+            var storedName = prefix + Guid.NewGuid().ToString("N")[..10] + extension;
+
+            // השם המקורי (שמופיע למשתמש) נשמר בעמודת FileName (אורך מקסימלי 25) —
+            // מקצרים אותו אם צריך כדי למנוע truncation.
+            var storedFileName = originalName.Length <= 25
+                ? originalName
+                : (Path.GetFileNameWithoutExtension(originalName))[..(25 - extension.Length)] + extension;
+
             var fullPath = Path.Combine(uploadDir, storedName);
 
             using var stream = new FileStream(fullPath, FileMode.Create);
             await file.CopyToAsync(stream);
 
             var relativePath = Path.Combine("uploads", "guides", storedName);
-            return (originalName, relativePath, false);
+            return (storedFileName, relativePath, false);
         }
 
         private static bool IsCv(string pathToFile)

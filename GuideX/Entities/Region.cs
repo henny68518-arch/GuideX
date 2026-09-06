@@ -18,7 +18,7 @@ public partial class Region
     public virtual ICollection<Attraction> Attractions { get; set; } = new List<Attraction>();
 
     [InverseProperty("Region")]
-    public virtual ICollection<GuidesRegion> GuidesRegions { get; set; } = new List<GuidesRegion>();
+    public virtual ICollection<GuidesRegion> GuidesRegion { get; set; } = new List<GuidesRegion>();
 
     [InverseProperty("Region")]
     public virtual ICollection<Hostel> Hostels { get; set; } = new List<Hostel>();

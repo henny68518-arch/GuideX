@@ -19,7 +19,7 @@ public partial class Guide
     public virtual ICollection<Forum> Forums { get; set; } = new List<Forum>();
 
     [InverseProperty("Guide")]
-    public virtual ICollection<GuidesRegion> GuidesRegions { get; set; } = new List<GuidesRegion>();
+    public virtual ICollection<GuidesRegion> GuidesRegion { get; set; } = new List<GuidesRegion>();
 
     [InverseProperty("AboutGuide")]
     public virtual ICollection<Rating> Ratings { get; set; } = new List<Rating>();
