@@ -90,18 +90,22 @@ namespace GuideX.Repository
             {
                 guide = new Guide { UserId = user.UserId };
                 _context.Guides.Add(guide);
+                // שומרים מיד כדי שהשרת יקצה GuideId אמיתי — כך שנוכל לקשור
+                // אליו במפורש את שורות ה-GuidesRegion (לא מסתמכים על EF fix-up,
+                // שלגבי Guide חדש נכשל ומשאיר את האזורים עם GuideId=0).
+                await _context.SaveChangesAsync();
             }
 
             // עדה
             guide.ReligiousId = int.TryParse(dto.ReligiousId, out var religiousId) ? religiousId : guide.ReligiousId;
 
             // אזורי התמחות — מחליפים את הרשימה הקיימת.
-            // ה-GuideId של השורות משום לא מוקצה כאן מפורשות; EF Core
-            // ממלא אותו מה-relationship (עבור Guide חדש — אחרי ה-Save,
-            // ועבור Guide קיים — מהערך האמיתי) ולכן אין צורך/אסור להקצות ידנית.
+            // חשוב: קובעים את GuideId במפורש על כל שורה (עבור Guide חדש ה-GuideId
+            // כבר אמיתי אחרי ה-Save שלמעלה). שורות אלו נשמרות בטבלת GuidesRegion
+            // שמהן נקראים האזורים בחזרה ב-GetGuidesAsync.
             _context.GuidesRegion.RemoveRange(guide.GuidesRegion);
             guide.GuidesRegion = regionIds
-                .Select(r => new GuidesRegion { RegionId = r })
+                .Select(r => new GuidesRegion { GuideId = guide.GuideId, RegionId = r })
                 .ToList();
 
             // קבצים — מוסיפים את הקבצים החדשים (לא מוחקים ישנים)
@@ -115,10 +119,9 @@ namespace GuideX.Repository
                 });
             }
 
-            await _context.SaveChangesAsync(); // מקבל GuideId + שומר את האזורים והקבצים
+            await _context.SaveChangesAsync(); // שומר את האזורים ואת הקבצים
 
-            // 3) מעדכנים את ה-GuideId בשורות GuidesRegion החדשות שנוצרו
-            //    (אם זה Guide חדש, ה-GuidesRegion נשמרו עם GuideId=0 לפני ה-Save)
+            // 3) מחזירים את התוצאה (כולל אזורי ההתמחות שנשמרו)
             return new RegisterGuideResult
             {
                 GuideId = guide.GuideId,

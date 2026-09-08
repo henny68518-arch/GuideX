@@ -54,8 +54,92 @@ namespace GuideX.Controllers
 
             return Ok(RegionName);
         }
+       
+
+        [HttpGet("Religious_{id}")]
+        [Produces("application/json")]
+        public ActionResult<string> GetReligious(int id)
+        {
+            var ReligiousName = _allRepository.GetReligiousNameById(id);
+
+            if (ReligiousName == null)
+            {
+                return Ok("אחר");
+            }
+
+            return Ok(ReligiousName);
+        }
+
+        [HttpGet("All_Religious")]
+        public IActionResult GetReligious()
+        {
+            var Religious = _context.Religious
+         .Select(a => new ReligiousDTO(
+             a.ReligiousId,
+             a.ReligiousName
+             ))
+         .ToList();
 
 
-    
+            return Ok(Religious);
+        }
+
+
+        [HttpGet("Kashrut_{id}")]
+        [Produces("application/json")]
+        public ActionResult<string> GetKashrutTypes (int id)
+        {
+            var GetKashrutTypesName = _allRepository.GetKashrutTypesNameById(id);
+
+            if (GetKashrutTypesName == null)
+            {
+                return Ok("אחר");
+            }
+
+            return Ok(GetKashrutTypesName);
+        }
+
+        [HttpGet("All_Kashruts")]
+        public IActionResult GetKashrutType()
+        {
+            var Reigion = _context.KashrutTypes
+         .Select(a => new KashrutDTO(
+             a.KashrutId,
+             a.KashrutName
+             ))
+         .ToList();
+
+
+            return Ok(Reigion);
+        }
+
+
+        [HttpGet("Roll_{id}")]
+        [Produces("application/json")]
+        public ActionResult<string> GetRollTypes(int id)
+        {
+            var RollName = _allRepository.GetRollNameById(id);
+
+            if (RollName == null)
+            {
+                return Ok("אחר");
+            }
+
+            return Ok(RollName);
+        }
+
+        [HttpGet("All_Roles")]
+        public IActionResult GetRoles()
+        {
+            var Role = _context.Roles
+         .Select(a => new RoleDTO(
+             a.RoleId,
+             a.RoleName
+             ))
+         .ToList();
+
+
+            return Ok(Role);
+        }
     }
 }
