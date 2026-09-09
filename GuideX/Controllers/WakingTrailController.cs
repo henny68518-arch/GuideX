@@ -22,7 +22,7 @@ namespace GuideX.Controllers
         [HttpGet]
         public IActionResult GetAllWalkingTrails()
         {
-            var walkingTrails = _context.WalkingTrails
+            var walkingTrails = _context.WalkingTrail
                 .Include(a => a.Region) // כולל את האזור
                 .Select(a => new WalkingTrailDTO
                 {
