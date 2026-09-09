@@ -108,8 +108,6 @@ namespace GuideX.Controllers
              a.KashrutName
              ))
          .ToList();
-
-
             return Ok(Reigion);
         }
 
