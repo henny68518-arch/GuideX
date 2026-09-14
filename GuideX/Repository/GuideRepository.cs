@@ -13,13 +13,7 @@ namespace GuideX.Repository
         public GuideRepository(GuideXpContext context) { _context = context; }
         public async Task<IEnumerable<GuideDetailDTO>> GetGuidesAsync()
         {
-            // מפעילים את הפרוצדורה ומחזירים את התוצאות
-            //var guides = await _context.Set<GuideDetailDTO>()
-            //    .FromSqlRaw("EXEC GetAllGuideDetails")
-            //    .ToArrayAsync();
-
-
-            //return guides;
+       
             var guides = await _context.Guides
        .Include(g => g.GuidesRegion) // טוען את אזורי ההתמחות של כל מדריכה
        .Select(g => new GuideDetailDTO

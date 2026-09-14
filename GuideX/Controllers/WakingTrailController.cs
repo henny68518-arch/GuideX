@@ -22,7 +22,7 @@ namespace GuideX.Controllers
         [HttpGet]
         public IActionResult GetAllWalkingTrails()
         {
-            var walkingTrails = _context.WalkingTrail
+            var walkingTrails = _context.WalkingTrails
                 .Include(a => a.Region) // כולל את האזור
                 .Select(a => new WalkingTrailDTO
                 {
@@ -32,7 +32,9 @@ namespace GuideX.Controllers
                     RegionId = a.RegionId,
                     Directions = a.Directions ?? "לא זוהה",
                     LengthInKm = a.LengthInKm ?? 0,
-                    RouteDuration = (int?)a.RouteDuration ?? null,
+                    //RouteDuration = (int?)a.RouteDuration ?? null,
+                    RouteDuration = a.RouteDuration.HasValue ? Convert.ToInt32(a.RouteDuration.Value) : (int?)null,
+
                     Difficulty = a.Difficulty ?? 0,
                     MinAge = a.MinAge ?? 0,
                     MaxAge = a.MaxAge ?? 0,
