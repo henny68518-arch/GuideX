@@ -4,7 +4,9 @@ using GuideX.Entities;
 using GuideX.Repository;
 using GuideX.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace GuideX.Controllers
@@ -15,11 +17,16 @@ namespace GuideX.Controllers
     {
         private readonly GuideXpContext _context;
         private readonly AttractionRepository _attractionRepository;
+        private readonly IWebHostEnvironment _env;
 
-        public AttractionsController(GuideXpContext context, AttractionRepository attractionRepository)
+        public AttractionsController(
+            GuideXpContext context,
+            AttractionRepository attractionRepository,
+            IWebHostEnvironment env)
         {
             _context = context;
             _attractionRepository = attractionRepository;
+            _env = env;
         }
 
         [HttpGet]
@@ -168,6 +175,140 @@ namespace GuideX.Controllers
                 Console.WriteLine(ex.Message);
                 return StatusCode(500, "שגיאה במחיקת האטרקציה"); // טיפול בשגיאות
             }
+        }
+
+        // ─────────── תמונות אטרקציה ───────────
+        // התמונות נשמרות על הדיסק בתיקיית wwwroot/uploads/attractions,
+        // ורשומת המטא-דאטה (שם + נתיב) נשמרת בטבלת Files (ישות UpFile)
+        // עם קישור ל-AttractionsId — מנגנון זהה לקבצי המדריכים.
+
+        /// <summary>POST /Attractions/{id}/images — מקבל קבצי תמונה (multipart/form-data, שדה "images")
+        /// ושומר אותם לאטרקציה. מחזיר את רשימת התמונות המעודכנת.</summary>
+        [HttpPost("{id}/images")]
+        [Consumes("multipart/form-data")]
+        public async Task<IActionResult> UploadImages(int id, List<IFormFile> images)
+        {
+            var attraction = await _context.Attractions
+                .Include(a => a.UpFiles)
+                .FirstOrDefaultAsync(a => a.AttractionsId == id);
+            if (attraction == null)
+            {
+                return NotFound();
+            }
+
+            var root = _env.WebRootPath ?? Path.Combine(_env.ContentRootPath, "wwwroot");
+            var uploadDir = Path.Combine(root, "uploads", "attractions");
+            Directory.CreateDirectory(uploadDir);
+
+            foreach (var image in images ?? new List<IFormFile>())
+            {
+                if (image.Length <= 0) continue;
+
+                var originalName = Path.GetFileName(image.FileName);
+                var extension = Path.GetExtension(originalName);
+
+                // שם מאוחסן קצר כדי שהנתיב הכולל (uploads/attractions/<name>)
+                // לא יחרוג מאורך עמודת PathToFile (50 תווים).
+                var storedName = "IMG_" + Guid.NewGuid().ToString("N")[..10] + extension;
+
+                // שם מקורי מקוצר ל-25 תווים (מגבלת עמודת fileName).
+                var storedFileName = originalName.Length <= 25
+                    ? originalName
+                    : Path.GetFileNameWithoutExtension(originalName)[..(25 - extension.Length)] + extension;
+
+                var fullPath = Path.Combine(uploadDir, storedName);
+                using var stream = new FileStream(fullPath, FileMode.Create);
+                await image.CopyToAsync(stream);
+
+                // אטרקציה מקבלת רק תמונות → IsPicture תמיד true.
+                attraction.UpFiles.Add(new UpFile
+                {
+                    FileName = storedFileName,
+                    PathToFile = Path.Combine("uploads", "attractions", storedName),
+                    IsPicture = true
+                });
+            }
+
+            await _context.SaveChangesAsync();
+
+            return Ok(attraction.UpFiles
+                .Select(f => new AttractionFileDto(f.FileId, f.FileName ?? string.Empty))
+                .OrderBy(f => f.FileId)
+                .ToList());
+        }
+
+        /// <summary>GET /Attractions/{id}/images — מחזיר את רשימת התמונות של אטרקציה (מטא-דאטה בלבד).</summary>
+        [HttpGet("{id}/images")]
+        public async Task<IActionResult> GetImages(int id)
+        {
+            var files = await _context.UpFiles
+                .Where(f => f.AttractionsId == id)
+                .OrderBy(f => f.FileId)
+                .AsNoTracking()
+                .ToListAsync();
+
+            return Ok(files.Select(f => new AttractionFileDto(f.FileId, f.FileName ?? string.Empty)).ToList());
+        }
+
+        /// <summary>GET /Attractions/file/{fileId} — קורא את ביטי התמונה מהדיסק ומחזיר אותם כתמונה.</summary>
+        [HttpGet("file/{fileId}")]
+        public async Task<IActionResult> GetFile(int fileId)
+        {
+            var file = await _context.UpFiles
+                .AsNoTracking()
+                .FirstOrDefaultAsync(f => f.FileId == fileId);
+            if (file == null)
+            {
+                return NotFound();
+            }
+
+            var root = _env.WebRootPath ?? Path.Combine(_env.ContentRootPath, "wwwroot");
+            var physicalPath = Path.Combine(root, file.PathToFile);
+            if (!System.IO.File.Exists(physicalPath))
+            {
+                return NotFound("התמונה אינה קיימת על השרת");
+            }
+
+            var bytes = await System.IO.File.ReadAllBytesAsync(physicalPath);
+            var contentType = GetImageContentType(file.FileName);
+            return File(bytes, contentType, file.FileName ?? "image");
+        }
+
+        /// <summary>DELETE /Attractions/file/{fileId} — מוחק את התמונה (רשומה + הקובץ מהדיסק).</summary>
+        [HttpDelete("file/{fileId}")]
+        public async Task<IActionResult> DeleteFile(int fileId)
+        {
+            var file = await _context.UpFiles.FindAsync(fileId);
+            if (file == null)
+            {
+                return NotFound();
+            }
+
+            var root = _env.WebRootPath ?? Path.Combine(_env.ContentRootPath, "wwwroot");
+            var physicalPath = Path.Combine(root, file.PathToFile);
+            if (System.IO.File.Exists(physicalPath))
+            {
+                System.IO.File.Delete(physicalPath);
+            }
+
+            _context.UpFiles.Remove(file);
+            await _context.SaveChangesAsync();
+            return NoContent();
+        }
+
+        private static string GetImageContentType(string? fileName)
+        {
+            var ext = Path.GetExtension(fileName ?? "").ToLowerInvariant();
+            return ext switch
+            {
+                ".png" => "image/png",
+                ".jpg" or ".jpeg" => "image/jpeg",
+                ".gif" => "image/gif",
+                ".webp" => "image/webp",
+                ".bmp" => "image/bmp",
+                ".svg" => "image/svg+xml",
+                _ => "application/octet-stream",
+            };
         }
 
     }

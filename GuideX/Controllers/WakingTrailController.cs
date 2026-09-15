@@ -2,6 +2,7 @@
 using GuideX.Data;
 using GuideX.DTOs;
 using GuideX.Entities;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,10 +13,12 @@ namespace GuideX.Controllers
     public class WakingTrailController : ControllerBase
     {
         private readonly GuideXpContext _context;
+        private readonly IWebHostEnvironment _env;
 
-        public WakingTrailController(GuideXpContext context)
+        public WakingTrailController(GuideXpContext context, IWebHostEnvironment env)
         {
             _context = context;
+            _env = env;
         }
 
         // GET: /WakingTrail
@@ -111,8 +114,13 @@ namespace GuideX.Controllers
                 await _context.WalkingTrails.AddAsync(newTrail);
                 await _context.SaveChangesAsync();
 
-                // החזר תשובה בפורמט JSON עם הודעה
-                return Ok(new { message = "הוספת המסלול נעשתה בהצלחה"});
+                // החזר את המסלול החדש שנשמר (כולל ה- WalkingTrailId שנוצר),
+                // כדי שהלקוח יוכל להעלות אליו תמונות אחרי השמירה.
+                return CreatedAtAction(
+                    nameof(GetAllWalkingTrails),
+                    new { id = newTrail.WalkingTrailId },
+                    newTrail
+                );
             }
             catch (Exception ex)
             {
@@ -141,6 +149,140 @@ namespace GuideX.Controllers
                 Console.WriteLine(ex.Message);
                 return StatusCode(500, "שגיאה במחיקת המסלול");
             }
+        }
+
+        // ─────────── תמונות מסלול הליכה ───────────
+        // התמונות נשמרות על הדיסק בתיקיית wwwroot/uploads/WalkingTrail,
+        // ורשומת המטא-דאטה (שם + נתיב) נשמרת בטבלת Files (ישות UpFile)
+        // עם קישור ל-WalkingTrailId — מנגנון זהה לתמונות האטרקציות.
+
+        /// <summary>POST /WakingTrail/{id}/images — מקבל קבצי תמונה (multipart/form-data, שדה "images")
+        /// ושומר אותם למסלול ההליכה. מחזיר את רשימת התמונות המעודכנת.</summary>
+        [HttpPost("{id}/images")]
+        [Consumes("multipart/form-data")]
+        public async Task<IActionResult> UploadImages(int id, List<IFormFile> images)
+        {
+            var trail = await _context.WalkingTrails
+                .Include(a => a.UpFiles)
+                .FirstOrDefaultAsync(a => a.WalkingTrailId == id);
+            if (trail == null)
+            {
+                return NotFound();
+            }
+
+            var root = _env.WebRootPath ?? Path.Combine(_env.ContentRootPath, "wwwroot");
+            var uploadDir = Path.Combine(root, "uploads", "WalkingTrail");
+            Directory.CreateDirectory(uploadDir);
+
+            foreach (var image in images ?? new List<IFormFile>())
+            {
+                if (image.Length <= 0) continue;
+
+                var originalName = Path.GetFileName(image.FileName);
+                var extension = Path.GetExtension(originalName);
+
+                // שם מאוחסן קצר כדי שהנתיב הכולל (uploads/WalkingTrail/<name>)
+                // לא יחרוג מאורך עמודת PathToFile (50 תווים).
+                var storedName = "IMG_" + Guid.NewGuid().ToString("N")[..10] + extension;
+
+                // שם מקורי מקוצר ל-25 תווים (מגבלת עמודת fileName).
+                var storedFileName = originalName.Length <= 25
+                    ? originalName
+                    : Path.GetFileNameWithoutExtension(originalName)[..(25 - extension.Length)] + extension;
+
+                var fullPath = Path.Combine(uploadDir, storedName);
+                using var stream = new FileStream(fullPath, FileMode.Create);
+                await image.CopyToAsync(stream);
+
+                // מסלול מקבל רק תמונות → IsPicture תמיד true.
+                trail.UpFiles.Add(new UpFile
+                {
+                    FileName = storedFileName,
+                    PathToFile = Path.Combine("uploads", "WalkingTrail", storedName),
+                    IsPicture = true
+                });
+            }
+
+            await _context.SaveChangesAsync();
+
+            return Ok(trail.UpFiles
+                .Select(f => new WalkingTrailFileDto(f.FileId, f.FileName ?? string.Empty))
+                .OrderBy(f => f.FileId)
+                .ToList());
+        }
+
+        /// <summary>GET /WakingTrail/{id}/images — מחזיר את רשימת התמונות של מסלול (מטא-דאטה בלבד).</summary>
+        [HttpGet("{id}/images")]
+        public async Task<IActionResult> GetImages(int id)
+        {
+            var files = await _context.UpFiles
+                .Where(f => f.WalkingTrailId == id)
+                .OrderBy(f => f.FileId)
+                .AsNoTracking()
+                .ToListAsync();
+
+            return Ok(files.Select(f => new WalkingTrailFileDto(f.FileId, f.FileName ?? string.Empty)).ToList());
+        }
+
+        /// <summary>GET /WakingTrail/file/{fileId} — קורא את ביטי התמונה מהדיסק ומחזיר אותם כתמונה.</summary>
+        [HttpGet("file/{fileId}")]
+        public async Task<IActionResult> GetFile(int fileId)
+        {
+            var file = await _context.UpFiles
+                .AsNoTracking()
+                .FirstOrDefaultAsync(f => f.FileId == fileId);
+            if (file == null)
+            {
+                return NotFound();
+            }
+
+            var root = _env.WebRootPath ?? Path.Combine(_env.ContentRootPath, "wwwroot");
+            var physicalPath = Path.Combine(root, file.PathToFile);
+            if (!System.IO.File.Exists(physicalPath))
+            {
+                return NotFound("התמונה אינה קיימת על השרת");
+            }
+
+            var bytes = await System.IO.File.ReadAllBytesAsync(physicalPath);
+            var contentType = GetImageContentType(file.FileName);
+            return File(bytes, contentType, file.FileName ?? "image");
+        }
+
+        /// <summary>DELETE /WakingTrail/file/{fileId} — מוחק את התמונה (רשומה + הקובץ מהדיסק).</summary>
+        [HttpDelete("file/{fileId}")]
+        public async Task<IActionResult> DeleteFile(int fileId)
+        {
+            var file = await _context.UpFiles.FindAsync(fileId);
+            if (file == null)
+            {
+                return NotFound();
+            }
+
+            var root = _env.WebRootPath ?? Path.Combine(_env.ContentRootPath, "wwwroot");
+            var physicalPath = Path.Combine(root, file.PathToFile);
+            if (System.IO.File.Exists(physicalPath))
+            {
+                System.IO.File.Delete(physicalPath);
+            }
+
+            _context.UpFiles.Remove(file);
+            await _context.SaveChangesAsync();
+            return NoContent();
+        }
+
+        private static string GetImageContentType(string? fileName)
+        {
+            var ext = Path.GetExtension(fileName ?? "").ToLowerInvariant();
+            return ext switch
+            {
+                ".png" => "image/png",
+                ".jpg" or ".jpeg" => "image/jpeg",
+                ".gif" => "image/gif",
+                ".webp" => "image/webp",
+                ".bmp" => "image/bmp",
+                ".svg" => "image/svg+xml",
+                _ => "application/octet-stream",
+            };
         }
     }
 }

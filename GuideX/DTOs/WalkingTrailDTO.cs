@@ -19,4 +19,11 @@
         public bool? SeasonSpring { get; set; }
         public bool? SeasonAutumn { get; set; }
     }
+
+    /// <summary>פריט תמונה של מסלול הליכה — מטא-דאטה בלבד (בלי תוכן הביטים),
+    /// לשם הצגת רשימת התמונות ושליפת התוכן דרך /WakingTrail/file/{fileId}.</summary>
+    public record WalkingTrailFileDto(
+        int FileId,
+        string FileName
+    );
 }

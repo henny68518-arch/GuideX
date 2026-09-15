@@ -41,6 +41,7 @@ builder.Services.AddScoped<GuideRepository>();
 builder.Services.AddScoped<AttractionRepository>(); 
 builder.Services.AddScoped<AllRepository>();
 builder.Services.AddScoped<ForumRepository>();
+builder.Services.AddScoped<CoordinatorRepository>();
 
 
 // Services
@@ -48,6 +49,7 @@ builder.Services.AddScoped<TokenService>();
 builder.Services.AddScoped<loginService>();
 builder.Services.AddScoped<GuideService>();
 builder.Services.AddScoped<ForumService>();
+builder.Services.AddScoped<CoordinatorService>();
 
 
 builder.Services.AddAuthentication(options =>
