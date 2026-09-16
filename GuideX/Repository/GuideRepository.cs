@@ -11,29 +11,64 @@ namespace GuideX.Repository
         private readonly GuideXpContext _context;
 
         public GuideRepository(GuideXpContext context) { _context = context; }
-        public async Task<IEnumerable<GuideDetailDTO>> GetGuidesAsync()
+        // public async Task<IEnumerable<GuideDetailDTO>> GetGuidesAsync(bool? RetrieveApprovals)
+        // {
+
+        //     var guides = await _context.Guides
+        //.Include(g => g.GuidesRegion) // טוען את אזורי ההתמחות של כל מדריכה
+        //.Select(g => new GuideDetailDTO
+        //{
+        //    GuideId = g.GuideId,
+        //    UserId = g.UserId,
+        //    FirstName = g.User.FirstName,
+        //    LastName = g.User.LastName,
+        //    IdNumber = g.User.IdNumber,
+        //    City = g.User.City,
+        //    PhoneNumber = g.User.PhoneNumber,
+        //    Email = g.User.Email,
+        //    ReligiousId = g.ReligiousId,
+        //    // מערך אזורי ההתמחות של המדריכה (RegionId מתוך טבלת ה-GuidesRegion)
+        //    RegionId = g.GuidesRegion.Select(r => r.RegionId).ToArray()
+        //})
+
+        //.ToListAsync();
+
+        //     return guides;
+        // }
+
+        public async Task<IEnumerable<GuideDetailDTO>> GetGuidesAsync(bool? RetrieveApprovals) // ✅ שנה bool ל- bool?
         {
-       
-            var guides = await _context.Guides
-       .Include(g => g.GuidesRegion) // טוען את אזורי ההתמחות של כל מדריכה
-       .Select(g => new GuideDetailDTO
-       {
-           GuideId = g.GuideId,
-           UserId = g.UserId,
-           FirstName = g.User.FirstName,
-           LastName = g.User.LastName,
-           IdNumber = g.User.IdNumber,
-           City = g.User.City,
-           PhoneNumber = g.User.PhoneNumber,
-           Email = g.User.Email,
-           ReligiousId = g.ReligiousId,
-           // מערך אזורי ההתמחות של המדריכה (RegionId מתוך טבלת ה-GuidesRegion)
-           RegionId = g.GuidesRegion.Select(r => r.RegionId).ToArray()
-       })
-       .ToListAsync();
+            // ✅ הוסף את השורות הבאות
+            IQueryable<Guide> query = _context.Guides
+                .Include(g => g.GuidesRegion);
+
+            if (RetrieveApprovals.HasValue)
+            {
+                query = query.Where(g => g.IsApproved == RetrieveApprovals.Value);
+            }
+            // ✅ עד כאן
+
+            var guides = await query // ✅ שנה מ- _context.Guides ל- query
+                .Select(g => new GuideDetailDTO
+                {
+                    GuideId = g.GuideId,
+                    UserId = g.UserId,
+                    FirstName = g.User.FirstName,
+                    LastName = g.User.LastName,
+                    IdNumber = g.User.IdNumber,
+                    City = g.User.City,
+                    PhoneNumber = g.User.PhoneNumber,
+                    Email = g.User.Email,
+                    ReligiousId = g.ReligiousId,
+                    RegionId = g.GuidesRegion.Select(r => r.RegionId).ToArray(),
+                    IsApproved = g.IsApproved
+
+                })
+                .ToListAsync();
 
             return guides;
         }
+
         public async Task<RegisterGuideResult> CreateGuideAsync(GuideUploadDto dto, List<(string FileName, string PathToFile, bool IsPicture)> files)
         {
             var regionIds = (dto.RegionIds ?? new List<int>()).Distinct().ToArray();

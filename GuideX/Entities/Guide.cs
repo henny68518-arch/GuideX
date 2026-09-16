@@ -15,6 +15,9 @@ public partial class Guide
 
     public int ReligiousId { get; set; }
 
+    public bool IsApproved { get; set; } = false;
+
+
     [InverseProperty("AboutGuide")]
     public virtual ICollection<Forum> Forums { get; set; } = new List<Forum>();
 

@@ -111,9 +111,9 @@ namespace GuideX.Controllers
 
         // GET: api/<GuideController>
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> Get(bool? RetrieveApprovals = null)
         {
-            var guides = await _GuideService.GetAllGuides(); // מתודה אסינכרונית 
+            var guides = await _GuideService.GetAllGuides(RetrieveApprovals); // מתודה אסינכרונית 
 
             Console.WriteLine("תוצאות: " + (guides == null ? "null" : guides.Count().ToString()));
 

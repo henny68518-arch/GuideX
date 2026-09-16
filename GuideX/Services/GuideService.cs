@@ -17,9 +17,9 @@ namespace GuideX.Services
             _env = env;
         }
 
-        public async Task<IEnumerable<GuideDetailDTO>> GetAllGuides()
+        public async Task<IEnumerable<GuideDetailDTO>> GetAllGuides(bool? RetrieveApprovals)
         {
-            return await _repo.GetGuidesAsync(); // מחזירים את התוצאה מהקריאה האסינכרונית ישירות
+            return await _repo.GetGuidesAsync(RetrieveApprovals); // מחזירים את התוצאה מהקריאה האסינכרונית ישירות
         }
 
         /// <summary>
