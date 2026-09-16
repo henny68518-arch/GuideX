@@ -1,6 +1,7 @@
 using GuideX.Data;
 using GuideX.DTOs;
 using GuideX.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace GuideX.Repository
 {
@@ -66,6 +67,58 @@ namespace GuideX.Repository
             await _context.SaveChangesAsync();
 
             return userId;
+        }
+
+        /// <summary>
+        /// מעדכן את פרופיל הרכזת/מוסד לפי UserId: פרטי המשתמש (ת.ז. וסיסמה
+        /// אינם ניתנים לעריכה), התפקיד ופרטי המוסד. מחזיר true אם עודכן.
+        /// </summary>
+        public async Task<bool> UpdateCoordinatorAsync(CoordinatorUpdateDto dto)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.UserId == dto.UserId);
+            if (user == null)
+            {
+                return false;
+            }
+
+            // פרטי משתמש
+            user.FirstName = dto.FirstName ?? user.FirstName;
+            user.LastName = dto.LastName ?? user.LastName;
+            if (!string.IsNullOrWhiteSpace(dto.City)) user.City = dto.City;
+            if (!string.IsNullOrWhiteSpace(dto.PhoneNumber)) user.PhoneNumber = dto.PhoneNumber;
+            if (!string.IsNullOrWhiteSpace(dto.Email)) user.Email = dto.Email;
+
+            // הכורדינטור
+            var coordinator = await _context.TourCoordinators
+                .Include(c => c.School)
+                .FirstOrDefaultAsync(c => c.UserId == dto.UserId);
+            if (coordinator == null)
+            {
+                return false;
+            }
+
+            coordinator.RoleId = dto.RoleId;
+
+            // המוסד — אם קיים לפי SchoolId, נעדכן את פרטיו
+            if (dto.SchoolId is > 0)
+            {
+                var school = await _context.Schools
+                    .FirstOrDefaultAsync(s => s.SchoolId == dto.SchoolId);
+
+                if (school != null)
+                {
+                    if (!string.IsNullOrWhiteSpace(dto.SchoolName)) school.SchoolName = dto.SchoolName;
+                    school.IsBoys = dto.IsBoys;
+                    if (!string.IsNullOrWhiteSpace(dto.SchoolCity)) school.City = dto.SchoolCity;
+                    if (!string.IsNullOrWhiteSpace(dto.PrincipalName)) school.PrincipalName = dto.PrincipalName;
+                    if (!string.IsNullOrWhiteSpace(dto.PhoneSecretary)) school.PhoneSecretary = dto.PhoneSecretary;
+                    if (dto.TypeSchoolId is > 0) school.TypeSchoolId = dto.TypeSchoolId;
+                    if (dto.AgeSchoolId is > 0) school.AgeSchoolId = dto.AgeSchoolId;
+                }
+            }
+
+            await _context.SaveChangesAsync();
+            return true;
         }
     }
 }

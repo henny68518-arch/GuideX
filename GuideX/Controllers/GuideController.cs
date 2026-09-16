@@ -149,7 +149,8 @@ namespace GuideX.Controllers
             return Ok(files);
         }
 
-        // GET /all_Guide/download/{fileId}
+        // GET /all_Guide/download/{fileId} — פותח/מציג את הקובץ (תצוגה inline,
+        // לא הורדה) כדי שניתן יהיה לראות את קורות החיים והתעודות ישירות בדפדפן.
         [HttpGet("download/{fileId}")]
         public async Task<IActionResult> Download(int fileId)
         {
@@ -165,7 +166,9 @@ namespace GuideX.Controllers
 
             var bytes = await System.IO.File.ReadAllBytesAsync(physicalPath);
             var contentType = GetContentType(file.FileName);
-            return File(bytes, contentType, file.FileName ?? "file");
+            // ללא שם קובץ (fileDownloadName) — כך Content-Disposition נשאר inline
+            // והדפדפן מציג את הקובץ במקום להוריד אותו.
+            return File(bytes, contentType);
         }
 
         private static string GetContentType(string? fileName)
@@ -181,6 +184,26 @@ namespace GuideX.Controllers
                 ".txt" => "text/plain",
                 _ => "application/octet-stream",
             };
+        }
+
+        // PUT /all_Guide/approve/{guideId} — מאשר מדריכה: מעדכן את IsApproved ל-True.
+        [HttpPut("approve/{guideId}")]
+        public async Task<IActionResult> ApproveGuide(int guideId)
+        {
+            var updated = await _GuideService.ApproveGuideAsync(guideId, true);
+            return updated
+                ? Ok(new { guideId, isApproved = true })
+                : NotFound();
+        }
+
+        // PUT /all_Guide/disapprove/{guideId} — מבטל אישור: מעדכן את IsApproved ל-False.
+        [HttpPut("disapprove/{guideId}")]
+        public async Task<IActionResult> DisapproveGuide(int guideId)
+        {
+            var updated = await _GuideService.ApproveGuideAsync(guideId, false);
+            return updated
+                ? Ok(new { guideId, isApproved = false })
+                : NotFound();
         }
     }
 }

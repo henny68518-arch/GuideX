@@ -17,5 +17,11 @@ namespace GuideX.Services
         {
             return await _repository.RegisterCoordinatorAsync(dto);
         }
+
+        /// <summary>קורא ל-Repository לעדכון פרופיל של רכזת/מוסד קיימת.</summary>
+        public async Task<bool> UpdateCoordinatorAsync(CoordinatorUpdateDto dto)
+        {
+            return await _repository.UpdateCoordinatorAsync(dto);
+        }
     }
 }

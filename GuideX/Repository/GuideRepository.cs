@@ -177,6 +177,23 @@ namespace GuideX.Repository
                 .FirstOrDefaultAsync(f => f.FileId == fileId);
         }
 
+        /// <summary>מעדכן את סטטוס האישור של מדריך (IsApproved) לפי GuideId.
+        /// מחזיר true אם המדריך נמצא ועודכן, אחרת false.</summary>
+        public async Task<bool> ApproveGuideAsync(int guideId, bool approved)
+        {
+            var guide = await _context.Guides
+                .FirstOrDefaultAsync(g => g.GuideId == guideId);
+
+            if (guide == null)
+            {
+                return false;
+            }
+
+            guide.IsApproved = approved;
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
 
     }
 }

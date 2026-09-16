@@ -42,6 +42,7 @@ builder.Services.AddScoped<AttractionRepository>();
 builder.Services.AddScoped<AllRepository>();
 builder.Services.AddScoped<ForumRepository>();
 builder.Services.AddScoped<CoordinatorRepository>();
+builder.Services.AddScoped<ProfileRepository>();
 
 
 // Services
