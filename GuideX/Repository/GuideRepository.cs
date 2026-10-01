@@ -11,30 +11,7 @@ namespace GuideX.Repository
         private readonly GuideXpContext _context;
 
         public GuideRepository(GuideXpContext context) { _context = context; }
-        // public async Task<IEnumerable<GuideDetailDTO>> GetGuidesAsync(bool? RetrieveApprovals)
-        // {
-
-        //     var guides = await _context.Guides
-        //.Include(g => g.GuidesRegion) // טוען את אזורי ההתמחות של כל מדריכה
-        //.Select(g => new GuideDetailDTO
-        //{
-        //    GuideId = g.GuideId,
-        //    UserId = g.UserId,
-        //    FirstName = g.User.FirstName,
-        //    LastName = g.User.LastName,
-        //    IdNumber = g.User.IdNumber,
-        //    City = g.User.City,
-        //    PhoneNumber = g.User.PhoneNumber,
-        //    Email = g.User.Email,
-        //    ReligiousId = g.ReligiousId,
-        //    // מערך אזורי ההתמחות של המדריכה (RegionId מתוך טבלת ה-GuidesRegion)
-        //    RegionId = g.GuidesRegion.Select(r => r.RegionId).ToArray()
-        //})
-
-        //.ToListAsync();
-
-        //     return guides;
-        // }
+    
 
         public async Task<IEnumerable<GuideDetailDTO>> GetGuidesAsync(bool? RetrieveApprovals) // ✅ שנה bool ל- bool?
         {
@@ -105,10 +82,8 @@ namespace GuideX.Repository
                 if (!string.IsNullOrWhiteSpace(dto.UserPassword)) user.UserPassword = dto.UserPassword;
             }
 
-            await _context.SaveChangesAsync(); // מחזיר/מעדכן UserId
+            await _context.SaveChangesAsync(); 
 
-            // 2) מדריך — קיים? נעדכן. אחרת ניצור חדש.
-            //    (כל שאילתה חדשה מ-`dto.IdNumber` תחזיר את אותו User → אותו Guide)
             var guide = await _context.Guides
                 .Include(g => g.GuidesRegion)
                 .Include(g => g.UpFiles)
@@ -119,25 +94,18 @@ namespace GuideX.Repository
             {
                 guide = new Guide { UserId = user.UserId };
                 _context.Guides.Add(guide);
-                // שומרים מיד כדי שהשרת יקצה GuideId אמיתי — כך שנוכל לקשור
-                // אליו במפורש את שורות ה-GuidesRegion (לא מסתמכים על EF fix-up,
-                // שלגבי Guide חדש נכשל ומשאיר את האזורים עם GuideId=0).
+
                 await _context.SaveChangesAsync();
             }
 
             // עדה
             guide.ReligiousId = int.TryParse(dto.ReligiousId, out var religiousId) ? religiousId : guide.ReligiousId;
 
-            // אזורי התמחות — מחליפים את הרשימה הקיימת.
-            // חשוב: קובעים את GuideId במפורש על כל שורה (עבור Guide חדש ה-GuideId
-            // כבר אמיתי אחרי ה-Save שלמעלה). שורות אלו נשמרות בטבלת GuidesRegion
-            // שמהן נקראים האזורים בחזרה ב-GetGuidesAsync.
             _context.GuidesRegion.RemoveRange(guide.GuidesRegion);
             guide.GuidesRegion = regionIds
                 .Select(r => new GuidesRegion { GuideId = guide.GuideId, RegionId = r })
                 .ToList();
 
-            // קבצים — מוסיפים את הקבצים החדשים (לא מוחקים ישנים)
             foreach (var f in files)
             {
                 guide.UpFiles.Add(new UpFile
