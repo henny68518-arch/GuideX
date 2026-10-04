@@ -2,6 +2,7 @@
 using GuideX.DTOs;
 using GuideX.Entities;
 using GuideX.Services; // ודא שזה ה-namespace של ה-LoginService שלך (למשל Services או Interfaces)
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NuGet.Protocol;
@@ -28,6 +29,7 @@ namespace GuideX.Controllers
         }
 
         [HttpPost("login")]
+        [AllowAnonymous]
         public IActionResult Post([FromBody] userDTO UserDTO)
         {
             var user = _loginService.Login(UserDTO);
@@ -45,6 +47,7 @@ namespace GuideX.Controllers
 
 
         [HttpPost("resetFirst")]
+        [AllowAnonymous]
         public IActionResult firstReset([FromBody] userResetDTO UserResetDTO)
         {
             var userFound = _loginService.beginReset(UserResetDTO);
@@ -59,6 +62,7 @@ namespace GuideX.Controllers
 
 
         [HttpPost("resetPassword")]
+        [AllowAnonymous]
         public IActionResult resetPassword([FromBody] userResetPasswordDTO userResetPasswordDTO)
         {
             var User = new userResetDTO(userResetPasswordDTO.Email, userResetPasswordDTO.PhoneNumber, userResetPasswordDTO.idNumber);
