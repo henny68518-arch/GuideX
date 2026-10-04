@@ -6,6 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using System.Text.Json;
 
 namespace GuideX.Services
 {
@@ -19,9 +20,9 @@ namespace GuideX.Services
             this.configuration = configuration;
         }
 
+ 
         public string GenerateToken(User u)
         {
-
             var jwtKey = configuration["JWT:Key"];
             if (string.IsNullOrEmpty(jwtKey))
             {
@@ -40,26 +41,42 @@ namespace GuideX.Services
                 throw new ArgumentNullException("JWT:Audience cannot be null or empty.");
             }
 
-            if (string.IsNullOrEmpty(jwtKey) || string.IsNullOrEmpty(issuer) || string.IsNullOrEmpty(audience))
-            {
-                throw new InvalidOperationException("JWT configuration is not set properly.");
-            }
+            var claimsList = new List<Claim>
+    {
+        new Claim("Email", u.Email),
+        new Claim("FirstName", u.FirstName),
+        new Claim("UserId", u.UserId.ToString()),
+    };
 
-            // פרטי המידע שנרצה לחתום בטוקן
-            var claims = new[]
+            // הוסף את כל ההרשאות כ-JSON
+            if (u.Permission != null)
             {
-                new Claim("Email", u.Email),
-                new Claim("FirstName", u.FirstName),
-                new Claim("UserId", u.UserId.ToString())
-            };
+                var permissionsJson = JsonSerializer.Serialize(new
+                {
+                    u.Permission.SuperAdmin,
+                    u.Permission.UserManagement,
+                    u.Permission.EditRoutes,
+                    u.Permission.EditAttractions,
+                    u.Permission.editHostels,
+                    u.Permission.RespondInGeneralForum,
+                    u.Permission.RespondInSafetyForum
+                });
+
+                claimsList.Add(new Claim("Permissions", permissionsJson));
+            }
+            else
+            {
+                // אם אין הרשאות, הוסף default
+                claimsList.Add(new Claim("Permissions", "{}"));
+            }
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey));
             var credit = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
-            // הגדר את זמן הפג
-            var expirationHours = int.TryParse(configuration["JWT:ExpiresHours"], out var hours) ? hours : 24; // ברירת מחדל ל-24 שעות
+            var expirationHours = int.TryParse(configuration["JWT:ExpiresHours"], out var hours) ? hours : 24;
+
             var token = new JwtSecurityToken(
-                claims: claims,
+                claims: claimsList,
                 signingCredentials: credit,
                 expires: DateTime.Now.AddHours(expirationHours),
                 issuer: issuer,

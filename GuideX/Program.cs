@@ -72,7 +72,42 @@ builder.Services.AddAuthentication(options =>
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Key"]))
         };
     });
-builder.Services.AddAuthorization();
+builder.Services.AddAuthorization(options =>
+{
+    // כל ה-endpoints דורשים התחברות (טוקן) כברירת מחדל,
+    // אלא אם endpoint מסוים מסומן ב-[AllowAnonymous].
+    options.FallbackPolicy = new AuthorizationPolicyBuilder()
+        .RequireAuthenticatedUser()
+        .Build();
+
+    // ✅ מנגנון כללי: מייצר policy לכל הרשאה מתוך ה-JSON שב-claim "Permissions".
+    //    שם ה-policy חייב להתאים בדיוק לשם המפתח ב-JSON (לפי איך שהטוקן נבנה).
+    string[] permissionNames =
+    {
+        "SuperAdmin",
+        "UserManagement",
+        "EditRoutes",
+        "EditAttractions",
+        "editHostels",
+        "RespondInGeneralForum",
+        "RespondInSafetyForum"
+    };
+
+    foreach (var name in permissionNames)
+    {
+        string policyName = name; // לכידת משתנה הלולאה למניעת closure bug
+        options.AddPolicy(policyName, policy =>
+            policy.RequireAssertion(ctx =>
+            {
+                var permissionsClaim = ctx.User?.FindFirst("Permissions")?.Value;
+                if (string.IsNullOrWhiteSpace(permissionsClaim)) return false;
+
+                using var doc = System.Text.Json.JsonDocument.Parse(permissionsClaim);
+                return doc.RootElement.TryGetProperty(policyName, out var val)
+                    && val.ValueKind == System.Text.Json.JsonValueKind.True;
+            }));
+    }
+});
 
 var app = builder.Build();
 using (var scope = app.Services.CreateScope())
@@ -119,12 +154,13 @@ if (app.Environment.IsDevelopment())
 
 
 app.UseHttpsRedirection();
+
+// ✅ CORS חייב לבוא לפני Authentication/Authorization כדי שה-preflight
+//    של הדפדפן (OPTIONS) יקבל מענה תקין.
+app.UseCors("AllowAngular");
+
 app.UseAuthentication();
 app.UseAuthorization();
-
-
-
-app.UseCors("AllowAngular");
 
 
 app.MapControllers();

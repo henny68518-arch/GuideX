@@ -3,6 +3,7 @@ using GuideX.DTOs;
 using GuideX.Entities;
 using GuideX.Repository;
 using GuideX.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NuGet.Protocol;
@@ -14,7 +15,7 @@ namespace GuideX.Controllers
 {
     [ApiController]
     [Route("forum/")]
-    public class ForumController : ControllerBase 
+    public class ForumController : ControllerBase
     {
         private readonly GuideXpContext _context;
         private readonly ForumRepository _forumRepository;
@@ -32,7 +33,7 @@ namespace GuideX.Controllers
         public IActionResult GetAllForum()
         {
             return Ok(_forumService.GetAllMessege());
-               }
+        }
 
         [HttpGet("type/{forumType}")]
         public IActionResult GetForumByType(int forumType)
@@ -53,6 +54,8 @@ namespace GuideX.Controllers
             return Ok(forumMess);
         }
         [HttpPost("new")]
+        [Authorize(Policy = "EditRoutes")]
+
         public async Task<IActionResult> AddForumPost([FromBody] ForumDTO newForumDto)
         {
             if (newForumDto == null)
@@ -62,6 +65,17 @@ namespace GuideX.Controllers
 
             try
             {
+                // בדיקת הרשאות - ישירות בקונטרולר
+                bool isAuthorized = newForumDto.ForumTypeId == 1 ||
+                    (newForumDto.ForumTypeId == 2 && User.FindFirst("respondInGeneralForum")?.Value == "true") ||
+                    (newForumDto.ForumTypeId == 3 && User.FindFirst("respondInSafetyForum")?.Value == "true");
+
+                if (!isAuthorized)
+                {
+                    return Forbid("אין לך הרשאה להוסיף הודעה לפורום זה");
+                }
+
+
                 var newForumPost = new ForumDTO(
 
                 ForumId: newForumDto.ForumId ?? 0,
@@ -79,9 +93,9 @@ namespace GuideX.Controllers
             {
                 return BadRequest($"שגיאה בהכנסת ההודעה: {ex.Message}");
             }
-            
 
-            }
+
+        }
         [HttpDelete("{forumId}")]
         public IActionResult DeleteForum(int forumId)
         {
@@ -93,5 +107,7 @@ namespace GuideX.Controllers
             return NotFound();
         }
 
+
+       
     }
 }

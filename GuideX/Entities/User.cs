@@ -44,8 +44,9 @@ namespace GuideX.Entities
         [InverseProperty("User")]
         public virtual ICollection<TourCoordinator> TourCoordinators { get; set; } = new List<TourCoordinator>();
 
-        [ForeignKey("UserId")]
-        [InverseProperty("Users")]
-        public virtual ICollection<TypesOfPermission> Permissions { get; set; } = new List<TypesOfPermission>();
+        // ✅ One-to-One: כל User יש Permission אחד
+        [InverseProperty("User")]
+        public virtual Permission? Permission { get; set; }
+
     }
 }

@@ -1,6 +1,7 @@
 ﻿using GuideX.Data;
 using GuideX.DTOs;
 using GuideX.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -42,8 +43,10 @@ namespace GuideX.Controllers
 
             return Ok(Hostels);
         }
+        
 
         [HttpPut("{id}")]
+       [Authorize(Policy = "editHostels")]
         public async Task<IActionResult> UpdateHostel(int id, [FromBody] HostelsDTO updatedHostels)
         {
             var Hostels = await _context.Hostels.FindAsync(id);
@@ -64,6 +67,8 @@ namespace GuideX.Controllers
         }
 
         [HttpPost("new")]
+        [Authorize(Policy = "editHostels")]
+
         public async Task<IActionResult> AddHostel([FromBody] HostelsDTO newHostelDto)
         {
             if (newHostelDto == null)
@@ -99,6 +104,8 @@ namespace GuideX.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Policy = "editHostels")]
+
         public async Task<IActionResult> DeleteHostel(int id)
         {
             // לחפש את ההוסטל על פי ה-ID
@@ -121,14 +128,10 @@ namespace GuideX.Controllers
             }
         }
 
-        // ─────────── תמונות מקום לינה ───────────
-        // התמונות נשמרות על הדיסק בתיקיית wwwroot/uploads/hostels,
-        // ורשומת המטא-דאטה (שם + נתיב) נשמרת בטבלת Files (ישות UpFile)
-        // עם קישור ל-HostelsId — מנגנון זהה לתמונות האטרקציות ולקבצי המדריכים.
 
-        /// <summary>POST /Hostels/{id}/images — מקבל קבצי תמונה (multipart/form-data, שדה "images")
-        /// ושומר אותם למקום לינה. מחזיר את רשימת התמונות המעודכנת.</summary>
         [HttpPost("{id}/images")]
+        [Authorize(Policy = "editHostels")]
+
         [Consumes("multipart/form-data")]
         public async Task<IActionResult> UploadImages(int id, List<IFormFile> images)
         {
@@ -183,6 +186,8 @@ namespace GuideX.Controllers
 
         /// <summary>GET /Hostels/{id}/images — מחזיר את רשימת התמונות של מקום לינה (מטא-דאטה בלבד).</summary>
         [HttpGet("{id}/images")]
+        [Authorize(Policy = "editHostels")]
+
         public async Task<IActionResult> GetImages(int id)
         {
             var files = await _context.UpFiles
@@ -220,6 +225,8 @@ namespace GuideX.Controllers
 
         /// <summary>DELETE /Hostels/file/{fileId} — מוחק את התמונה (רשומה + הקובץ מהדיסק).</summary>
         [HttpDelete("file/{fileId}")]
+        [Authorize(Policy = "editHostels")]
+
         public async Task<IActionResult> DeleteFile(int fileId)
         {
             var file = await _context.UpFiles.FindAsync(fileId);

@@ -2,6 +2,7 @@
 using GuideX.Data;
 using GuideX.DTOs;
 using GuideX.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -53,6 +54,9 @@ namespace GuideX.Controllers
         }
 
         [HttpPut("{id}")]
+        
+                   [Authorize(Policy = "EditRoutes")]
+
         public async Task<IActionResult> UpdateWalkingTrail(int id, [FromBody] WalkingTrailDTO updatedTrail)
         {
             var trail = await _context.WalkingTrails.FindAsync(id);
@@ -83,6 +87,8 @@ namespace GuideX.Controllers
         }
 
         [HttpPost("new")]
+        [Authorize(Policy = "EditRoutes")]
+
         public async Task<IActionResult> AddWalkingTrail([FromBody] WalkingTrailDTO newTrailDto)
         {
             if (newTrailDto == null)
@@ -130,6 +136,8 @@ namespace GuideX.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Policy = "EditRoutes")]
+
         public async Task<IActionResult> DeleteWalkingTrail(int id)
         {
             var trail = await _context.WalkingTrails.FindAsync(id);
@@ -151,14 +159,12 @@ namespace GuideX.Controllers
             }
         }
 
-        // ─────────── תמונות מסלול הליכה ───────────
-        // התמונות נשמרות על הדיסק בתיקיית wwwroot/uploads/WalkingTrail,
-        // ורשומת המטא-דאטה (שם + נתיב) נשמרת בטבלת Files (ישות UpFile)
-        // עם קישור ל-WalkingTrailId — מנגנון זהה לתמונות האטרקציות.
+       
 
-        /// <summary>POST /WakingTrail/{id}/images — מקבל קבצי תמונה (multipart/form-data, שדה "images")
-        /// ושומר אותם למסלול ההליכה. מחזיר את רשימת התמונות המעודכנת.</summary>
+
         [HttpPost("{id}/images")]
+        [Authorize(Policy = "EditRoutes")]
+
         [Consumes("multipart/form-data")]
         public async Task<IActionResult> UploadImages(int id, List<IFormFile> images)
         {
@@ -250,6 +256,8 @@ namespace GuideX.Controllers
 
         /// <summary>DELETE /WakingTrail/file/{fileId} — מוחק את התמונה (רשומה + הקובץ מהדיסק).</summary>
         [HttpDelete("file/{fileId}")]
+        [Authorize(Policy = "EditRoutes")]
+
         public async Task<IActionResult> DeleteFile(int fileId)
         {
             var file = await _context.UpFiles.FindAsync(fileId);

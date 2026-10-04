@@ -82,6 +82,7 @@ namespace GuideX.Controllers
 
 
         [HttpPut("{id}")]
+        [Authorize(Policy = "EditAttractions")]
         public async Task<IActionResult> UpdateAttraction(int id, [FromBody] OnlyAtrrctionDto updatedAttraction)
         {
             
@@ -117,6 +118,7 @@ namespace GuideX.Controllers
 
         }
 
+        [Authorize(Policy = "EditAttractions")]
 
         [HttpPost("new")]
         public async Task<IActionResult> AddAttraction([FromBody] OnlyAtrrctionDto newAttractionDto)
@@ -151,6 +153,7 @@ namespace GuideX.Controllers
             }
         }
 
+        [Authorize(Policy = "EditAttractions")]
 
         [HttpDelete("{id}")]
         //[Authorize]
@@ -177,13 +180,11 @@ namespace GuideX.Controllers
             }
         }
 
-        // ─────────── תמונות אטרקציה ───────────
-        // התמונות נשמרות על הדיסק בתיקיית wwwroot/uploads/attractions,
-        // ורשומת המטא-דאטה (שם + נתיב) נשמרת בטבלת Files (ישות UpFile)
-        // עם קישור ל-AttractionsId — מנגנון זהה לקבצי המדריכים.
+      
+        
+        
+        [Authorize(Policy = "EditAttractions")]
 
-        /// <summary>POST /Attractions/{id}/images — מקבל קבצי תמונה (multipart/form-data, שדה "images")
-        /// ושומר אותם לאטרקציה. מחזיר את רשימת התמונות המעודכנת.</summary>
         [HttpPost("{id}/images")]
         [Consumes("multipart/form-data")]
         public async Task<IActionResult> UploadImages(int id, List<IFormFile> images)
@@ -275,6 +276,8 @@ namespace GuideX.Controllers
         }
 
         /// <summary>DELETE /Attractions/file/{fileId} — מוחק את התמונה (רשומה + הקובץ מהדיסק).</summary>
+        [Authorize(Policy = "EditAttractions")]
+
         [HttpDelete("file/{fileId}")]
         public async Task<IActionResult> DeleteFile(int fileId)
         {
