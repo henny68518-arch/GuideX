@@ -1,4 +1,5 @@
 ﻿using GuideX.Data;
+using GuideX.DTOs;
 using GuideX.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
@@ -40,7 +41,29 @@ namespace GuideX.Repository
                 .FirstOrDefault(user => user.Email == Email && user.PhoneNumber == PhoneNumber && user.IdNumber == idNumber);
         }
 
+        /// <summary>
+        /// מעדכן פרטים בסיסיים של משתמש לפי UserId (למשל עריכת פרופיל מנהל).
+        /// ת.ז. וסיסמה אינן ניתנות לעריכה ואינן משתנות כאן.
+        /// מחזיר true אם המשתמש נמצא והנתונים עודכנו.
+        /// </summary>
+        public async Task<bool> UpdateUserAsync(int userId, UserUpdateDto dto)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.UserId == userId);
+            if (user == null)
+            {
+                return false;
+            }
 
+            if (!string.IsNullOrWhiteSpace(dto.FirstName)) user.FirstName = dto.FirstName!;
+            if (!string.IsNullOrWhiteSpace(dto.LastName)) user.LastName = dto.LastName!;
+            if (!string.IsNullOrWhiteSpace(dto.City)) user.City = dto.City;
+            if (!string.IsNullOrWhiteSpace(dto.PhoneNumber)) user.PhoneNumber = dto.PhoneNumber;
+            if (!string.IsNullOrWhiteSpace(dto.Email)) user.Email = dto.Email!;
+
+            _context.Users.Update(user);
+            await _context.SaveChangesAsync();
+            return true;
+        }
 
     }
 }

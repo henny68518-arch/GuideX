@@ -3,6 +3,7 @@ using GuideX.DTOs;
 using GuideX.Entities;
 using GuideX.Repository;
 using GuideX.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NuGet.Protocol;
@@ -11,7 +12,10 @@ namespace GuideX.Controllers
 {
     [ApiController]
     [Route("/")]
-    public class AllController : ControllerBase 
+    // נתוני בסיס (אזורים, תפקידים, כשרויות, השתייכות דתית) — פתוחים לכלל המשתמשים,
+    // גם לא־מחוברים, כי הם נדרשים כדי למלא תפריטי בחירה במערכת.
+    [AllowAnonymous]
+    public class AllController : ControllerBase
     {
         private readonly GuideXpContext _context;
         private readonly AllRepository _allRepository;

@@ -8,7 +8,10 @@
     public record RoleDTO(int RoleId, string RoleName);
     public record ReligiousDTO(int ReligiousId, string ReligiousName);
 
-    
+    public class PermissionResult
+    {
+        public bool NewValue { get; set; }
+    }
 
 
 }

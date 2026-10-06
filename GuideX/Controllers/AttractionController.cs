@@ -252,6 +252,10 @@ namespace GuideX.Controllers
         }
 
         /// <summary>GET /Attractions/file/{fileId} — קורא את ביטי התמונה מהדיסק ומחזיר אותם כתמונה.</summary>
+        // [AllowAnonymous] — התמונה מוצגת ב-<img> ישיר שבקשתו לא נושאת טוקן,
+        // לכן משביתים כאן את FallbackPolicy (שדורש אימות כברירת מחדל).
+        // פעולות העלאה/מחיקה נשארות מוגנות ([Authorize(Policy=...)]).
+        [AllowAnonymous]
         [HttpGet("file/{fileId}")]
         public async Task<IActionResult> GetFile(int fileId)
         {

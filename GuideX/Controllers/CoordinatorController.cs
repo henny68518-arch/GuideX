@@ -31,6 +31,7 @@ namespace GuideX.Controllers
             try
             {
                 var userId = await _coordinatorService.RegisterCoordinatorAsync(dto);
+                
                 return Ok(new { userId });
             }
             catch (Exception ex)

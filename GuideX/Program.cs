@@ -14,16 +14,19 @@ using System.Text;
 var builder = WebApplication.CreateBuilder(args);
 
 // CORS
+// CORS
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAngular", policy =>
     {
         policy
-            .AllowAnyOrigin()
+            .WithOrigins("http://localhost:4200", "http://localhost:3000") // ✅ ציין מקורות ספציפיים
             .AllowAnyHeader()
-            .AllowAnyMethod();
+            .AllowAnyMethod()
+            .AllowCredentials();
     });
 });
+
 
 // Controllers
 builder.Services.AddControllers();
@@ -71,6 +74,20 @@ builder.Services.AddAuthentication(options =>
             ValidIssuer = "GuideX",
             ValidAudience = "angular",
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Key"]))
+        };
+        // 🔍 דיאגנוסטיקה זמנית: מדפיס את סיבת הכשל המדויקת כאשר הטוקן נדחה (401).
+        options.Events = new Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerEvents
+        {
+            OnAuthenticationFailed = context =>
+            {
+                Console.WriteLine("🔴 JWT אימות נכשל: " + context.Exception?.GetType().Name + " — " + context.Exception?.Message);
+                return Task.CompletedTask;
+            },
+            OnChallenge = context =>
+            {
+                Console.WriteLine("🟠 JWT Challenge (401): " + context.Error + " / " + context.ErrorDescription);
+                return Task.CompletedTask;
+            }
         };
     });
 builder.Services.AddAuthorization(options =>
@@ -147,24 +164,36 @@ using (var scope = app.Services.CreateScope())
 }
 
 
+//if (app.Environment.IsDevelopment())
+//{
+//    app.MapOpenApi();
+//    app.MapScalarApiReference();
+//}
+
+
+//app.UseHttpsRedirection();
+
+//// ✅ CORS חייב לבוא לפני Authentication/Authorization כדי שה-preflight
+////    של הדפדפן (OPTIONS) יקבל מענה תקין.
+//app.UseCors("AllowAngular");
+
+//app.UseAuthentication();
+//app.UseAuthorization();
+
+
+//app.MapControllers();
+
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
-    app.MapScalarApiReference();
+    app.MapScalarApiReference();  // ✅ ראשון
 }
 
-
-app.UseHttpsRedirection();
-
-// ✅ CORS חייב לבוא לפני Authentication/Authorization כדי שה-preflight
-//    של הדפדפן (OPTIONS) יקבל מענה תקין.
-app.UseCors("AllowAngular");
-
-app.UseAuthentication();
-app.UseAuthorization();
-
-
-app.MapControllers();
+app.UseHttpsRedirection();        // ✅ שני
+app.UseCors("AllowAngular");      // ✅ שלישי (לפני auth)
+app.UseAuthentication();          // ✅ רביעי
+app.UseAuthorization();           // ✅ חמישי
+app.MapControllers();             // ✅ שישי
 
 
 app.Run();

@@ -54,7 +54,6 @@ namespace GuideX.Controllers
             return Ok(forumMess);
         }
         [HttpPost("new")]
-        [Authorize(Policy = "EditRoutes")]
 
         public async Task<IActionResult> AddForumPost([FromBody] ForumDTO newForumDto)
         {
@@ -99,6 +98,16 @@ namespace GuideX.Controllers
         [HttpDelete("{forumId}")]
         public IActionResult DeleteForum(int forumId)
         {
+            var forumType = _context.Forums.FirstOrDefault(a => forumId == a.ForumId).ForumTypeId;
+            bool isAuthorized = (forumType == 2 && User.FindFirst("respondInGeneralForum")?.Value == "true") ||
+                                (forumType == 3 && User.FindFirst("respondInSafetyForum")?.Value == "true") ;
+
+            if (!isAuthorized)
+            {
+                return Forbid("אין לך הרשאה להוסיף הודעה לפורום זה");
+            }
+
+
             var result = _forumService.DeleteForum(forumId);
             if (result)
             {

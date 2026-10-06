@@ -24,6 +24,21 @@
     bool RespondInGeneralForum,
     bool RespondInSafetyForum);
 
+    /// <summary>גוף הבקשה להפיכת הרשאת משתמש (PUT /Users/{userId}/permission). מכיל רק את שם ההרשאה.</summary>
+    public record UpdatePermissionRequest(string Permission);
+
+    /// <summary>
+    /// גוף הבקשה לעדכון פרטי משתמש בסיסי (PUT /Users/{userId}) —
+    /// למשל עריכת פרופיל של מנהל, שאין לו פרופיל מדריכה או רכזת.
+    /// ת.ז. וסיסמה אינן ניתנות לעריכה ואינן נכללות כאן.
+    /// </summary>
+    public record UserUpdateDto(
+        string FirstName,
+        string LastName,
+        string? City,
+        string? PhoneNumber,
+        string Email);
+
 
 
 }
