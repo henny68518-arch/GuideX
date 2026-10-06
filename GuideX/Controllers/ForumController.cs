@@ -67,11 +67,11 @@ namespace GuideX.Controllers
             {
                 // בדיקת הרשאות - ישירות בקונטרולר
                 bool isAuthorized = newForumDto.ForumTypeId == 1 ||
-                    (newForumDto.ForumTypeId == 2 && User.FindFirst("respondInGeneralForum")?.Value == "true") ||
+                    (newForumDto.ForumTypeId == 2 && User.FindFirst("respondInGeneralForum")?.Value == "true" ) ||
                     (newForumDto.ForumTypeId == 3 && User.FindFirst("respondInSafetyForum")?.Value == "true")||
-                    (newForumDto.ForumTypeId == 3 && newForumDto.ParentForumId == 0);
+                    (newForumDto.ForumTypeId == 2 && newForumDto.ParentForumId == 0);
 
-                if (!isAuthorized)
+                if (isAuthorized = false)
                 {
                     return Forbid("אין לך הרשאה להוסיף הודעה לפורום זה");
                 }
@@ -97,10 +97,26 @@ namespace GuideX.Controllers
 
 
         }
+
+
         [HttpDelete("{forumId}")]
         public IActionResult DeleteForum(int forumId)
         {
-            var forumType = _context.Forums.FirstOrDefault(a => forumId == a.ForumId).ForumTypeId;
+            //var forumType = _context.Forums.FirstOrDefault(a => forumId == a.ForumId).ForumTypeId;
+            var forum = _context.Forums.FirstOrDefault(a => forumId == a.ForumId);
+
+            // בדוק אם הפורום נמצא
+            if (forum == null)
+            {
+                return NotFound("פורום לא נמצא");
+            }
+
+            var forumType = forum.ForumTypeId; // גישה לForumTypeId מתבצעת רק לאחר שהפנינו את הפורום
+            // בדוק אם הפורום נמצא
+            //if (forumType == null)
+            //{
+            //    return NotFound("פורום לא נמצא");
+            //}
             bool isAuthorized = (forumType == 2 && User.FindFirst("respondInGeneralForum")?.Value == "true") ||
                                 (forumType == 3 && User.FindFirst("respondInSafetyForum")?.Value == "true") ;
 
