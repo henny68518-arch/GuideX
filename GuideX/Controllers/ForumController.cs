@@ -53,8 +53,9 @@ namespace GuideX.Controllers
 
             return Ok(forumMess);
         }
-        [HttpPost("new")]
 
+
+        [HttpPost("new")]
         public async Task<IActionResult> AddForumPost([FromBody] ForumDTO newForumDto)
         {
             if (newForumDto == null)
@@ -67,7 +68,7 @@ namespace GuideX.Controllers
                 // בדיקת הרשאות - ישירות בקונטרולר
                 bool isAuthorized = newForumDto.ForumTypeId == 1 ||
                     (newForumDto.ForumTypeId == 2 && User.FindFirst("respondInGeneralForum")?.Value == "true") ||
-                    (newForumDto.ForumTypeId == 3 && User.FindFirst("respondInSafetyForum")?.Value == "true" && newForumDto.ParentForumId != 0) ||
+                    (newForumDto.ForumTypeId == 3 && User.FindFirst("respondInSafetyForum")?.Value == "true")||
                     (newForumDto.ForumTypeId == 3 && newForumDto.ParentForumId == 0);
 
                 if (!isAuthorized)
