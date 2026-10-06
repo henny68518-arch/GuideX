@@ -585,6 +585,9 @@ public partial class GuideXpContext : DbContext
         {
             entity.HasKey(e => e.UserId).HasName("PK__Users__1788CC4C8D9CE789");
         });
+        modelBuilder.Entity<User>()
+    .ToTable(tb => tb.UseSqlOutputClause(false));
+
 
         modelBuilder.Entity<VwGuideDetail>(entity =>
         {

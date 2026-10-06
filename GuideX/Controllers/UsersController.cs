@@ -123,11 +123,18 @@ namespace GuideX.Controllers
         [Produces("application/json")]
         public ActionResult<string> GetRollTypes(int id)
         {
-            var email = _context.Users.FirstOrDefault(a => a.UserId == id).Email;
+            var user = _context.Users.FirstOrDefault(a => a.UserId == id);
 
-            if (email == null)
+            if (user == null)
             {
-                return Ok("כתובת המייל לא נמצאה");
+                return NotFound("משתמש לא נמצא");
+            }
+
+            var email = user.Email;
+
+            if (string.IsNullOrEmpty(email))
+            {
+                return NotFound("כתובת המייל לא נמצאה");
             }
 
             return Ok(email);

@@ -82,7 +82,7 @@ namespace GuideX.Repository
                 if (!string.IsNullOrWhiteSpace(dto.UserPassword)) user.UserPassword = dto.UserPassword;
             }
 
-            await _context.SaveChangesAsync(); 
+            await _context.SaveChangesAsync();
 
             var guide = await _context.Guides
                 .Include(g => g.GuidesRegion)
@@ -95,7 +95,7 @@ namespace GuideX.Repository
                 guide = new Guide { UserId = user.UserId };
                 _context.Guides.Add(guide);
 
-                await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync(); // נשמור כאן כדי שה-ID של המדריך יתעדכן
             }
 
             // עדה
@@ -126,7 +126,6 @@ namespace GuideX.Repository
                 RegionIds = regionIds
             };
         }
-
         /// <summary>מחזיר את קבצי המדריך (UpFiles) לפי GuideId — כולל PathToFile לשליפה.</summary>
         public async Task<List<UpFile>> GetGuideFilesAsync(int guideId)
         {

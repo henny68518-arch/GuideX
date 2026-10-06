@@ -15,7 +15,7 @@ namespace GuideX.Services
             _repo = repo;
         }
 
-        public IEnumerable<ForumDTO> GetAllMessege()
+        public IEnumerable<ForumWithEmailDTO> GetAllMessege()
         {
             return _repo.GetForumMessege().ToArray();
         }

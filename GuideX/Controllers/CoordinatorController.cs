@@ -1,5 +1,6 @@
 using GuideX.DTOs;
 using GuideX.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GuideX.Controllers
@@ -21,6 +22,8 @@ namespace GuideX.Controllers
         /// יוצר את הכול ב-DB (ה-Identity מייצר את המזהים) ומחזיר את ה-UserId החדש.
         /// </summary>
         [HttpPost("register")]
+        [AllowAnonymous]
+
         public async Task<IActionResult> Register([FromBody] CoordinatorRegisterDto dto)
         {
             if (dto is null)

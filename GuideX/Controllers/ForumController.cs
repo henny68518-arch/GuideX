@@ -67,7 +67,8 @@ namespace GuideX.Controllers
                 // בדיקת הרשאות - ישירות בקונטרולר
                 bool isAuthorized = newForumDto.ForumTypeId == 1 ||
                     (newForumDto.ForumTypeId == 2 && User.FindFirst("respondInGeneralForum")?.Value == "true") ||
-                    (newForumDto.ForumTypeId == 3 && User.FindFirst("respondInSafetyForum")?.Value == "true");
+                    (newForumDto.ForumTypeId == 3 && User.FindFirst("respondInSafetyForum")?.Value == "true" && newForumDto.ParentForumId != 0) ||
+                    (newForumDto.ForumTypeId == 3 && newForumDto.ParentForumId == 0);
 
                 if (!isAuthorized)
                 {
@@ -102,7 +103,7 @@ namespace GuideX.Controllers
             bool isAuthorized = (forumType == 2 && User.FindFirst("respondInGeneralForum")?.Value == "true") ||
                                 (forumType == 3 && User.FindFirst("respondInSafetyForum")?.Value == "true") ;
 
-            if (!isAuthorized)
+            if (isAuthorized)
             {
                 return Forbid("אין לך הרשאה להוסיף הודעה לפורום זה");
             }

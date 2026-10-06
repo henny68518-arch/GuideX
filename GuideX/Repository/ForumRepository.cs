@@ -24,24 +24,48 @@ namespace GuideX.Repository
             return forumMessege != null ? forumMessege : null;
         }
 
-        public IEnumerable<ForumDTO> GetForumMessege()
+        //public IEnumerable<ForumDTO> GetForumMessege()
+        //{
+        //    var ForumMesseges = _context.Forums.ToArray();
+
+        //    return ForumMesseges.Select(messege => new ForumDTO(
+        //        ForumId: messege.ForumId,
+        //        UserId: messege.UserId,
+        //        Date: messege.Date,
+        //        ParentForumId: messege.ParentForumId,
+        //        Title: messege.Title,
+        //        Message: messege.Message,
+        //        ForumTypeId: messege.ForumTypeId
+        //    )).includ(
+        //        UserEmail = UserEmail);
+
+
+        //}
+
+        public IEnumerable<ForumWithEmailDTO> GetForumMessege()
         {
             var ForumMesseges = _context.Forums.ToArray();
 
-            return ForumMesseges.Select(messege => new ForumDTO(
+            return ForumMesseges.Select(messege => new ForumWithEmailDTO(
                 ForumId: messege.ForumId,
                 UserId: messege.UserId,
                 Date: messege.Date,
                 ParentForumId: messege.ParentForumId,
                 Title: messege.Title,
                 Message: messege.Message,
-                ForumTypeId: messege.ForumTypeId
+                ForumTypeId: messege.ForumTypeId,
+                UserEmail: GetUserEmail(messege.UserId) // החלף בפונקציה אמיתית לקבלת המייל
             ));
-
-          
         }
 
-        
+        // דוגמא לפונקציה שמחזירה את ה-UserEmail - יש לה implement בהתאם למבנה שלך
+        private string GetUserEmail(int userId)
+        {
+            var user = _context.Users.FirstOrDefault(u => u.UserId == userId);
+            return user?.Email;
+        }
+
+
         public IEnumerable<ForumDTO> GetForumMessegeByType(int forumType)
         {
             // קח את כל ההודעות מפורום
