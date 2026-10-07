@@ -24,27 +24,12 @@ namespace GuideX.Repository
             return forumMessege != null ? forumMessege : null;
         }
 
-        //public IEnumerable<ForumDTO> GetForumMessege()
-        //{
-        //    var ForumMesseges = _context.Forums.ToArray();
-
-        //    return ForumMesseges.Select(messege => new ForumDTO(
-        //        ForumId: messege.ForumId,
-        //        UserId: messege.UserId,
-        //        Date: messege.Date,
-        //        ParentForumId: messege.ParentForumId,
-        //        Title: messege.Title,
-        //        Message: messege.Message,
-        //        ForumTypeId: messege.ForumTypeId
-        //    )).includ(
-        //        UserEmail = UserEmail);
-
-
-        //}
-
+        
         public IEnumerable<ForumWithEmailDTO> GetForumMessege()
         {
-            var ForumMesseges = _context.Forums.ToArray();
+            var ForumMesseges = _context.Forums
+                .Include(f => f.User) // הנחה שיש לך קשר ל-User ברמת המודל
+                .ToArray();
 
             return ForumMesseges.Select(messege => new ForumWithEmailDTO(
                 ForumId: messege.ForumId,
@@ -54,17 +39,9 @@ namespace GuideX.Repository
                 Title: messege.Title,
                 Message: messege.Message,
                 ForumTypeId: messege.ForumTypeId,
-                UserEmail: GetUserEmail(messege.UserId) // החלף בפונקציה אמיתית לקבלת המייל
+                UserEmail: messege.User.Email // משיג את המייל ישירות מהנתונים המוכללים
             ));
         }
-
-        // דוגמא לפונקציה שמחזירה את ה-UserEmail - יש לה implement בהתאם למבנה שלך
-        private string GetUserEmail(int userId)
-        {
-            var user = _context.Users.FirstOrDefault(u => u.UserId == userId);
-            return user?.Email;
-        }
-
 
         public IEnumerable<ForumDTO> GetForumMessegeByType(int forumType)
         {
@@ -108,14 +85,20 @@ namespace GuideX.Repository
         }
         public bool DeleteForum(int forumId)
         {
+            // ראשית נבדוק שההודעה קיימת (כפי שנעשה בעבר)
             var forum = _context.Forums.FirstOrDefault(post => post.ForumId == forumId);
             if (forum == null)
             {
                 return false; // הודעה לא נמצאה
             }
 
-            _context.Forums.Remove(forum);
-            _context.SaveChanges();
+            // הגדרת הפרמטר לפרוצדורה
+            var forumIdParam = new Microsoft.Data.SqlClient.SqlParameter("@ForumId", forumId);
+
+            // קריאה לפרוצדורה שמבצעת: איפוס ParentForumId של ההודעות-הבנות (ל-0) ואז מחיקת ההודעה
+            _context.Database.ExecuteSqlRaw(
+                "EXEC sp_DeleteForumWithChildren @ForumId", forumIdParam);
+
             return true;
         }
     }

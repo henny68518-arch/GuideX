@@ -511,15 +511,15 @@ public partial class GuideXpContext : DbContext
         {
             entity.HasKey(e => e.RatingId).HasName("PK_Rating_RatingId");
 
-            entity.HasOne(d => d.AboutAttractions).WithMany(p => p.Ratings).HasConstraintName("FK_Rating_AttractionsId");
+            entity.ToTable("Rating");
 
-            entity.HasOne(d => d.AboutGuide).WithMany(p => p.Ratings).HasConstraintName("FK_Rating_AboutGuideId");
+            // דירוג גנרי: EntityType + EntityId — אין FK ישיר משפת ה-DB אל הישות המדורגת.
+            entity.Property(e => e.EntityType).HasMaxLength(50);
 
-            entity.HasOne(d => d.AboutHostels).WithMany(p => p.Ratings).HasConstraintName("FK_Rating_HostelsId");
-
-            entity.HasOne(d => d.AboutWalkingTrail).WithMany(p => p.Ratings).HasConstraintName("FK_Rating_WalkingTrail");
-
-            entity.HasOne(d => d.User).WithMany(p => p.Ratings).HasConstraintName("FK_Rating_UserId");
+            entity.HasOne(d => d.User)
+                .WithMany(p => p.Ratings)
+                .HasConstraintName("FK_Rating_UserId")
+                .OnDelete(DeleteBehavior.Cascade);
         });
 
         modelBuilder.Entity<Region>(entity =>

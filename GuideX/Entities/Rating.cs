@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -6,45 +6,33 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GuideX.Entities;
 
+/// <summary>
+/// דירוג גנרי (1–5 כוכבים + הערה) לכל סוג ישות: מדריכה, מסלול, אטרקציה, מקום לינה.
+/// סוג הישות (EntityType) ומזהיה (EntityId) מגדירים על מה הדירוג.
+/// </summary>
 [Table("Rating")]
 public partial class Rating
 {
     [Key]
     public int RatingId { get; set; }
 
-    public int? UserId { get; set; }
+    /// <summary>המשתמש (הרכזת) שדירג.</summary>
+    public int UserId { get; set; }
 
-    public int? AboutGuideId { get; set; }
+    /// <summary>סוג הישות המדורגת — 'guide' | 'attraction' | 'hostel' | 'walkingtrail'.</summary>
+    [StringLength(50)]
+    public string EntityType { get; set; } = null!;
 
-    public int? AboutWalkingTrailId { get; set; }
-
-    public int? AboutAttractionsId { get; set; }
-
-    public int? AboutHostelsId { get; set; }
+    /// <summary>מזהה הישות המדורגת (לפי EntityType).</summary>
+    public int EntityId { get; set; }
 
     public int NumberOfStars { get; set; }
 
     [Column(TypeName = "datetime")]
     public DateTime? Date { get; set; }
 
-    [StringLength(75)]
-    public string Note { get; set; } = null!;
-
-    [ForeignKey("AboutAttractionsId")]
-    [InverseProperty("Ratings")]
-    public virtual Attraction? AboutAttractions { get; set; }
-
-    [ForeignKey("AboutGuideId")]
-    [InverseProperty("Ratings")]
-    public virtual Guide? AboutGuide { get; set; }
-
-    [ForeignKey("AboutHostelsId")]
-    [InverseProperty("Ratings")]
-    public virtual Hostel? AboutHostels { get; set; }
-
-    [ForeignKey("AboutWalkingTrailId")]
-    [InverseProperty("Ratings")]
-    public virtual WalkingTrail? AboutWalkingTrail { get; set; }
+    [StringLength(600)]
+    public string? Note { get; set; }
 
     [ForeignKey("UserId")]
     [InverseProperty("Ratings")]

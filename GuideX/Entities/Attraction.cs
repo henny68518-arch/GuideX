@@ -38,9 +38,6 @@ public partial class Attraction
     [InverseProperty("AboutAttractions")]
     public virtual ICollection<Forum> Forums { get; set; } = new List<Forum>();
 
-    [InverseProperty("AboutAttractions")]
-    public virtual ICollection<Rating> Ratings { get; set; } = new List<Rating>();
-
     [ForeignKey("RegionId")]
     [InverseProperty("Attractions")]
     public virtual Region? Region { get; set; }

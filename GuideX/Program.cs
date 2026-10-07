@@ -47,6 +47,7 @@ builder.Services.AddScoped<AllRepository>();
 builder.Services.AddScoped<ForumRepository>();
 builder.Services.AddScoped<CoordinatorRepository>();
 builder.Services.AddScoped<ProfileRepository>();
+builder.Services.AddScoped<RatingRepository>();
 
 
 // Services
@@ -108,7 +109,8 @@ builder.Services.AddAuthorization(options =>
         "EditAttractions",
         "editHostels",
         "RespondInGeneralForum",
-        "RespondInSafetyForum"
+        "RespondInSafetyForum",
+        "CanRate"
     };
 
     foreach (var name in permissionNames)

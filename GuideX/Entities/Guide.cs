@@ -24,9 +24,6 @@ public partial class Guide
     [InverseProperty("Guide")]
     public virtual ICollection<GuidesRegion> GuidesRegion { get; set; } = new List<GuidesRegion>();
 
-    [InverseProperty("AboutGuide")]
-    public virtual ICollection<Rating> Ratings { get; set; } = new List<Rating>();
-
     [ForeignKey("ReligiousId")]
     [InverseProperty("Guides")]
     public virtual Religiou Religious { get; set; } = null!;

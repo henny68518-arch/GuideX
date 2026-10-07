@@ -51,7 +51,8 @@ namespace GuideX.Controllers
                     u.Permission.EditAttractions,
                     u.Permission.editHostels,
                     u.Permission.RespondInGeneralForum,
-                    u.Permission.RespondInSafetyForum
+                    u.Permission.RespondInSafetyForum,
+                    u.Permission.CanRate
                 ))
                 .ToListAsync();
 

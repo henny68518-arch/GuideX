@@ -22,7 +22,8 @@
     bool EditAttractions,
     bool editHostels,
     bool RespondInGeneralForum,
-    bool RespondInSafetyForum);
+    bool RespondInSafetyForum,
+    bool CanRate);
 
     /// <summary>גוף הבקשה להפיכת הרשאת משתמש (PUT /Users/{userId}/permission). מכיל רק את שם ההרשאה.</summary>
     public record UpdatePermissionRequest(string Permission);

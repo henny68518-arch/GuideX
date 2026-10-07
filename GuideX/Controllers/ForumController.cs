@@ -112,11 +112,7 @@ namespace GuideX.Controllers
             }
 
             var forumType = forum.ForumTypeId; // גישה לForumTypeId מתבצעת רק לאחר שהפנינו את הפורום
-            // בדוק אם הפורום נמצא
-            //if (forumType == null)
-            //{
-            //    return NotFound("פורום לא נמצא");
-            //}
+          
             bool isAuthorized = (forumType == 2 && User.FindFirst("respondInGeneralForum")?.Value == "true") ||
                                 (forumType == 3 && User.FindFirst("respondInSafetyForum")?.Value == "true") ;
 

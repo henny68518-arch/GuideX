@@ -46,9 +46,6 @@ public partial class WalkingTrail
     [InverseProperty("AboutWalkingTrail")]
     public virtual ICollection<Forum> Forums { get; set; } = new List<Forum>();
 
-    [InverseProperty("AboutWalkingTrail")]
-    public virtual ICollection<Rating> Ratings { get; set; } = new List<Rating>();
-
     [ForeignKey("RegionId")]
     [InverseProperty("WalkingTrails")]
     public virtual Region? Region { get; set; }

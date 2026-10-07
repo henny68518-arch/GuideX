@@ -38,9 +38,6 @@ public partial class Hostel
     [InverseProperty("Hostels")]
     public virtual KashrutType? Kashrut { get; set; }
 
-    [InverseProperty("AboutHostels")]
-    public virtual ICollection<Rating> Ratings { get; set; } = new List<Rating>();
-
     [ForeignKey("RegionId")]
     [InverseProperty("Hostels")]
     public virtual Region? Region { get; set; }

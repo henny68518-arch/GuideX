@@ -25,6 +25,8 @@ public partial class Permission
     public bool RespondInGeneralForum { get; set; } = false;
 
     public bool RespondInSafetyForum { get; set; } = false;
+
+    public bool CanRate { get; set; } = false;
     [ForeignKey("UserId")]
     [InverseProperty("Permission")]  
     public virtual User? User { get; set; }
