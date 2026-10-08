@@ -16,10 +16,7 @@ namespace GuideX.Controllers
             _ratingRepository = ratingRepository;
         }
 
-        /// <summary>
-        /// GET /rating/{entityType}/{entityId}
-        /// מחזיר את כל דירוגי הישות: ממוצע, מספר דירוגים ורשימת הדירוגים (עם שמות המדרגות).
-        /// </summary>
+      
         [HttpGet("{entityType}/{entityId}")]
         public async Task<IActionResult> GetList(string entityType, int entityId)
         {

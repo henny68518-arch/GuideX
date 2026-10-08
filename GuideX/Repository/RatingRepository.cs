@@ -14,10 +14,6 @@ namespace GuideX.Repository
             _context = context;
         }
 
-        /// <summary>
-        /// שליפת כל דירוגי הישות (EntityType + EntityId) יחד עם שם המדרגת,
-        /// ובדיקה מוגבלת של סוגי הישויות הנתמכים.
-        /// </summary>
         public async Task<List<Rating>> GetRatingsQuery(string entityType, int entityId)
         {
             var type = NormalizeEntityType(entityType);
@@ -28,14 +24,12 @@ namespace GuideX.Repository
                 .ToListAsync();
         }
 
-        /// <summary>תשובה מלאה: ממוצע + מספר + רשימת דירוגים עם שמות.</summary>
         public async Task<RatingListResponse> GetListAsync(string entityType, int entityId)
         {
             var ratings = await GetRatingsQuery(entityType, entityId);
             return MapToResponse(ratings);
         }
 
-        /// <summary>ממוצע ומספר בלבד (ללא רשימת הדירוגים).</summary>
         public async Task<RatingAverageResponse> GetAverageAsync(string entityType, int entityId)
         {
             var ratings = await GetRatingsQuery(entityType, entityId);
@@ -44,7 +38,6 @@ namespace GuideX.Repository
                 Count: ratings.Count);
         }
 
-        /// <summary>הוספת דירוג חדש. מחזיר את הדירוג שנוצר (כולל השם).</summary>
         public async Task<RatingResponseDto?> AddAsync(int userId, CreateRatingDto dto)
         {
             var type = NormalizeEntityType(dto.EntityType);
@@ -62,7 +55,6 @@ namespace GuideX.Repository
             _context.Ratings.Add(rating);
             await _context.SaveChangesAsync();
 
-            // שליפת הדירוג החדש כולל שם המדרגת.
             var saved = await _context.Ratings
                 .AsNoTracking()
                 .Include(r => r.User)
@@ -78,7 +70,6 @@ namespace GuideX.Repository
                 Note: saved.Note);
         }
 
-        /// <summary>נרמול שם סוג הישות לתחביר אחיד (lowercase, ללא מקפים).</summary>
         private static string NormalizeEntityType(string entityType)
         {
             return entityType.Trim().ToLowerInvariant().Replace("-", string.Empty);

@@ -22,12 +22,11 @@ namespace GuideX.Controllers
             _env = env;
         }
 
-        // GET: /WakingTrail
         [HttpGet]
         public IActionResult GetAllWalkingTrails()
         {
             var walkingTrails = _context.WalkingTrails
-                .Include(a => a.Region) // כולל את האזור
+                .Include(a => a.Region) 
                 .Select(a => new WalkingTrailDTO
                 {
                     WalkingTrailId = a.WalkingTrailId,
@@ -36,7 +35,6 @@ namespace GuideX.Controllers
                     RegionId = a.RegionId,
                     Directions = a.Directions ?? "לא זוהה",
                     LengthInKm = a.LengthInKm ?? 0,
-                    //RouteDuration = (int?)a.RouteDuration ?? null,
                     RouteDuration = a.RouteDuration.HasValue ? Convert.ToInt32(a.RouteDuration.Value) : (int?)null,
 
                     Difficulty = a.Difficulty ?? 0,
@@ -217,7 +215,6 @@ namespace GuideX.Controllers
                 .ToList());
         }
 
-        /// <summary>GET /WakingTrail/{id}/images — מחזיר את רשימת התמונות של מסלול (מטא-דאטה בלבד).</summary>
         [HttpGet("{id}/images")]
         public async Task<IActionResult> GetImages(int id)
         {
@@ -230,10 +227,7 @@ namespace GuideX.Controllers
             return Ok(files.Select(f => new WalkingTrailFileDto(f.FileId, f.FileName ?? string.Empty)).ToList());
         }
 
-        /// <summary>GET /WakingTrail/file/{fileId} — קורא את ביטי התמונה מהדיסק ומחזיר אותם כתמונה.</summary>
-        // [AllowAnonymous] — התמונה מוצגת ב-<img> ישיר שבקשתו לא נושאת טוקן,
-        // לכן משביתים כאן את FallbackPolicy (שדורש אימות כברירת מחדל).
-        // פעולות העלאה/מחיקה נשארות מוגנות ([Authorize(Policy=...)]).
+       
         [AllowAnonymous]
         [HttpGet("file/{fileId}")]
         public async Task<IActionResult> GetFile(int fileId)
@@ -258,7 +252,6 @@ namespace GuideX.Controllers
             return File(bytes, contentType, file.FileName ?? "image");
         }
 
-        /// <summary>DELETE /WakingTrail/file/{fileId} — מוחק את התמונה (רשומה + הקובץ מהדיסק).</summary>
         [HttpDelete("file/{fileId}")]
         [Authorize(Policy = "EditRoutes")]
 

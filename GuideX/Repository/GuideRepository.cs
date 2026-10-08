@@ -15,7 +15,6 @@ namespace GuideX.Repository
 
         public async Task<IEnumerable<GuideDetailDTO>> GetGuidesAsync(bool? RetrieveApprovals) 
         {
-            // ✅ הוסף את השורות הבאות
             IQueryable<Guide> query = _context.Guides
                 .Include(g => g.GuidesRegion);
 
@@ -25,7 +24,7 @@ namespace GuideX.Repository
             }
             // ✅ עד כאן
 
-            var guides = await query // ✅ שנה מ- _context.Guides ל- query
+            var guides = await query 
                 .Select(g => new GuideDetailDTO
                 {
                     GuideId = g.GuideId,
@@ -50,7 +49,6 @@ namespace GuideX.Repository
         {
             var regionIds = (dto.RegionIds ?? new List<int>()).Distinct().ToArray();
 
-            // 1) משתמש — מחפש לפי ת"ז, אחרת יוצר חדש; קיים = מעדכן את פרטיו
             User? user = null;
             if (!string.IsNullOrWhiteSpace(dto.IdNumber))
             {
@@ -73,7 +71,6 @@ namespace GuideX.Repository
             }
             else
             {
-                // משתמש קיים — מעדכנים את פרטיו
                 user.FirstName = dto.FirstName ?? user.FirstName;
                 user.LastName = dto.LastName ?? user.LastName;
                 if (!string.IsNullOrWhiteSpace(dto.City)) user.City = dto.City;
@@ -95,7 +92,7 @@ namespace GuideX.Repository
                 guide = new Guide { UserId = user.UserId };
                 _context.Guides.Add(guide);
 
-                await _context.SaveChangesAsync(); // נשמור כאן כדי שה-ID של המדריך יתעדכן
+                await _context.SaveChangesAsync(); 
             }
 
             // עדה
@@ -116,9 +113,8 @@ namespace GuideX.Repository
                 });
             }
 
-            await _context.SaveChangesAsync(); // שומר את האזורים ואת הקבצים
+            await _context.SaveChangesAsync(); 
 
-            // 3) מחזירים את התוצאה (כולל אזורי ההתמחות שנשמרו)
             return new RegisterGuideResult
             {
                 GuideId = guide.GuideId,
@@ -126,7 +122,6 @@ namespace GuideX.Repository
                 RegionIds = regionIds
             };
         }
-        /// <summary>מחזיר את קבצי המדריך (UpFiles) לפי GuideId — כולל PathToFile לשליפה.</summary>
         public async Task<List<UpFile>> GetGuideFilesAsync(int guideId)
         {
             return await _context.UpFiles
@@ -136,7 +131,6 @@ namespace GuideX.Repository
                 .ToListAsync();
         }
 
-        /// <summary>מחזיר קובץ יחיד לפי FileId (להורדה).</summary>
         public async Task<UpFile?> GetGuideFileAsync(int fileId)
         {
             return await _context.UpFiles
@@ -144,8 +138,7 @@ namespace GuideX.Repository
                 .FirstOrDefaultAsync(f => f.FileId == fileId);
         }
 
-        /// <summary>מעדכן את סטטוס האישור של מדריך (IsApproved) לפי GuideId.
-        /// מחזיר true אם המדריך נמצא ועודכן, אחרת false.</summary>
+      
         public async Task<bool> ApproveGuideAsync(int guideId, bool approved)
         {
             var guide = await _context.Guides

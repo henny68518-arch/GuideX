@@ -15,8 +15,7 @@ namespace GuideX.DTOs
         string? Phone
     );
 
-    /// <summary>פריט תמונה של מקום לינה — מטא-דאטה בלבד (בלי תוכן הביטים),
-    /// לשם הצגת רשימת התמונות ושליפת התוכן דרך /Hostels/file/{fileId}.</summary>
+
     public record HostelFileDto(
         int FileId,
         string FileName

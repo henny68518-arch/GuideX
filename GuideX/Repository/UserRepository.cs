@@ -14,38 +14,22 @@ namespace GuideX.Repository
         public UserRepository(GuideXpContext context) { _context = context; }
 
 
-        //public User GetUserByEmailAndPassword(string Email, string UserPassword)
-        //{
-
-        //    return _context.Users.FirstOrDefault(user => user.Email == Email && user.UserPassword == UserPassword);
-        //}
-
-        //public User GetUserByEmailAndPhoneAndIdNumber(string Email, string PhoneNumber, string idNumber)
-        //{
-        //    return _context.Users.FirstOrDefault(user => user.Email == Email && user.PhoneNumber == PhoneNumber && user.IdNumber == idNumber);
-
-        //}
-        // ✅ הוסף .Include(u => u.Permission)
+       
         public User? GetUserByEmailAndPassword(string Email, string UserPassword)
         {
             return _context.Users
-                .Include(u => u.Permission)  // ✅ טעון את ההרשאות
+                .Include(u => u.Permission) 
                 .FirstOrDefault(user => user.Email == Email && user.UserPassword == UserPassword);
         }
 
-        // ✅ הוסף .Include(u => u.Permission) גם כאן
         public User? GetUserByEmailAndPhoneAndIdNumber(string Email, string PhoneNumber, string idNumber)
         {
             return _context.Users
-                .Include(u => u.Permission)  // ✅ טעון את ההרשאות
+                .Include(u => u.Permission)  
                 .FirstOrDefault(user => user.Email == Email && user.PhoneNumber == PhoneNumber && user.IdNumber == idNumber);
         }
 
-        /// <summary>
-        /// מעדכן פרטים בסיסיים של משתמש לפי UserId (למשל עריכת פרופיל מנהל).
-        /// ת.ז. וסיסמה אינן ניתנות לעריכה ואינן משתנות כאן.
-        /// מחזיר true אם המשתמש נמצא והנתונים עודכנו.
-        /// </summary>
+       
         public async Task<bool> UpdateUserAsync(int userId, UserUpdateDto dto)
         {
             var user = await _context.Users.FirstOrDefaultAsync(u => u.UserId == userId);

@@ -5,7 +5,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GuideX.Repository
 {
-    /// <summary>שליפת פרופיל מלא של משתמש (מדריכה או רכזת/מוסד) לפי UserId.</summary>
     public class ProfileRepository
     {
         private readonly GuideXpContext _context;
@@ -15,11 +14,7 @@ namespace GuideX.Repository
             _context = context;
         }
 
-        /// <summary>
-        /// מחזיר את הפרופיל של המשתמש לפי UserId, כולל קביעת הסוג
-        /// ("guide" / "coordinator") וכל נתוני המילוי של טופס העריכה.
-        /// מחזיר null אם המשתמש אינו קיים.
-        /// </summary>
+     
         public async Task<ProfileDto?> GetProfileAsync(int userId)
         {
             var user = await _context.Users
@@ -45,7 +40,7 @@ namespace GuideX.Repository
                 },
             };
 
-            // 1) מדריכה?
+            
             var guide = await _context.Guides
                 .Include(g => g.GuidesRegion)
                 .AsNoTracking()
@@ -63,7 +58,6 @@ namespace GuideX.Repository
                 return profile;
             }
 
-            // 2) רכזת/מוסד?
             var coordinator = await _context.TourCoordinators
                 .Include(c => c.School)
                 .AsNoTracking()
@@ -93,7 +87,6 @@ namespace GuideX.Repository
                 return profile;
             }
 
-            // משתמש קיים אך אינו מדריכה ואינו רכזת/מוסד.
             profile.Type = "none";
             return profile;
         }

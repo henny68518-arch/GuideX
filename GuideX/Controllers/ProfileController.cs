@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace GuideX.Controllers
 {
-    /// <summary>שליפת פרופיל של משתמש מחובר — קובע את הסוג ומחזיר נתוני מילוי.</summary>
     [Route("[controller]")]
     [ApiController]
     public class ProfileController : ControllerBase
@@ -16,8 +15,7 @@ namespace GuideX.Controllers
             _profileRepository = profileRepository;
         }
 
-        /// <summary>GET /profile/{userId} — מחזיר את פרופיל המשתמש
-        /// ("guide" / "coordinator") כולל כל נתוני טופס העריכה.</summary>
+       
         [HttpGet("{userId}")]
         public async Task<IActionResult> Get(int userId)
         {

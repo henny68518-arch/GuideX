@@ -19,7 +19,7 @@ namespace GuideX.Services
 
         public async Task<IEnumerable<GuideDetailDTO>> GetAllGuides(bool? RetrieveApprovals)
         {
-            return await _repo.GetGuidesAsync(RetrieveApprovals); // מחזירים את התוצאה מהקריאה האסינכרונית ישירות
+            return await _repo.GetGuidesAsync(RetrieveApprovals); 
         }
 
 
@@ -41,7 +41,6 @@ namespace GuideX.Services
             return await _repo.CreateGuideAsync(dto, filesMetas);
         }
 
-        /// <summary>מחזיר את קבצי המדריך (עם הבחנה Cv/Certificate לפי שם הקובץ המאוחסן).</summary>
         public async Task<List<GuideFileDto>> GetGuideFilesAsync(int guideId)
         {
             var files = await _repo.GetGuideFilesAsync(guideId);

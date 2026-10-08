@@ -2,20 +2,15 @@ using System.Collections.Generic;
 
 namespace GuideX.DTOs
 {
-    /// <summary>תשובת GET /profile/{userId} — קובעת את סוג המשתמש
-    /// ("guide" או "coordinator") ומחזירה את כל נתוני המילוי של טופס העריכה.</summary>
+ 
     public class ProfileDto
     {
-        /// <summary>"guide" | "coordinator"</summary>
         public string Type { get; set; } = string.Empty;
 
-        /// <summary>פרטי המשתמש המשותפים (User).</summary>
         public ProfileUserDto User { get; set; } = new();
 
-        /// <summary>נתוני מדריכה — רק אם Type=="guide".</summary>
         public ProfileGuideDto? Guide { get; set; }
 
-        /// <summary>נתוני מוסד/רכזת — רק אם Type=="coordinator".</summary>
         public ProfileCoordinatorDto? Coordinator { get; set; }
     }
 

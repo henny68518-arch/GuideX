@@ -34,7 +34,7 @@ namespace GuideX.Controllers
         {
             var allUsersWithPermissions = await _context.Users
                 .Include(u => u.Permission)
-                .Where(u => u.Permission != null)  // ✅ סנן רק users עם permission
+                .Where(u => u.Permission != null)  
                 .Select(u => new userWithPermissionsDTO(
                     u.UserId,
                     u.FirstName,
@@ -44,7 +44,7 @@ namespace GuideX.Controllers
                     u.PhoneNumber,
                     u.Email,
                     u.UserPassword,
-                    u.Permission.PermissionId,  // ✅ כבר בדקנו שהוא לא null
+                    u.Permission.PermissionId,  
                     u.Permission.SuperAdmin,
                     u.Permission.UserManagement,
                     u.Permission.EditRoutes,
@@ -59,10 +59,7 @@ namespace GuideX.Controllers
             return Ok(allUsersWithPermissions);
         }
 
-        /// <summary>
-        /// הופך (toggles) הרשאת משתמש אחת: קורא את הערך הנוכחי מהדאטה-בייס, הופך אותו ושומר.
-        /// (PUT /Users/{userId}/permission)
-        /// </summary>
+       //הפיכת הרשאות - פרוצדורה שהופכת
         [HttpPut("{userId}/permission")]
         [Authorize(Policy = "UserManagement")]
         public async Task<IActionResult> TogglePermission(int userId, [FromBody] UpdatePermissionRequest request)
@@ -74,13 +71,9 @@ namespace GuideX.Controllers
             if (string.IsNullOrWhiteSpace(request.Permission))
                 return BadRequest("חסר שם הרשאה.");
 
-
-            //
             if (string.Equals(request.Permission, "UserManagement", StringComparison.OrdinalIgnoreCase) 
                     && User.FindFirst("SuperAdmin")?.Value == "false")
-                return BadRequest("מנהל משני לא יכול לאשר הרשאת מנהל משני למשתמש אחר");
-            //
-
+                return BadRequest("מנהל משני לא יכול לאשר הרשאת מנהל משני למשתמש אחר");           
 
             try
             {
@@ -91,8 +84,7 @@ namespace GuideX.Controllers
                     new SqlParameter("@permissionName", request.Permission)
                 );
 
-                // קוראים את הערך החדש מהטבלה (נפרד מהפרוצדורה,
-                // כדי לא להתבסס על מיפוי התוצאה של פרוצדורה שעושה DML+SELECT).
+              
                 var permission = await _context.Permissions
                     .AsNoTracking()
                     .FirstOrDefaultAsync(p => p.UserId == userId);
@@ -141,10 +133,7 @@ namespace GuideX.Controllers
             return Ok(email);
         }
 
-        /// <summary>
-        /// PUT /Users/{userId} — עדכון פרטי משתמש בסיסיים (למשל עריכת פרופיל של מנהל,
-        /// שאין לו פרופיל מדריכה או רכזת). ת.ז. וסיסמה אינן ניתנות לעריכה.
-        /// </summary>
+      
         [HttpPut("{userId}")]
         public async Task<IActionResult> UpdateUser(int userId, [FromBody] UserUpdateDto dto)
         {
