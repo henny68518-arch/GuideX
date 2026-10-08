@@ -55,9 +55,8 @@ namespace GuideX.Controllers
             {
                 return Ok(new { message = "המשתמש לא קיים במערכת" });
             }
-            return Ok(userFound);
 
-
+            return Ok();
         }
 
 

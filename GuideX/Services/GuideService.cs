@@ -59,7 +59,6 @@ namespace GuideX.Services
             return await _repo.GetGuideFileAsync(fileId);
         }
 
-        /// <summary>מאשר/מבטל אישור של מדריכה לפי GuideId (מעדכן את IsApproved).</summary>
         public async Task<bool> ApproveGuideAsync(int guideId, bool approved)
         {
             return await _repo.ApproveGuideAsync(guideId, approved);
