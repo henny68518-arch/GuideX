@@ -16,11 +16,7 @@ namespace GuideX.Controllers
             _coordinatorService = coordinatorService;
         }
 
-        /// <summary>
-        /// POST /coordinator/register — רישום כורדינטור מלא:
-        /// מקבל פרטי משתמש + תפקיד + (אם מוסד חדש) פרטי מוסד.
-        /// יוצר את הכול ב-DB (ה-Identity מייצר את המזהים) ומחזיר את ה-UserId החדש.
-        /// </summary>
+    
         [HttpPost("register")]
         [AllowAnonymous]
 
@@ -44,10 +40,7 @@ namespace GuideX.Controllers
             }
         }
 
-        /// <summary>
-        /// PUT /coordinator/update — עדכון פרופיל של רכזת/מוסד קיימת
-        /// (פרטי משתמש + תפקיד + פרטי המוסד). ת.ז. וסיסמה אינן ניתנות לעריכה.
-        /// </summary>
+       
         [HttpPut("update")]
         public async Task<IActionResult> Update([FromBody] CoordinatorUpdateDto dto)
         {

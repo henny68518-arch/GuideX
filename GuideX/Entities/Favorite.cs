@@ -11,7 +11,7 @@ public partial class Favorite
     [Key]
     public int FavoriteId { get; set; }
 
-    public int TourCoordinatorId { get; set; }
+    public int UserId { get; set; }
 
     public int? WalkingTrailId { get; set; }
 

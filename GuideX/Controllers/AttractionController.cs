@@ -208,8 +208,7 @@ namespace GuideX.Controllers
                 var originalName = Path.GetFileName(image.FileName);
                 var extension = Path.GetExtension(originalName);
 
-                // שם מאוחסן קצר כדי שהנתיב הכולל (uploads/attractions/<name>)
-                // לא יחרוג מאורך עמודת PathToFile (50 תווים).
+            
                 var storedName = "IMG_" + Guid.NewGuid().ToString("N")[..10] + extension;
 
                 // שם מקורי מקוצר ל-25 תווים (מגבלת עמודת fileName).
@@ -238,7 +237,6 @@ namespace GuideX.Controllers
                 .ToList());
         }
 
-        /// <summary>GET /Attractions/{id}/images — מחזיר את רשימת התמונות של אטרקציה (מטא-דאטה בלבד).</summary>
         [HttpGet("{id}/images")]
         public async Task<IActionResult> GetImages(int id)
         {
@@ -251,10 +249,7 @@ namespace GuideX.Controllers
             return Ok(files.Select(f => new AttractionFileDto(f.FileId, f.FileName ?? string.Empty)).ToList());
         }
 
-        /// <summary>GET /Attractions/file/{fileId} — קורא את ביטי התמונה מהדיסק ומחזיר אותם כתמונה.</summary>
-        // [AllowAnonymous] — התמונה מוצגת ב-<img> ישיר שבקשתו לא נושאת טוקן,
-        // לכן משביתים כאן את FallbackPolicy (שדורש אימות כברירת מחדל).
-        // פעולות העלאה/מחיקה נשארות מוגנות ([Authorize(Policy=...)]).
+      
         [AllowAnonymous]
         [HttpGet("file/{fileId}")]
         public async Task<IActionResult> GetFile(int fileId)
@@ -279,7 +274,6 @@ namespace GuideX.Controllers
             return File(bytes, contentType, file.FileName ?? "image");
         }
 
-        /// <summary>DELETE /Attractions/file/{fileId} — מוחק את התמונה (רשומה + הקובץ מהדיסק).</summary>
         [Authorize(Policy = "EditAttractions")]
 
         [HttpDelete("file/{fileId}")]

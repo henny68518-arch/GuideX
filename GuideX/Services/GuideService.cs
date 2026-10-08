@@ -22,11 +22,7 @@ namespace GuideX.Services
             return await _repo.GetGuidesAsync(RetrieveApprovals); // מחזירים את התוצאה מהקריאה האסינכרונית ישירות
         }
 
-        /// <summary>
-        /// רושם/מעדכן מדריכה (User + Guide + אזורי התמחות + קבצים) ומחזיר
-        /// אובייקט תשובה הכולל את ה-GuideId וגם את מערך אזורי ההתמחות
-        /// ("המקומות שהיא מדריכה בהם" — RegionIds).
-        /// </summary>
+
         public async Task<RegisterGuideResult> RegisterGuideAsync(GuideUploadDto dto)
         {
             var filesMetas = new List<(string FileName, string PathToFile, bool IsPicture)>();
@@ -78,7 +74,6 @@ namespace GuideX.Services
             return Path.Combine(root, file.PathToFile);
         }
 
-        /// <summary>שומר קובץ לתיקיית העלאות ומחזיר מטא-דאטה ליצירת UpFile.</summary>
         private async Task<(string FileName, string PathToFile, bool IsPicture)> SaveAndDescribeAsync(IFormFile file, string prefix)
         {
             var root = _env.WebRootPath ?? Path.Combine(_env.ContentRootPath, "wwwroot");
@@ -88,12 +83,9 @@ namespace GuideX.Services
             var originalName = Path.GetFileName(file.FileName);
             var extension = Path.GetExtension(originalName);
 
-            // שם מאוחסן קצר — כדי שהנתיב הכולל (uploads/guides/<name>)
-            // לא יחרוג מאורך עמודת PathToFile (50 תווים).
+           
             var storedName = prefix + Guid.NewGuid().ToString("N")[..10] + extension;
 
-            // השם המקורי (שמופיע למשתמש) נשמר בעמודת FileName (אורך מקסימלי 25) —
-            // מקצרים אותו אם צריך כדי למנוע truncation.
             var storedFileName = originalName.Length <= 25
                 ? originalName
                 : (Path.GetFileNameWithoutExtension(originalName))[..(25 - extension.Length)] + extension;

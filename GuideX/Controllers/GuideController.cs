@@ -19,7 +19,8 @@ namespace GuideX.Controllers
             _GuideService = GuideService;
         }
 
-        // GET: api/<GuideController>
+
+
         [HttpGet]
         public async Task<IActionResult> Get(bool? RetrieveApprovals = null)
         {
@@ -32,9 +33,13 @@ namespace GuideX.Controllers
 
             return Ok(guides);
         }
-        // POST /all_Guide/register
+
+
+
         [HttpPost("register")]
         [Consumes("multipart/form-data")]
+        [AllowAnonymous]
+
         public async Task<IActionResult> Register([FromForm] GuideUploadDto dto)
         {
             try

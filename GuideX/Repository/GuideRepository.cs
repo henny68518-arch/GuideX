@@ -13,7 +13,7 @@ namespace GuideX.Repository
         public GuideRepository(GuideXpContext context) { _context = context; }
     
 
-        public async Task<IEnumerable<GuideDetailDTO>> GetGuidesAsync(bool? RetrieveApprovals) // ✅ שנה bool ל- bool?
+        public async Task<IEnumerable<GuideDetailDTO>> GetGuidesAsync(bool? RetrieveApprovals) 
         {
             // ✅ הוסף את השורות הבאות
             IQueryable<Guide> query = _context.Guides

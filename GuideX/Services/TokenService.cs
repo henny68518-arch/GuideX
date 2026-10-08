@@ -48,7 +48,7 @@ namespace GuideX.Services
         new Claim("UserId", u.UserId.ToString()),
     };
 
-            // הוסף את כל ההרשאות כ-JSON
+            
             if (u.Permission != null)
             {
                 var permissionsJson = JsonSerializer.Serialize(new

@@ -76,15 +76,15 @@ namespace GuideX.Controllers
                 return BadRequest("הנתונים אינם תקינים");
             }
 
-            var newHostel = new Hostel // הנחתי שיש ישות בשם 'Hostel'
+            var newHostel = new Hostel 
             {
                 HostelsName = newHostelDto.HostelsName,
                 Description = newHostelDto.Description,
                 Address = newHostelDto.Address,
                 Phone = newHostelDto.Phone,
-                RegionId = newHostelDto.RegionId ?? 0, // או ערך ברירת מחדל
-                KashrutId = newHostelDto.KashrutId ?? 0, // או ערך ברירת מחדל
-                NumberOfPlaces = newHostelDto.NumberOfPlaces ?? 0 // או ערך ברירת מחדל
+                RegionId = newHostelDto.RegionId ?? 0, 
+                KashrutId = newHostelDto.KashrutId ?? 0, 
+                NumberOfPlaces = newHostelDto.NumberOfPlaces ?? 0 
             };
 
             try
@@ -108,23 +108,22 @@ namespace GuideX.Controllers
 
         public async Task<IActionResult> DeleteHostel(int id)
         {
-            // לחפש את ההוסטל על פי ה-ID
             var hostel = await _context.Hostels.FindAsync(id);
             if (hostel == null)
             {
-                return NotFound(); // אם לא נמצא הוסטל, מחזירה NotFound
+                return NotFound(); 
             }
 
             try
             {
                 _context.Hostels.Remove(hostel);
-                await _context.SaveChangesAsync(); // לשמור את השינויים במסד הנתונים
-                return NoContent(); // מחזירה NoContent לאחר מחיקה מוצלחת
+                await _context.SaveChangesAsync();
+                return NoContent();
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                return StatusCode(500, "שגיאה במחיקת ההוסטל"); // טיפול בשגיאות
+                return StatusCode(500, "שגיאה במחיקת ההוסטל");
             }
         }
 
@@ -184,7 +183,6 @@ namespace GuideX.Controllers
                 .ToList());
         }
 
-        /// <summary>GET /Hostels/{id}/images — מחזיר את רשימת התמונות של מקום לינה (מטא-דאטה בלבד).</summary>
         [HttpGet("{id}/images")]
         [Authorize(Policy = "editHostels")]
 
@@ -199,10 +197,7 @@ namespace GuideX.Controllers
             return Ok(files.Select(f => new HostelFileDto(f.FileId, f.FileName ?? string.Empty)).ToList());
         }
 
-        /// <summary>GET /Hostels/file/{fileId} — קורא את ביטי התמונה מהדיסק ומחזיר אותם כתמונה.</summary>
-        // [AllowAnonymous] — התמונה מוצגת ב-<img> ישיר שבקשתו לא נושאת טוקן,
-        // לכן משביתים כאן את FallbackPolicy (שדורש אימות כברירת מחדל).
-        // פעולות העלאה/מחיקה נשארות מוגנות ([Authorize(Policy=...)]).
+        
         [AllowAnonymous]
         [HttpGet("file/{fileId}")]
         public async Task<IActionResult> GetFile(int fileId)
@@ -227,7 +222,6 @@ namespace GuideX.Controllers
             return File(bytes, contentType, file.FileName ?? "image");
         }
 
-        /// <summary>DELETE /Hostels/file/{fileId} — מוחק את התמונה (רשומה + הקובץ מהדיסק).</summary>
         [HttpDelete("file/{fileId}")]
         [Authorize(Policy = "editHostels")]
 
