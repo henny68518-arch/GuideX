@@ -20,7 +20,7 @@ namespace GuideX.Services
             return _repo.GetForumMessege().ToArray();
         }
 
-        public IEnumerable<ForumDTO> GetMessegeByType(int forumType)
+        public IEnumerable<ForumWithEmailDTO> GetMessegeByType(int forumType)
         {
             return _repo.GetForumMessegeByType(forumType).ToArray();
         }

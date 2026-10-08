@@ -43,20 +43,24 @@ namespace GuideX.Repository
             ));
         }
 
-        public IEnumerable<ForumDTO> GetForumMessegeByType(int forumType)
+        public IEnumerable<ForumWithEmailDTO> GetForumMessegeByType(int forumType)
         {
-            // קח את כל ההודעות מפורום
-            var ForumMesseges = _context.Forums.Where(a => a.ForumTypeId == forumType).ToArray();
+            // קח את כל ההודעות מפורום (כולל קשר למשתמש כדי לשלוף את המייל)
+            var ForumMesseges = _context.Forums
+                .Where(a => a.ForumTypeId == forumType)
+                .Include(f => f.User)
+                .ToArray();
 
-            // המרת ההודעות ל- ForumDTO
-            return ForumMesseges.Select(messege => new ForumDTO(
+            // המרת ההודעות ל- ForumWithEmailDTO (כולל מייל הכותב)
+            return ForumMesseges.Select(messege => new ForumWithEmailDTO(
                 ForumId: messege.ForumId,
                 UserId: messege.UserId,
                 Date: messege.Date,
                 ParentForumId: messege.ParentForumId,
                 Title: messege.Title,
                 Message: messege.Message,
-                ForumTypeId: messege.ForumTypeId
+                ForumTypeId: messege.ForumTypeId,
+                UserEmail: messege.User?.Email
             ));
         }
 

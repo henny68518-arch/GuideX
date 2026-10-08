@@ -2,6 +2,7 @@ using GuideX.Data;
 using GuideX.DTOs;
 using GuideX.Entities;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 
 namespace GuideX.Controllers
@@ -63,30 +64,37 @@ namespace GuideX.Controllers
                 return BadRequest(new { message = "לא צוין פריט למועדף" });
             }
 
-            var existing = await _context.Favorites
-                .FirstOrDefaultAsync(f =>
-                    f.UserId == dto.UserId &&
-                    f.AttractionsId == dto.AttractionsId &&
-                    f.HostelsId == dto.HostelsId &&
-                    f.WalkingTrailId == dto.WalkingTrailId);
-            if (existing != null)
-            {
-                return Ok(existing); // כבר קיים — לא יוצרים כפיל
-            }
-
-            var favorite = new Favorite
-            {
-                UserId = dto.UserId,
-                AttractionsId = dto.AttractionsId,
-                HostelsId = dto.HostelsId,
-                WalkingTrailId = dto.WalkingTrailId,
-            };
+            // בדיקת כפילות והוספה מתבצעות בפרוצדורה usp_AddFavorite.
+            var favoriteIdParam = new SqlParameter("@FavoriteId", System.Data.SqlDbType.Int) { Direction = System.Data.ParameterDirection.Output };
+            var isNewParam = new SqlParameter("@IsNew", System.Data.SqlDbType.Bit) { Direction = System.Data.ParameterDirection.Output };
 
             try
             {
-                await _context.Favorites.AddAsync(favorite);
-                await _context.SaveChangesAsync();
-                return CreatedAtAction(nameof(GetFavoritesByUserId), new { userId = favorite.UserId }, favorite);
+                await _context.Database.ExecuteSqlRawAsync(
+                    "EXEC dbo.usp_AddFavorite @UserId, @AttractionsId, @HostelsId, @WalkingTrailId, @FavoriteId OUTPUT, @IsNew OUTPUT",
+                    new SqlParameter("@UserId", dto.UserId),
+                    new SqlParameter("@AttractionsId", (object?)dto.AttractionsId ?? DBNull.Value),
+                    new SqlParameter("@HostelsId", (object?)dto.HostelsId ?? DBNull.Value),
+                    new SqlParameter("@WalkingTrailId", (object?)dto.WalkingTrailId ?? DBNull.Value),
+                    favoriteIdParam,
+                    isNewParam);
+
+                var favorite = new Favorite
+                {
+                    FavoriteId = (int)favoriteIdParam.Value,
+                    UserId = dto.UserId,
+                    AttractionsId = dto.AttractionsId,
+                    HostelsId = dto.HostelsId,
+                    WalkingTrailId = dto.WalkingTrailId,
+                };
+
+                // @IsNew = 1 → נוצר חדש, 0 → כבר היה קיים.
+                if (Convert.ToBoolean(isNewParam.Value))
+                {
+                    return CreatedAtAction(nameof(GetFavoritesByUserId), new { userId = favorite.UserId }, favorite);
+                }
+
+                return Ok(favorite); // כבר קיים — לא יוצרים כפיל
             }
             catch (Exception ex)
             {
