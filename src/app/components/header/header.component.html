@@ -76,7 +76,6 @@
             </mat-icon>
           </button>
 
-<<<<<<< HEAD
 
           @for (permission of listOfPermissions; track permission; let i = $index) {
           <button class="option logout edit" style="padding: 4px; margin-right: 8px;">
@@ -91,7 +90,10 @@
             @case ('respondInSafetyForum') { הגבה בפורום בטיחות }
             @case ( 'canRate') { הרשאת דירוג }
             @default { {{ permission }} }
-=======
+            }
+          </button>
+          }
+          }   
           @if(showPermissions) {
           <div class="permissions-list">
             @for (permission of listOfPermissions; track permission) {
@@ -111,11 +113,10 @@
                 }
               </span>
             </div>
->>>>>>> 4f0d804cd4c12278eb9f011168745d38d2b7887a
             }
           </div>
           }
-          }
+          
 
 
           <div class="divider"></div>
