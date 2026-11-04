@@ -1,0 +1,131 @@
+<div class="reka">
+  <!-- חיפוש חופשי + סינון לפי אזורי התמחות -->
+  <div class="filter-panel">
+    <input
+      type="text"
+      class="search-input"
+      #searchControl
+      placeholder="חיפוש חופשי: שם, עיר, טלפון, מייל, עדה, אזור..."
+      (input)="applyFilter($event)"
+    />
+
+    <div class="areas-filter">
+      <span class="areas-label">סינון לפי אזורי התמחות:</span>
+      <label
+        *ngFor="let area of availableAreas"
+        class="area-check">
+        <input
+          type="checkbox"
+          [value]="area.id"
+          (change)="toggleArea(area.id, $any($event.target).checked)"
+        />
+        {{ area.name }}
+      </label>
+    </div>
+
+    <div class="Reset_feeder">
+      <button type="button" class="reset btn" (click)="resetFilters()">
+        <span>איפוס המסננים</span>
+        <span>
+          <mat-icon class="mat-icon-btn">filter_alt_off</mat-icon>
+        </span>
+      </button>
+    </div>
+  </div>
+
+  <div class="mat-elevation-z8 table-walking-trail">
+    <table mat-table [dataSource]="dataSource" matSort class="table">
+        <!-- FullName Column -->
+        <ng-container matColumnDef="FullName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="HeaderOnTable">
+            | שם
+          </th>
+          <td mat-cell *matCellDef="let element" class="contentTable">
+            {{ fullName(element) }}
+          </td>
+        </ng-container>
+
+        <!-- City Column -->
+        <ng-container matColumnDef="City">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="HeaderOnTable">
+            | עיר
+          </th>
+          <td mat-cell *matCellDef="let element" class="contentTable">
+            {{ element.city }}
+          </td>
+        </ng-container>
+
+        <!-- PhoneNumber Column -->
+        <ng-container matColumnDef="PhoneNumber">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="HeaderOnTable">
+            | טלפון
+          </th>
+          <td mat-cell *matCellDef="let element" class="contentTable">
+            {{ element.phoneNumber }}
+          </td>
+        </ng-container>
+
+        <!-- Email Column -->
+        <ng-container matColumnDef="Email">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="HeaderOnTable">
+            | מייל
+          </th>
+          <td mat-cell *matCellDef="let element" class="contentTable">
+            {{ element.email }}
+          </td>
+        </ng-container>
+
+        <!-- ReligiousId Column -->
+        <ng-container matColumnDef="ReligiousId">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="HeaderOnTable">
+            | עדה
+          </th>
+          <td mat-cell *matCellDef="let element" class="contentTable">
+            {{ element.religiousName || getReligiousName(element.religiousId) }}
+          </td>
+        </ng-container>
+
+        <!-- RegionId Column -->
+        <ng-container matColumnDef="RegionId">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="HeaderOnTable">
+            | אזורי התמחות
+          </th>
+          <td mat-cell *matCellDef="let element" class="contentTable">
+            {{ getRegionsNames(element.regionId) }}
+          </td>
+        </ng-container>
+
+        <!-- DetailsButton Column -->
+        <ng-container matColumnDef="DetailsButton">
+          <th mat-header-cell *matHeaderCellDef class="HeaderOnTable"></th>
+          <td mat-cell *matCellDef="let element" class="contentTable">
+            <button
+              class="showDetails"
+              (click)="openDialogRegistrations(element)"
+              title="הצגת פרטים"
+            >
+              <mat-icon class="showDetelis-icon">zoom_in</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+
+      @if (isLoading) {
+        <h3>טוען נתונים...</h3>
+      } @else if (dataSource.filteredData.length === 0) {
+        <h3 class="notFoundInFilter">לא נמצאו מדריכות</h3>
+      }
+
+      <mat-paginator
+        [pageSizeOptions]="[20, 30, 50]"
+        showFirstLastButtons
+        aria-label="בחירת עמוד"
+        class="paginator"
+        [length]="dataSource.filteredData.length"
+      >
+      </mat-paginator>
+    </div>
+</div>

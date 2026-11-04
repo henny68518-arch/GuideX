@@ -1,0 +1,133 @@
+<div class="header">
+  <div (click)="logo()" ngbTooltip="דף הבית" tooltipClass="my-custom-class">
+    <img class="logo" src="logo_for_light.png" alt="Home Page" />
+  </div>
+
+  <div>
+    <div>
+      <h3 class="title">הי {{ username }}! כיף לפגוש אותך:)</h3>
+    </div>
+
+    <div class="dateAndGreeting">
+      <p class="text">{{ "" | greeting }}</p>
+      <p class="text">{{ dateToHeader | hebrewDateConverter | async }}</p>
+    </div>
+  </div>
+  <div>
+
+    <div class="container">
+      <div class="dropdown">
+        <button class="moreOptions" (click)="toggleMenu()">
+          <mat-icon class="mat-icon-btn">{{
+            openMenu ? "close" : "more_vert"
+            }}</mat-icon>
+        </button>
+        <div class="dropdown-menu" id="menu">
+          <button class="option logout edit" (click)="logo()" (click)="toggleMenu()">
+            <span>
+              <img class="img_like" src="home_rose.png" alt="home" />
+            </span>
+            <span>חזרה לדף הבית</span>
+          </button>
+          <div class="divider"></div>
+          <button class="option logout edit" (click)="goToFevorite()" (click)="toggleMenu()">
+            <span>
+              <img class="img_like" src="heart_rose.png" alt="favorites" />
+            </span>
+            <span>למעודפים שלך </span>
+          </button>
+          @if(!this.authService.hasPermission('superAdmin')){
+          <button class="option logout edit" (click)="openDialogEditD()" (click)="toggleMenu()">
+            <span>
+              <img class="img_like" src="edit_rose.png" alt="favorites" />
+            </span>
+            <span>לעריכת הפרטים שלך</span>
+          </button>
+          }
+
+          @if(this.authService.hasPermission('userManagement')){
+          <div class="divider"></div>
+          <button class="option logout edit" (click)="openPermissions()" (click)="toggleMenu()">
+            <span>
+              <mat-icon class="manage-icon" style="color: #fe585a;">manage_accounts_outlined</mat-icon>
+              <!-- <img class="img_like" src="Permissions.png" alt="permissions" /> -->
+            </span>
+            <span> ניהול ההרשאות</span>
+          </button>
+
+          <button class="option logout edit" (click)="openGuidePermissions()" (click)="toggleMenu()">
+            <span>
+              <!-- <img class="img_like" src="Permissions.png" alt="permissions" /> -->
+              <mat-icon class="manage-icon" style="color: #fe585a;">admin_panel_settings_outlined</mat-icon>
+            </span>
+            <span> ניהול המדריכות</span>
+          </button>
+
+          }
+          @if(listOfPermissions.length > 0) {
+          <div class="divider"></div>
+          <button class="option logout edit permissions-toggle" (click)="togglePermissions()">
+            <span>
+              <img class="img_like" src="Permissions.png" alt="permissions" />
+            </span>
+            <span class="permissions-toggle-text">ההרשאות שלך</span>
+            <mat-icon class="permissions-chevron">
+              {{ showPermissions ? 'expand_less' : 'expand_more' }}
+            </mat-icon>
+          </button>
+
+
+          @for (permission of listOfPermissions; track permission; let i = $index) {
+          <button class="option logout edit" style="padding: 4px; margin-right: 8px;">
+            <mat-icon class="mat-icon-btn icon">check</mat-icon>
+            @switch (permission) {
+            @case ('superAdmin') { מנהלת ראשית }
+            @case ('userManagement') { ניהול משתמשים }
+            @case ('editRoutes') { ניהול מסלולים }
+            @case ('editAttractions') { ניהול אטרקציות }
+            @case ('editHostels') { ניהול מקומות לינה }
+            @case ('respondInGeneralForum') { הגבה בפורום כללי }
+            @case ('respondInSafetyForum') { הגבה בפורום בטיחות }
+            @case ( 'canRate') { הרשאת דירוג }
+            @default { {{ permission }} }
+            }
+          </button>
+          }
+          }   
+          @if(showPermissions) {
+          <div class="permissions-list">
+            @for (permission of listOfPermissions; track permission) {
+            <div class="permission-item">
+              <mat-icon class="permission-check">check</mat-icon>
+              <span class="permission-label">
+                @switch (permission) {
+                @case ('superAdmin') { מנהלת ראשית }
+                @case ('userManagement') { ניהול משתמשים }
+                @case ('editRoutes') { ניהול מסלולים }
+                @case ('editAttractions') { ניהול אטרקציות }
+                @case ('editHostels') { ניהול מקומות לינה }
+                @case ('respondInGeneralForum') { הגבה בפורום כללי }
+                @case ('respondInSafetyForum') { הגבה בפורום בטיחות }
+                @case ('canRate') { הרשאת דירוג }
+                @default { {{ permission }} }
+                }
+              </span>
+            </div>
+            }
+          </div>
+          }
+          
+
+
+          <div class="divider"></div>
+          <button (click)="logout()" class="option logout">
+            <span>
+              <mat-icon class="mat-icon-btn icon ">logout</mat-icon>
+            </span>
+            <span>להתנתקות</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

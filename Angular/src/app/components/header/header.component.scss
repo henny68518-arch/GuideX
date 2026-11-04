@@ -1,0 +1,197 @@
+.header{
+    border-bottom: 1px solid #5f16eb;
+    height: 100px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    background-color: rgba(70, 80, 255, 0.05);
+    justify-content: space-between;
+}
+.logo{
+    height: 100px;
+}
+
+.logout{
+    color: #FF5C67;
+    width: 100%;
+    background-color: transparent;
+    border: 0px;
+    display: flex;
+    align-items: center;
+    &:hover{
+        // color: #5F17E5; 
+        color: #0657c2;
+    // transform: translateY(-1px); 
+        //  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+    }
+}
+.edit{
+    color: #1d1d1f;
+}
+.mat-icon-btn{
+    margin-top: 5px;
+    //  margin-left: 3px;
+}
+.icon{
+    margin-left: 5px;
+}
+.moreOptions{
+    background-color: transparent;
+    border : 0px;
+    border-radius: 50px;
+    margin: 13px;
+    &:hover{
+        background-color: #dbd9f7;
+    }
+}
+:host {
+			height: 100%;
+			display: flex;
+			flex-direction: column;
+		}
+
+
+
+.header {
+    border-bottom: 1px solid #5f16eb;
+    height: 100px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    background-color: rgba(70, 80, 255, 0.05);
+    justify-content: space-between;
+}
+
+.logo {
+    height: 100px;
+}
+
+.container {
+    margin-left: 15px; /* שוליים שמאליים של 15px */
+    padding: 10px; /* ריפוד לגבולות */
+    box-sizing: border-box;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.moreOptions {
+    background-color: transparent;
+    border: 0px;
+    border-radius: 50px;
+    margin: 13px;
+    cursor: pointer; /* מראה אישור שהכפתור ניתן ללחיצה */
+}
+
+.dropdown-menu {
+    display: none; /* ברירת מחדל - לא מוצג */
+    position: absolute;
+    left: 0; /* התפריט נפתח מ-0 משמאל */
+    top: 100%; /* התפריט מופיע מתחת לכפתור */
+    background-color: white;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+     direction: rtl; /* כיוון הטקסט */
+    text-align: right; 
+    width:  auto; /* השתנה מ-105px ל-auto */
+    min-width: 205px;
+}
+
+.dropdown-menu.show {
+    display: block; /* כאשר הכיתה `show` תתווסף, התפריט יופיע */
+}
+
+.mat-icon-btn {
+    margin-top: 5px;
+}
+
+.divider {
+    border-top: 1px solid #ddd; /* צבע הקו */
+    // margin: 5px 0; /* רווחים למעלה ולמטה */
+}
+ .option{
+    padding: 10px;
+    margin: 0px;
+ }
+
+.dateAndGreeting{
+    display: flex;
+    justify-content: space-between;
+}
+.title{
+    margin-bottom: 0px;
+}
+.text{
+    margin: 0px;
+}
+.img_like{
+    width: 20px;
+    height: 20px;
+    margin-left: 5px;
+
+}
+
+/* ===== רשימת ההרשאות ===== */
+.permissions-toggle {
+    justify-content: space-between;
+}
+
+.permissions-toggle-text {
+    flex: 1;
+    text-align: right;
+}
+
+.manage-icon {
+    /* פונט Material Symbols Outlined - קו דק */
+    font-family: 'Material Symbols Outlined';
+    font-weight: 200; /* קו דק */
+    font-variation-settings: 'FILL' 0, 'wght' 200, 'GRAD' 0, 'opsz' 24;
+    margin-left: 5px;
+}
+
+.permissions-chevron {
+    margin-right: 4px;
+    font-size: 20px;
+    height: 20px;
+    width: 20px;
+}
+
+.permissions-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 6px 0;
+    background-color: #f7f6fd;
+    border-radius: 8px;
+    margin: 0 8px 6px 8px;
+}
+
+.permission-item {
+    display: flex;
+    align-items: center;
+    padding: 6px 12px;
+    border-radius: 6px;
+
+    &:hover {
+        background-color: #ece9fb;
+    }
+}
+
+.permission-check {
+    font-size: 18px;
+    height: 18px;
+    width: 18px;
+    color: #5f16eb;
+    margin-left: 8px;
+    flex-shrink: 0;
+}
+
+.permission-label {
+    font-size: 14px;
+    color: #1d1d1f;
+    text-align: right;
+}
+

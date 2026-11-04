@@ -1,0 +1,165 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\WIN10\\Documents\\\u05E4\u05E8\u05D5\u05D9\u05E7\u05D8 \u05E1\u05D5\u05E3 \u05E9\u05E0\u05D4!!!!!!!!!!\\GuideX\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{6DFD6C35-CF8E-A238-AD16-387D18B42504}|GuideX\\GuideX.csproj|c:\\users\\win10\\documents\\\u05E4\u05E8\u05D5\u05D9\u05E7\u05D8 \u05E1\u05D5\u05E3 \u05E9\u05E0\u05D4!!!!!!!!!!\\guidex\\guidex\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{6DFD6C35-CF8E-A238-AD16-387D18B42504}|GuideX\\GuideX.csproj|solutionrelative:guidex\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6DFD6C35-CF8E-A238-AD16-387D18B42504}|GuideX\\GuideX.csproj|c:\\users\\win10\\documents\\\u05E4\u05E8\u05D5\u05D9\u05E7\u05D8 \u05E1\u05D5\u05E3 \u05E9\u05E0\u05D4!!!!!!!!!!\\guidex\\guidex\\services\\tokenservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6DFD6C35-CF8E-A238-AD16-387D18B42504}|GuideX\\GuideX.csproj|solutionrelative:guidex\\services\\tokenservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6DFD6C35-CF8E-A238-AD16-387D18B42504}|GuideX\\GuideX.csproj|c:\\users\\win10\\documents\\\u05E4\u05E8\u05D5\u05D9\u05E7\u05D8 \u05E1\u05D5\u05E3 \u05E9\u05E0\u05D4!!!!!!!!!!\\guidex\\guidex\\controllers\\attractioncontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6DFD6C35-CF8E-A238-AD16-387D18B42504}|GuideX\\GuideX.csproj|solutionrelative:guidex\\controllers\\attractioncontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6DFD6C35-CF8E-A238-AD16-387D18B42504}|GuideX\\GuideX.csproj|c:\\users\\win10\\documents\\\u05E4\u05E8\u05D5\u05D9\u05E7\u05D8 \u05E1\u05D5\u05E3 \u05E9\u05E0\u05D4!!!!!!!!!!\\guidex\\guidex\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6DFD6C35-CF8E-A238-AD16-387D18B42504}|GuideX\\GuideX.csproj|solutionrelative:guidex\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6DFD6C35-CF8E-A238-AD16-387D18B42504}|GuideX\\GuideX.csproj|c:\\users\\win10\\documents\\\u05E4\u05E8\u05D5\u05D9\u05E7\u05D8 \u05E1\u05D5\u05E3 \u05E9\u05E0\u05D4!!!!!!!!!!\\guidex\\guidex\\controllers\\logincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6DFD6C35-CF8E-A238-AD16-387D18B42504}|GuideX\\GuideX.csproj|solutionrelative:guidex\\controllers\\logincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6DFD6C35-CF8E-A238-AD16-387D18B42504}|GuideX\\GuideX.csproj|c:\\users\\win10\\documents\\\u05E4\u05E8\u05D5\u05D9\u05E7\u05D8 \u05E1\u05D5\u05E3 \u05E9\u05E0\u05D4!!!!!!!!!!\\guidex\\guidex\\services\\loginservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6DFD6C35-CF8E-A238-AD16-387D18B42504}|GuideX\\GuideX.csproj|solutionrelative:guidex\\services\\loginservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6DFD6C35-CF8E-A238-AD16-387D18B42504}|GuideX\\GuideX.csproj|c:\\users\\win10\\documents\\\u05E4\u05E8\u05D5\u05D9\u05E7\u05D8 \u05E1\u05D5\u05E3 \u05E9\u05E0\u05D4!!!!!!!!!!\\guidex\\guidex\\controllers\\hostelscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6DFD6C35-CF8E-A238-AD16-387D18B42504}|GuideX\\GuideX.csproj|solutionrelative:guidex\\controllers\\hostelscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6DFD6C35-CF8E-A238-AD16-387D18B42504}|GuideX\\GuideX.csproj|c:\\users\\win10\\documents\\\u05E4\u05E8\u05D5\u05D9\u05E7\u05D8 \u05E1\u05D5\u05E3 \u05E9\u05E0\u05D4!!!!!!!!!!\\guidex\\guidex\\data\\guidexpcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6DFD6C35-CF8E-A238-AD16-387D18B42504}|GuideX\\GuideX.csproj|solutionrelative:guidex\\data\\guidexpcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6DFD6C35-CF8E-A238-AD16-387D18B42504}|GuideX\\GuideX.csproj|c:\\users\\win10\\documents\\\u05E4\u05E8\u05D5\u05D9\u05E7\u05D8 \u05E1\u05D5\u05E3 \u05E9\u05E0\u05D4!!!!!!!!!!\\guidex\\guidex\\dtos\\userdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6DFD6C35-CF8E-A238-AD16-387D18B42504}|GuideX\\GuideX.csproj|solutionrelative:guidex\\dtos\\userdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 3,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "loginService.cs",
+              "DocumentMoniker": "C:\\Users\\WIN10\\Documents\\\u05E4\u05E8\u05D5\u05D9\u05E7\u05D8 \u05E1\u05D5\u05E3 \u05E9\u05E0\u05D4!!!!!!!!!!\\GuideX\\GuideX\\Services\\loginService.cs",
+              "RelativeDocumentMoniker": "GuideX\\Services\\loginService.cs",
+              "ToolTip": "C:\\Users\\WIN10\\Documents\\\u05E4\u05E8\u05D5\u05D9\u05E7\u05D8 \u05E1\u05D5\u05E3 \u05E9\u05E0\u05D4!!!!!!!!!!\\GuideX\\GuideX\\Services\\loginService.cs",
+              "RelativeToolTip": "GuideX\\Services\\loginService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-13T19:19:14.354Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "LoginController.cs",
+              "DocumentMoniker": "C:\\Users\\WIN10\\Documents\\\u05E4\u05E8\u05D5\u05D9\u05E7\u05D8 \u05E1\u05D5\u05E3 \u05E9\u05E0\u05D4!!!!!!!!!!\\GuideX\\GuideX\\Controllers\\LoginController.cs",
+              "RelativeDocumentMoniker": "GuideX\\Controllers\\LoginController.cs",
+              "ToolTip": "C:\\Users\\WIN10\\Documents\\\u05E4\u05E8\u05D5\u05D9\u05E7\u05D8 \u05E1\u05D5\u05E3 \u05E9\u05E0\u05D4!!!!!!!!!!\\GuideX\\GuideX\\Controllers\\LoginController.cs",
+              "RelativeToolTip": "GuideX\\Controllers\\LoginController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAApAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-13T18:55:50.969Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\WIN10\\Documents\\\u05E4\u05E8\u05D5\u05D9\u05E7\u05D8 \u05E1\u05D5\u05E3 \u05E9\u05E0\u05D4!!!!!!!!!!\\GuideX\\GuideX\\Program.cs",
+              "RelativeDocumentMoniker": "GuideX\\Program.cs",
+              "ToolTip": "C:\\Users\\WIN10\\Documents\\\u05E4\u05E8\u05D5\u05D9\u05E7\u05D8 \u05E1\u05D5\u05E3 \u05E9\u05E0\u05D4!!!!!!!!!!\\GuideX\\GuideX\\Program.cs",
+              "RelativeToolTip": "GuideX\\Program.cs",
+              "ViewState": "AgIAAEsAAAAAAAAAAAAuwFoAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-13T17:49:34.512Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "appsettings.Development.json",
+              "DocumentMoniker": "C:\\Users\\WIN10\\Documents\\\u05E4\u05E8\u05D5\u05D9\u05E7\u05D8 \u05E1\u05D5\u05E3 \u05E9\u05E0\u05D4!!!!!!!!!!\\GuideX\\GuideX\\appsettings.Development.json",
+              "RelativeDocumentMoniker": "GuideX\\appsettings.Development.json",
+              "ToolTip": "C:\\Users\\WIN10\\Documents\\\u05E4\u05E8\u05D5\u05D9\u05E7\u05D8 \u05E1\u05D5\u05E3 \u05E9\u05E0\u05D4!!!!!!!!!!\\GuideX\\GuideX\\appsettings.Development.json",
+              "RelativeToolTip": "GuideX\\appsettings.Development.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-07-13T17:40:32.86Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "TokenService.cs",
+              "DocumentMoniker": "C:\\Users\\WIN10\\Documents\\\u05E4\u05E8\u05D5\u05D9\u05E7\u05D8 \u05E1\u05D5\u05E3 \u05E9\u05E0\u05D4!!!!!!!!!!\\GuideX\\GuideX\\Services\\TokenService.cs",
+              "RelativeDocumentMoniker": "GuideX\\Services\\TokenService.cs",
+              "ToolTip": "C:\\Users\\WIN10\\Documents\\\u05E4\u05E8\u05D5\u05D9\u05E7\u05D8 \u05E1\u05D5\u05E3 \u05E9\u05E0\u05D4!!!!!!!!!!\\GuideX\\GuideX\\Services\\TokenService.cs",
+              "RelativeToolTip": "GuideX\\Services\\TokenService.cs",
+              "ViewState": "AgIAAFIAAAAAAAAAAAAqwGIAAAAyAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-13T17:30:54.626Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "AttractionController.cs",
+              "DocumentMoniker": "C:\\Users\\WIN10\\Documents\\\u05E4\u05E8\u05D5\u05D9\u05E7\u05D8 \u05E1\u05D5\u05E3 \u05E9\u05E0\u05D4!!!!!!!!!!\\GuideX\\GuideX\\Controllers\\AttractionController.cs",
+              "RelativeDocumentMoniker": "GuideX\\Controllers\\AttractionController.cs",
+              "ToolTip": "C:\\Users\\WIN10\\Documents\\\u05E4\u05E8\u05D5\u05D9\u05E7\u05D8 \u05E1\u05D5\u05E3 \u05E9\u05E0\u05D4!!!!!!!!!!\\GuideX\\GuideX\\Controllers\\AttractionController.cs",
+              "RelativeToolTip": "GuideX\\Controllers\\AttractionController.cs",
+              "ViewState": "AgIAAHQAAAAAAAAAAIBJwJQAAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-05T14:14:36.163Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "userDTO.cs",
+              "DocumentMoniker": "C:\\Users\\WIN10\\Documents\\\u05E4\u05E8\u05D5\u05D9\u05E7\u05D8 \u05E1\u05D5\u05E3 \u05E9\u05E0\u05D4!!!!!!!!!!\\GuideX\\GuideX\\DTOs\\userDTO.cs",
+              "RelativeDocumentMoniker": "GuideX\\DTOs\\userDTO.cs",
+              "ToolTip": "C:\\Users\\WIN10\\Documents\\\u05E4\u05E8\u05D5\u05D9\u05E7\u05D8 \u05E1\u05D5\u05E3 \u05E9\u05E0\u05D4!!!!!!!!!!\\GuideX\\GuideX\\DTOs\\userDTO.cs",
+              "RelativeToolTip": "GuideX\\DTOs\\userDTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-05T11:13:29.666Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "GuideXpContext.cs",
+              "DocumentMoniker": "C:\\Users\\WIN10\\Documents\\\u05E4\u05E8\u05D5\u05D9\u05E7\u05D8 \u05E1\u05D5\u05E3 \u05E9\u05E0\u05D4!!!!!!!!!!\\GuideX\\GuideX\\Data\\GuideXpContext.cs",
+              "RelativeDocumentMoniker": "GuideX\\Data\\GuideXpContext.cs",
+              "ToolTip": "C:\\Users\\WIN10\\Documents\\\u05E4\u05E8\u05D5\u05D9\u05E7\u05D8 \u05E1\u05D5\u05E3 \u05E9\u05E0\u05D4!!!!!!!!!!\\GuideX\\GuideX\\Data\\GuideXpContext.cs",
+              "RelativeToolTip": "GuideX\\Data\\GuideXpContext.cs",
+              "ViewState": "AgIAAAYBAAAAAAAAAAAgwBIBAAAiAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-07T14:15:28.461Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "HostelsController.cs",
+              "DocumentMoniker": "C:\\Users\\WIN10\\Documents\\\u05E4\u05E8\u05D5\u05D9\u05E7\u05D8 \u05E1\u05D5\u05E3 \u05E9\u05E0\u05D4!!!!!!!!!!\\GuideX\\GuideX\\Controllers\\HostelsController.cs",
+              "RelativeDocumentMoniker": "GuideX\\Controllers\\HostelsController.cs",
+              "ToolTip": "C:\\Users\\WIN10\\Documents\\\u05E4\u05E8\u05D5\u05D9\u05E7\u05D8 \u05E1\u05D5\u05E3 \u05E9\u05E0\u05D4!!!!!!!!!!\\GuideX\\GuideX\\Controllers\\HostelsController.cs",
+              "RelativeToolTip": "GuideX\\Controllers\\HostelsController.cs",
+              "ViewState": "AgIAABAAAAAAAAAAAIBQwB8AAAA4AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-07T13:15:33.439Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

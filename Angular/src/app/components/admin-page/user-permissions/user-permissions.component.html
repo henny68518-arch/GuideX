@@ -1,0 +1,102 @@
+<div class="user-permissions">
+  <h2 class="page-title">דף ניהול — הרשאות משתמשים</h2>
+
+  @if (errorMessage) {
+    <div class="error">{{ errorMessage }}</div>
+  }
+
+  @if (isLoading) {
+    <div class="empty">לא נמצאו משתמשים.</div>
+  } @else {
+    <br/>
+    <div class="search-wrap">
+      <mat-icon class="search-icon">search</mat-icon>
+      <input
+        class="search-input"
+        type="text"
+        placeholder="חיפוש לפי שם"
+        [value]="searchTerm"
+        (input)="onSearch($any($event.target).value)"
+        (keydown.esc)="onSearch('')"
+      />
+      @if (searchTerm) {
+        <button
+          class="search-clear"
+          type="button"
+          title="ניקוי חיפוש"
+          (click)="onSearch('')"
+          (keydown.enter)="onSearch('')"
+        >✕</button>
+      }
+    </div>
+    <div class="table-wrap">
+      <table class="perms-table">
+        <thead>
+          <tr>
+            <th class="col-user">שם מלא</th>
+            @for (perm of permissions; track perm.key) {
+              @if (showUserManagementColumn || perm.key !== 'userManagement') {
+                <th class="col-perm" [title]="perm.label">
+                  <mat-icon class="th-icon">{{ perm.icon }}</mat-icon>
+                  <span class="th-label">{{ perm.label }}</span>
+                </th>
+              }
+            }
+          </tr>
+        </thead>
+        <tbody>
+          @for (user of visibleUsers; track user.userId) {
+            <tr>
+              <td class="col-user" [attr.data-label]="'שם מלא'">
+                <button
+                  class="name-link"
+                  (click)="openUser(user)"
+                  title="לצפייה בפרטי המשתמש"
+                >
+                  <span class="name">{{ fullName(user) }}</span>
+                  <mat-icon class="view-icon">visibility</mat-icon>
+                </button>
+              </td>
+              @for (perm of permissions; track perm.key) {
+                @if (showUserManagementColumn || perm.key !== 'userManagement') {
+                  <td
+                    class="col-perm"
+                    [attr.data-label]="perm.label"
+                  >
+                    <div class="cell-inner">
+                      <button
+                        class="perm-toggle"
+                        [class.on]="getValue(user, perm.key)"
+                        [disabled]="savingKey !== null"
+                        (click)="toggle(user, perm)"
+                        [attr.aria-pressed]="getValue(user, perm.key)"
+                        [title]="
+                          (getValue(user, perm.key) ? 'לבטל ' : 'להפעיל ') +
+                          perm.label
+                        "
+                      >
+                        @if (savingKey === buildKey(user, perm.key)) {
+                          <span class="saving">מעדכן…</span>
+                        } @else {
+                          <span class="state">{{
+                            getValue(user, perm.key) ? 'מאושר' : 'לא מאושר'
+                          }}</span>
+                        }
+                      </button>
+                      @if (errorKey === buildKey(user, perm.key)) {
+                        <span
+                          class="cell-error"
+                          [class.fading]="fading"
+                        >{{ updateError }}</span>
+                      }
+                    </div>
+                  </td>
+                }
+              }
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>

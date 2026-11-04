@@ -1,0 +1,14 @@
+<div class="footer">
+  <!-- <h3 class="footer-title">ניווט מהיר</h3> -->
+  <nav class="footer-links">
+    @for (link of links; track link.label) {
+      <a
+        [routerLink]="[link.path]"
+        [queryParams]="link.queryParams"
+        class="footer-link"
+      >
+        {{ link.label }}
+      </a>
+    }
+  </nav>
+</div>

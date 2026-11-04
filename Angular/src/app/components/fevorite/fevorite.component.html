@@ -1,0 +1,54 @@
+<div class="favorites-container">
+
+  <header class="favorites-header">
+    <h1 class="favorites-title">המועדפים שלי</h1>
+    <p class="favorites-subtitle">המקומות ששמרתם — אטרקציות, מקומות לינה ומסלולים</p>
+  </header>
+
+  @if (allTheFavorite.length === 0) {
+    <div class="empty-state">
+      <img src="heart_blue.png" alt="לב" class="empty-state-icon" />
+      <p class="empty-state-text">אין עדיין מועדפים.</p>
+      <p class="empty-state-hint">הוסיפו מקומות שמעניינים אתכם כדי לראות אותם כאן</p>
+    </div>
+  } @else {
+    <div class="favorites-grid">
+      @for (item of allTheFavorite; track item.favoriteId) {
+        <article class="favorite-card">
+          <button
+            (click)="changeLikeStatus(item)"
+            class="like-button"
+            [attr.aria-label]="isLiked[$index] ? 'הסר מהמועדפים' : 'הוסף למועדפים'"
+          >
+            <img
+              class="like-icon"
+              [src]="isLiked[$index] ? 'heart_full_rose.png' : 'heart_blue.png'"
+              alt=""
+            />
+          </button>
+
+          <div class="favorite-details" (click)="openDialogForItem(item)">
+            <span class="favorite-type-badge">{{ item.itemType }}</span>
+            <h2 class="favorite-name">
+              @switch (item.itemType) {
+                @case ('attraction') {
+                  אטרקציה: {{ item.itemName }}
+                }
+                @case ('hostel') {
+                  אכסניית: {{ item.itemName }}
+                }
+                @case ('trail') {
+                  מסלול: {{ item.itemName }}
+                }
+                @default {
+                  {{ item.itemName }}
+                }
+              }
+            </h2>
+          </div>
+        </article>
+      }
+    </div>
+  }
+
+</div>

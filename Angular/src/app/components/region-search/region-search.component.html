@@ -1,0 +1,146 @@
+
+<br/>
+@if (isLoading) {
+  <div class="loading">טוען נתונים…</div>
+} @else {
+  <div class="region-search">
+    <!-- בחירת האזורים — למעלה -->
+    <div class="regions-panel">
+      <h3>בחירת אזור / אזורים:</h3>
+
+      <label class="all-toggle">
+        <input
+          type="checkbox"
+          [checked]="regions.length > 0 && selectedRegions.length === regions.length"
+          (change)="toggleAll($any($event.target).checked)"
+        />
+        בחירת כל האזורים
+      </label>
+
+      <div class="regions-list">
+        @for (r of regions; track r.id) {
+          <label class="region-item">
+            <input
+              type="checkbox"
+              [checked]="selectedRegions.includes(r.id)"
+              (change)="toggleRegion(r.id, $any($event.target).checked)"
+            />
+            {{ r.name }}
+          </label>
+        }
+      </div>
+    </div>
+
+    <!-- קפיצה מהירה לפחים השונים בתוצאות -->
+    @if (hasSelection) {
+      <nav class="jump-nav" aria-label="קפיצה מהירה למדורים">
+        <a (click)="jumpTo('cat-attractions')"><mat-icon>place</mat-icon> אטרקציות</a>
+        <a (click)="jumpTo('cat-hostels')"><mat-icon>hotel</mat-icon> מקומות לינה</a>
+        <a (click)="jumpTo('cat-trails')"><mat-icon>directions_walk</mat-icon> מסלולי הליכה</a>
+        <a (click)="jumpTo('cat-guides')"><mat-icon>person</mat-icon> מדריכות</a>
+      </nav>
+    }
+
+    <!-- תוצאות לפי האזורים שנבחרו -->
+    <div class="results">
+      @if (!hasSelection) {
+        <p class="hint">
+        {{username}}, תוכלי לבחור אחד או יותר אזורים כדי לראות את האטרקציות, מקומות הלינה,
+          מסלולי ההליכה והמדריכות שבאותם אזורים, לפי מה שמתאים לך!
+        </p>
+      } @else {
+        <section id="cat-attractions" class="category">
+          <h4>
+            <span><mat-icon class="cat-icon">place</mat-icon> אטרקציות ({{ filteredAttractions.length }})</span>
+          </h4>
+          @if (filteredAttractions.length === 0) {
+            <p class="empty">אין אטרקציות שידועות לנו באזורים שנבחרו</p>
+          }
+          <div class="results-list">
+          @for (a of filteredAttractions; track a.attractionId) {
+            <div class="row">
+              <span class="name">{{ a.attractionsName }}</span>
+              <span class="row-actions">
+                <span class="region">{{ regionName(a.regionId) }}</span>
+                <button
+                  class="details"
+                  title="פרטים"
+                  (click)="openAttraction(a)"
+                >
+                  <mat-icon>info</mat-icon>
+                </button>
+              </span>
+            </div>
+          }
+          </div>
+        </section>
+
+        <section id="cat-hostels" class="category">
+          <h4>
+            <span><mat-icon class="cat-icon">hotel</mat-icon> מקומות לינה ({{ filteredHostels.length }})</span>
+          </h4>
+          @if (filteredHostels.length === 0) {
+            <p class="empty">אין מקומות לינה שידועים לנו באזורים שנבחרו</p>
+          }
+          <div class="results-list">
+          @for (h of filteredHostels; track h.HostelsId) {
+            <div class="row">
+              <span class="name">{{ h.HostelsName }}</span>
+              <span class="row-actions">
+                <span class="region">{{ regionName(h.regionId) }}</span>
+                <button class="details" title="פרטים" (click)="openHostel(h)">
+                  <mat-icon>info</mat-icon>
+                </button>
+              </span>
+            </div>
+          }
+          </div>
+        </section>
+
+        <section id="cat-trails" class="category">
+          <h4>
+            <span><mat-icon class="cat-icon">directions_walk</mat-icon> מסלולי הליכה ({{ filteredTrails.length }})</span>
+          </h4>
+          @if (filteredTrails.length === 0) {
+            <p class="empty">אין מסלולי הליכה שידועים לנו באזורים שנבחרו</p>
+          }
+          <div class="results-list">
+          @for (t of filteredTrails; track t.WalkingTrailId) {
+            <div class="row">
+              <span class="name">{{ t.WalkingTrailName }}</span>
+              <span class="row-actions">
+                <span class="region">{{ regionName(t.regionId) }}</span>
+                <button class="details" title="פרטים" (click)="openTrail(t)">
+                  <mat-icon>info</mat-icon>
+                </button>
+              </span>
+            </div>
+          }
+          </div>
+        </section>
+
+        <section id="cat-guides" class="category">
+          <h4>
+            <span><mat-icon class="cat-icon">person</mat-icon> מדריכות ({{ filteredGuides.length }})</span>
+          </h4>
+          @if (filteredGuides.length === 0) {
+            <p class="empty">אין מדריכות שידועות לנו באזורים שנבחרו</p>
+          }
+          <div class="results-list">
+          @for (g of filteredGuides; track g.guideId) {
+            <div class="row">
+              <span class="name">{{ g.firstName }} {{ g.lastName }}</span>
+              <span class="row-actions">
+                <span class="region">{{ guideRegions(g.regionId) }}</span>
+                <button class="details" title="פרטים" (click)="openGuide(g)">
+                  <mat-icon>info</mat-icon>
+                </button>
+              </span>
+            </div>
+          }
+          </div>
+        </section>
+      }
+    </div>
+  </div>
+}

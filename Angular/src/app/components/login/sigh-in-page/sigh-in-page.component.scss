@@ -1,0 +1,169 @@
+.actions {
+  margin-top: 24px;
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+}
+
+.icon {
+  font-size: 18px;
+  opacity: 0.85;
+}
+.role-dialog .mat-mdc-dialog-container {
+  padding: 0;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.15);
+}
+
+/* בסיס הדיאלוג */
+.dialog-container {
+  direction: rtl;
+  text-align: center;
+
+   padding: 20px;
+  
+}
+
+/* HEADER */
+.dialog-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+ 
+}
+
+.title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #111;
+}
+
+.close-btn {
+  color: #6c757d;
+  transition: 0.2s ease;
+
+  &:hover {
+    color: #000;
+    transform: scale(1.1);
+  }
+}
+
+/* CONTENT */
+.content {
+  margin-top: 6px;
+  font-size: 14px;
+  color: #6c757d;
+}
+.dialog-container {
+  margin: 20px;
+}
+.logo {
+  width: 120px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="number"],
+input[type="password"],
+select {
+  width: 100%;
+  padding: 12px 15px;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  font-size: 16px;
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+
+  &:focus {
+    border-color: #004aad;
+    box-shadow: 0 0 8px #004AAD(0, 123, 255, 0.5);
+    outline: none;
+  }
+}
+
+.eyes {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.inputEye {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  justify-content: center;
+
+  input {
+    padding: 12px 40px 12px 15px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    width: 100%;
+
+    &:focus {
+      border-color: #004aad;
+      box-shadow: 0 0 8px #004AAD(0, 123, 255, 0.5);
+      outline: none;
+    }
+  }
+
+  button {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+}
+.red {
+  margin: 0px;
+}
+.toReset {
+  cursor: pointer;
+  &:hover {
+    color: #004aad;
+  }
+}
+
+
+.close-btn {
+  color: #6c757d;
+  transition: 0.2s ease;
+  border-radius: 50px;
+  border: 0px;
+
+  &:hover {
+    color: #000;
+    transform: scale(1.1);
+  }
+}
+mat-icon{
+      padding-top: 4px;
+
+}
+.btnAdd {
+  margin: 10px;
+  background-color: #ff5c67;
+  color: white;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+  display: flex;
+  align-items: center;
+  
+}
+
+.btnAdd:hover {
+  color: #004aad;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+}

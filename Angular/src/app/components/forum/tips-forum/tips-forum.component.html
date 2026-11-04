@@ -1,0 +1,142 @@
+<div>
+  <div class="icon-background"></div>
+
+  <div class="forumTips">
+    <!-- כותרת הפורום -->
+    <div class="titleOfForum">
+      <div class="forumHead">
+        <div class="forumTag">
+          @if(forumType==1){
+          <mat-icon>star</mat-icon>
+          <span>פורום המלצות</span>
+          }
+          @if(forumType==2){
+          <mat-icon>help</mat-icon>
+          <span>פורום שאלות</span>
+          }
+          @if(forumType==3){
+          <mat-icon>shield</mat-icon>
+          <span>פורום בטיחות</span>
+          }
+        </div>
+        @if(forumType==1){
+        <h3>
+          חזרתם ממסלול שווה? מצאתם מקום שלא כדאי לפספס? זה המקום לשתף ולהמליץ
+        </h3>
+        <h4>הגעת בזמן, יש המלצות שוות!</h4>
+        }
+        @if(forumType==2){
+        <h3>
+          פורום שאלות כלליות כאן תוכלו לקבל מידע כללי!
+        </h3>
+        }
+        @if(forumType==3){
+        <h3>
+          פורום בטיחות
+        </h3>
+        <h4>קראו כאן לפני שאתם יוצאים לדרך</h4>
+        }
+      </div>
+      @if((forumType==2)
+      ||(this.authService.hasPermission('respondInSafetyForum') && forumType==3)
+      || (forumType == 1)
+      ){
+      <button class="btn aadMessage" (click)="openDialogAddMessage(0, forumType)">
+        <mat-icon>edit</mat-icon>
+        כתיבת הודעה חדשה
+      </button>
+      }
+    </div>
+
+    <!-- רשימת ההודעות -->
+    <div class="messages">
+      @for (message of allTheMessage; track message.forumId) {
+      @if(!isReply(message)){
+      <div class="card">
+        <div class="card-body">
+          <div class="titleAndHeader">
+            <h5>{{ message.title }}</h5>
+            <div class="toDateAndUserEmail">
+              <div class="author">
+                <mat-icon class="person">person</mat-icon>
+                <p>
+                  {{ maskEmail(message.userEmail) }}
+                </p>
+              </div>
+              <p class="marginDate">{{ message.date | hebrewDateConverter | async }}</p>
+            </div>
+          </div>
+
+          <p class="message-text">{{ message.message }}</p>
+
+          @if((this.authService.hasPermission('respondInGeneralForum') && forumType==2)
+          ||(this.authService.hasPermission('respondInSafetyForum') && forumType==3)
+          || (forumType == 1)){
+          <div class="newPostAndGarbage">
+            <button class="garbage" (click)="DeletePost(message.forumId)" title="מחיקת ההודעה">
+              <mat-icon>delete_outline</mat-icon>
+            </button>
+            @if(message.parentForumId == 0){
+            <button class="btn aadMessage reply-btn" (click)="openDialogAddMessage(message.forumId, forumType)">
+              <mat-icon>reply</mat-icon>
+              תגובה להודעה זו
+            </button>
+            }
+          </div>
+          }
+        </div>
+
+        <!-- התגובות להודעה זו — שרשור/צ'אט, מופיעות בתוך כרטיס האב -->
+        <div class="card-replies">
+          @for (reply of allTheMessage; track reply.forumId) {
+          @if(isReply(reply) && reply.parentForumId == message.forumId){
+          <div class="reply">
+            <div class="reply-head">
+              <div class="author">
+                <mat-icon class="person">person</mat-icon>
+                <p>{{ maskEmail(reply.userEmail) }}</p>
+              </div>
+              <div class="reply-meta">
+                <p class="reply-date">{{ reply.date | hebrewDateConverter | async }}</p>
+                @if((this.authService.hasPermission('respondInGeneralForum') && forumType==2)
+                ||(this.authService.hasPermission('respondInSafetyForum') && forumType==3)
+                || (forumType == 1)){
+                <button class="garbage" (click)="DeletePost(reply.forumId)" title="מחיקת התגובה">
+                  <mat-icon>delete_outline</mat-icon>
+                </button>
+                }
+              </div>
+            </div>
+            <p class="reply-text">{{ reply.message }}</p>
+          </div>
+          }
+          }
+        </div>
+      </div>
+      }
+      }
+    </div>
+
+    <!-- @if((forumType==2)
+    ||(this.authService.hasPermission('respondInSafetyForum') && forumType==3)
+    || (forumType == 1)){
+    <div class="titleOfForum">
+      <button class="btn aadMessage" (click)="openDialogAddMessage(0, forumType)">
+        <mat-icon>edit</mat-icon>
+        כתיבת הודעה חדשה
+      </button>
+    </div>
+    } -->
+  </div>
+
+  <!-- כפתור צף ליצירת הודעה חדשה — תמיד בפינה הימנית התחתונה של המסך -->
+  @if((forumType==2)
+  ||(this.authService.hasPermission('respondInSafetyForum') && forumType==3)
+  || (forumType == 1)){
+  <button class="fab aadMessage" (click)="openDialogAddMessage(0, forumType)"
+    title="כתיבת הודעה חדשה">
+    <mat-icon>edit</mat-icon>
+    <span>הודעה חדשה</span>
+  </button>
+  }
+</div>

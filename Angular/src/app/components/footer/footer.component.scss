@@ -1,0 +1,30 @@
+.footer {
+  border-top: 1px solid #5f16eb;
+  background-color: rgba(70, 80, 255, 0.05);
+  padding: 20px;
+  direction: rtl;
+  text-align: center;
+    margin-top: auto; // ← מפתח הקסם, דוחף את הפוטר לתחתית
+
+}
+
+.footer-title {
+  margin: 0 0 10px 0;
+  color: #5f16eb;
+}
+
+.footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+}
+
+.footer-link {
+  color: #1d1d1f;
+  text-decoration: none;
+  cursor: pointer;
+  &:hover {
+    color: #0657c2;
+  }
+}

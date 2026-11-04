@@ -1,0 +1,182 @@
+.nf-wrapper {
+  position: relative;
+  min-height: calc(100vh - 100px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background: linear-gradient(160deg, #F6F6FF 0%, #ffffff 100%);
+  direction: rtl;
+  text-align: center;
+}
+
+.nf-card {
+  max-width: 480px;
+  width: 100%;
+}
+
+// בועות וכוכבים מרחפים ברקע
+.nf-stars {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.nf-star {
+  position: absolute;
+  color: #5F16EB;
+  opacity: 0.5;
+  animation: nf-float linear infinite;
+}
+
+.s1 { font-size: 2.4rem; top: 12%; left: 10%; animation-duration: 9s; }
+.s2 { font-size: 1.6rem; top: 20%; right: 14%; animation-duration: 11s; animation-delay: 1s; }
+.s3 { font-size: 2rem; bottom: 18%; left: 8%; animation-duration: 10s; animation-delay: 2s; }
+.s4 { font-size: 1.8rem; top: 8%; right: 8%; animation-duration: 12s; animation-delay: 0.5s; color: #FF5C67; }
+.s5 { font-size: 2.2rem; bottom: 10%; right: 20%; animation-duration: 8s; animation-delay: 1.5s; }
+.s6 { font-size: 1.4rem; top: 45%; left: 5%; animation-duration: 13s; animation-delay: 3s; }
+.s7 { font-size: 1.9rem; bottom: 30%; left: 20%; animation-duration: 10s; animation-delay: 2.5s; color: #FF5C67; }
+.s8 { font-size: 1.5rem; top: 60%; right: 10%; animation-duration: 11s; animation-delay: 4s; }
+.s9  { font-size: 1.7rem; top: 28%; right: 30%; animation-duration: 9s; animation-delay: 5s; }
+.s10 { font-size: 2.1rem; bottom: 15%; left: 30%; animation-duration: 12s; animation-delay: 6s; color: #FF5C67; }
+.s11 { font-size: 1.3rem; top: 70%; left: 22%; animation-duration: 10s; animation-delay: 3.5s; }
+.s12 { font-size: 1.9rem; bottom: 40%; right: 6%; animation-duration: 8.5s; animation-delay: 1.8s; }
+.s13 { font-size: 1.5rem; top: 15%; right: 45%; animation-duration: 13s; animation-delay: 7s; color: #FF5C67; }
+.s14 { font-size: 2rem; bottom: 8%; right: 40%; animation-duration: 11s; animation-delay: 2.2s; }
+
+.nf-code {
+  font-size: 7rem;
+  font-weight: 900;
+  line-height: 1;
+  color: #5F16EB;
+  letter-spacing: 6px;
+  margin-bottom: 0.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.nf-zero {
+  color: #FF5C67;
+  display: inline-block;
+  font-size: 6.5rem;
+  margin: 0 0.2rem;
+}
+
+.nf-title {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: #1d1d1f;
+  margin-bottom: 0.5rem;
+  font-family: "Heebo", sans-serif;
+}
+
+.nf-subtitle {
+  font-size: 1.05rem;
+  color: #666;
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+.nf-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.nf-btn {
+  border: none;
+  border-radius: 14px;
+  padding: 0.9rem 2.2rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.nf-btn-primary {
+  color: #ffffff;
+  background: linear-gradient(135deg, #5F16EB 0%, #7c79ae 100%);
+  box-shadow: 0 8px 20px rgba(95, 22, 235, 0.3);
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 26px rgba(95, 22, 235, 0.4);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+.nf-btn-icon {
+  font-size: 1.3rem;
+  line-height: 1;
+}
+
+.nf-btn-ghost {
+  color: #5F16EB;
+  background: transparent;
+  border: 1.5px solid #5F16EB;
+
+  &:hover {
+    background: #F6F6FF;
+    transform: translateY(-2px);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+.nf-links {
+  margin-top: 1.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.nf-hint {
+  font-size: 0.9rem;
+  color: #999;
+}
+
+.nf-link {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #5F16EB;
+  cursor: pointer;
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+
+  &:hover {
+    opacity: 0.75;
+    text-decoration: underline;
+  }
+}
+
+.nf-dot {
+  color: #ccc;
+}
+
+@keyframes nf-float {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 0.4;
+  }
+  50% {
+    transform: translateY(-30px) rotate(20deg);
+    opacity: 0.7;
+  }
+  100% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 0.4;
+  }
+}

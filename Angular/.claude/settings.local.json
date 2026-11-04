@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx tsc *)",
+      "Bash(cd /tmp)",
+      "Bash(python -c ' *)",
+      "Bash(cd \"/c/Users/הני בורודיאנסקי/Documents/henny GuideX/GuideX_webapi\"; ls GuideX/Data/ GuideX/Entities/ 2>&1)",
+      "Read(//c/Users/הני בורודיאנסקי/Documents/henny GuideX/GuideX_webapi/**)",
+      "Bash(cd \"/c/Users/הני בורודיאנסקי/Documents/henny GuideX\"; grep -n -iE \"CREATE TABLE \\\\[?Users|FirstName|LastName|City.*\\(varchar|nvarchar\\)|CREATE TABLE.*UpFiles|PathToFile|fileName\" PROJECT_GUIDEX.sql | head -60)",
+      "Read(//c/Users/הני בורודיאנסקי/Documents/henny GuideX/**)"
+    ]
+  }
+}

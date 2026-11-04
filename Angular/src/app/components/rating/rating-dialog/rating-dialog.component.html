@@ -1,0 +1,83 @@
+<div class="hostel-dialog">
+  <div class="dialog-header">
+    <h3 class="add-title">דירוג {{ data.entityName ?? data.entityType }}</h3>
+    <button (click)="onClose()" class="action-btn cancel">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <div class="dialog-body">
+    <!-- טעינה / שגיאה / ריק -->
+    @if (isLoading) {
+      <div class="feedback loading">טוען דירוגים…</div>
+    } @else if (errorMessage) {
+      <div class="feedback error">{{ errorMessage }}</div>
+    } @else {
+      <!-- סיכום: ממוצע + מספר הדירוגים -->
+      <div class="summary">
+        <span class="stars" aria-label="ממוצע">
+          <ng-container *ngFor="let i of [1,2,3,4,5]">
+            <mat-icon [class.filled]="i <= averageRounded">star</mat-icon>
+          </ng-container>
+        </span>
+        <span class="score">{{ list.average | number:'1.0-1' }} ({{ list.count }} דירוגים)</span>
+      </div>
+
+      <!-- רשימת הדירוגים -->
+      @if (list.ratings.length === 0) {
+        <div class="feedback empty">עדיין אין דירוגים.</div>
+      } @else {
+        <div class="ratings">
+          @for (r of list.ratings; track r.ratingId) {
+            <div class="rating-item">
+              <div class="rating-top">
+                <span class="who">{{ raterName(r) }}</span>
+                <span class="stars-sm">
+                  <ng-container *ngFor="let i of [1,2,3,4,5]">
+                    <mat-icon [class.filled]="i <= r.numberOfStars">star</mat-icon>
+                  </ng-container>
+                </span>
+                @if (r.date) {
+                  <span class="date">{{ r.date | hebrewDateConverter | async }}</span>
+                }
+              </div>
+              @if (r.note) {
+                <div class="note">{{ r.note }}</div>
+              }
+            </div>
+          }
+        </div>
+      }
+
+      <!-- טופס הוספה — רק למרכזת פעילה -->
+      @if (canAdd && !isSubmitting) {
+        <div class="add-form">
+          <h3>הוספת דירוג</h3>
+          <div class="star-picker">
+            @for (s of starOptions; track s) {
+              <mat-icon
+                class="pick"
+                [class.filled]="s <= selectedStars"
+                (click)="pickStar(s)">star</mat-icon>
+            }
+          </div>
+          <textarea
+            [(ngModel)]="note"
+            rows="3"
+            maxlength="600"
+            placeholder="כתבו הערה לדירוג (עד 600 תווים)"></textarea>
+          @if (submitError) {
+            <div class="feedback error">{{ submitError }}</div>
+          }
+        </div>
+      }
+    }
+  </div>
+
+  <div class="dialog-footer">
+    <button (click)="submit()" class="action-btn save" *ngIf="canAdd && !isSubmitting">
+      <mat-icon>check</mat-icon>
+      <span>שמירת דירוג</span>
+    </button>
+  </div>
+</div>

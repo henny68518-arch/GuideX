@@ -1,0 +1,32 @@
+:host {
+    display: flex;
+    flex-direction: column;
+    height: 100vh; /* מכסה את כל גובה הצפייה */
+}
+
+app-header {
+    position: sticky;
+    top: 0;
+    z-index: 1000; /* מופיע מעל כל התוכן האחר */
+    height: 100px; /* הגובה של ה-header */
+    flex: 0 0 100px; /* נשאר קבוע בגובהו גם בתוך ה-flex */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* הוספת צל */
+}
+
+.router_outlet {
+    flex: 1; /* ממלא את כל החלל שבין ה-header ל-footer */
+    min-height: 0; /* מאפשר הצטמקות והתגלגלות נכונה */
+    overflow-y: auto; /* מאפשר גלילה אנכית אם התוכן גבוה מהחלל הפנוי */
+    display: flex;
+    flex-direction: column;
+}
+
+/* כל ה-child שבאים מ-<router-outlet> (הקומפוננטה)
+   והפוטר מתחילים מראש המכל, אחד אחרי השני */
+.router_outlet > :not(app-footer) {
+    flex: 0 0 auto;
+}
+
+app-footer {
+    flex: 0 0 auto;
+}

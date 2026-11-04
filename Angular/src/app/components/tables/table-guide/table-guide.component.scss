@@ -1,0 +1,143 @@
+
+
+.table-walking-trail {
+  width: 96%;
+  margin: 20px auto;
+}
+
+/* לוח הסינון: חיפוש חופשי + סינון לפי אזורי התמחות */
+.filter-panel {
+  width: 96%;
+  margin: 20px auto 0;
+  padding: 12px;
+  background-color: #f6f6ff;
+  border-radius: 8px;
+  font-family: heebo, sans-serif;
+  direction: rtl;
+}
+
+.search-input {
+  width: 100%;
+  padding: 8px 12px;
+  font-size: 15px;
+  font-family: heebo, sans-serif;
+  border: 1px solid #c5b8f0;
+  border-radius: 6px;
+  outline: none;
+}
+
+.search-input:focus {
+  border-color: #5f16eb;
+}
+
+.areas-filter {
+  margin-top: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.areas-label {
+  font-weight: bold;
+  color: #5f16eb;
+}
+
+.area-check {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.HeaderOnTable {
+  font-size: 18px;
+  font-weight: bold;
+  font-family: heebo, sans-serif;
+  direction: rtl;
+  text-align: right;
+  background-color: #f6f6ff;
+  border-bottom-color: #5f16eb;
+}
+
+.contentTable {
+  font-size: 16px;
+  font-family: heebo, sans-serif;
+  font-weight: 300;
+  direction: rtl;
+  text-align: right;
+  border-bottom-color: #5f16eb;
+}
+
+.paginator {
+  direction: ltr;
+  display: flex;
+  justify-content: center;
+  font-size: 11px;
+  font-family: heebo, sans-serif;
+}
+
+table {
+  direction: rtl;
+}
+
+.notFoundInFilter {
+  text-align: center;
+  color: #888;
+  font-family: heebo, sans-serif;
+}
+
+.showDetails {
+  border: 0px;
+  background-color: #f6f6ff96;
+  border-radius: 50px;
+}
+
+.showDetails:hover {
+  background-color: #d9d0f5;
+}
+
+.showDetelis-icon {
+  font-weight: lighter;
+  font-size: larger;
+  color: rgb(35, 35, 34);
+  padding-top: 7px;
+}
+
+mat-icon {
+  padding-top: 4px;
+}
+
+/* כפתור איפוס המסננים — מעוצב להתאים ללוח הסינון */
+.Reset_feeder {
+  margin-top: 10px;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.reset {
+  padding: 6px 14px;
+  color: #ff5c67;
+  background-color: transparent;
+  border: 1px solid #ff5c67;
+  border-radius: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-family: heebo, sans-serif;
+  font-size: 14px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.reset:hover {
+  color: #ffffff;
+  background-color: #ff5c67;
+}
+
+.reset .mat-icon-btn {
+  font-size: 18px;
+  display: inline-flex;
+  align-items: center;
+}

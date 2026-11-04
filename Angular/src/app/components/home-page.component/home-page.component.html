@@ -1,0 +1,144 @@
+<!-- <app-header></app-header> -->
+
+<div class="home-page-container">
+  <!-- <br /><br /><br /><br /><br /> -->
+  <!-- <app-fevorite></app-fevorite> -->
+
+  <div class="buttenOpen">
+    <div class="btnOpen">
+      <div class="forumBtn">
+        <div class="buttonShow">
+          <button class="open btn" (click)="openRegionSearch()">
+            <div class="button-content">
+              <span class="default-text">חיפוש לפי אזור <br /></span>
+              <span class="hover-text"
+                >כאן תגלי מידע שמרוכז לפי האזורים שתבחרי</span
+              >
+
+              <span><mat-icon>travel_explore</mat-icon></span>
+            </div>
+          </button>
+        </div>
+        <div class="buttonShow">
+          <button class="open btn" (click)="openTrails()">
+            <div class="button-content">
+             
+              <span class="default-text">מסלולי הליכה <br /></span>
+              <span class="hover-text"
+                >כאן תגלי מידע על מסלולי הליכה שונים</span
+              >
+
+              <span><mat-icon>hiking</mat-icon></span>
+            </div>
+          </button>
+        </div>
+        <div class="buttonShow">
+          <button class="open btn" (click)="openHostelsTable()">
+            <div class="button-content">
+              <span class="default-text">מקומות לינה<br /></span>
+              <span class="hover-text">כאן תגלי מידע על מקומות לינה שונים</span>
+
+              <span><mat-icon>bed</mat-icon></span>
+            </div>
+          </button>
+        </div>
+        <div class="buttonShow">
+          <button class="open btn" (click)="openGuides()">
+            <div class="button-content">
+              <span class="default-text">מדריכות<br /></span>
+              <span class="hover-text">כאן תגלי מידע על מדריכות שונות</span>
+
+              <span><mat-icon>person_pin</mat-icon></span>
+            </div>
+          </button>
+        </div>
+        <div class="buttonShow">
+          <button class="open btn" (click)="openAttractions()">
+            <div class="button-content">
+              <span class="default-text">אטרקציות<br /></span>
+              <span class="hover-text"
+                >כאן תגלי מידע רחב על אטרקציות ומקומות פעילות</span
+              >
+
+              <span><mat-icon>attractions</mat-icon></span>
+            </div>
+          </button>
+        </div>
+        <div class="buttonShow">
+          <button class="open btn" (click)="openHalls()">
+            <div class="button-content">
+              <span class="default-text">אולמות<br /></span>
+              <span class="hover-text"
+                >אפשרות זו אינה פעילה כרגע, אנחנו עובדים עליה כדי לספק לך את
+                השירות בצורה הטובה ביותר</span
+              >
+
+              <!-- <span><mat-icon>groups</mat-icon></span> -->
+              <span><mat-icon>event_seat</mat-icon></span>
+              <!-- <span><mat-icon>account_balance</mat-icon></span> -->
+            </div>
+          </button>
+        </div>
+        @if (this.authService.hasPermission("userManagement")) {
+          <div class="buttonShow">
+            <button class="open btn" (click)="openAdminGuides()">
+              <div class="button-content">
+                <span class="default-text">דף ניהול מדריכות<br /></span>
+                <span class="hover-text">כאן תנהלי את אישור המדריכות</span>
+
+                <span><mat-icon>admin_panel_settings</mat-icon></span>
+              </div>
+            </button>
+          </div>
+          <div class="buttonShow">
+            <button class="open btn" (click)="openAdminUsers()">
+              <div class="button-content">
+                <span class="default-text">ניהול הרשאות <br /></span>
+                <span class="hover-text"
+                  >כאן תנהלי את ההרשאות המשתמשים במערכת</span
+                >
+
+                <span><mat-icon>manage_accounts</mat-icon></span>
+              </div>
+            </button>
+          </div>
+        }
+        <div class="buttonShow">
+          <button class="open btn" (click)="openTipsForum(1)">
+            <div class="button-content">
+              <span class="default-text">פורום חוויות והמלצות<br /></span>
+              <span class="hover-text"
+                >כאן תגלי מידע על חוויות והמלצות מכל הקהילה שלנו</span
+              >
+
+              <span><mat-icon>speaker_notes</mat-icon></span>
+            </div>
+          </button>
+        </div>
+        <div class="buttonShow">
+          <button class="open btn" (click)="openTipsForum(2)">
+            <div class="button-content">
+              <span class="default-text">פורום מידע כללי<br /></span>
+              <span class="hover-text">כאן תגלי מידע כללי</span>
+
+              <span><mat-icon>live_help</mat-icon></span>
+            </div>
+          </button>
+        </div>
+        <div class="buttonShow">
+          <button class="open btn" (click)="openTipsForum(3)">
+            <div class="button-content">
+              <span class="default-text">פורום בטיחות <br /></span>
+              <span class="hover-text"
+                >כאן תגלי את מידע על בטיחות שצריך לפני היציאה לטיול</span
+              >
+
+              <span><mat-icon>warning</mat-icon></span>
+            </div>
+          </button>
+        </div>
+      </div>
+    </div>
+   
+  </div>
+</div>

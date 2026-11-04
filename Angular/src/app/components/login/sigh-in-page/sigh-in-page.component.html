@@ -1,0 +1,85 @@
+<div class="dialog-container">
+  <div class="dialog-header">
+    <img src="logo_for_light.png" alt="לוגו" class="logo" />
+    <button mat-icon-button (click)="onClose()" class="close-btn">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <p class="title">התגעגנו...</p>
+
+  <form
+    [formGroup]="formLogIn"
+    (ngSubmit)="login()"
+    class="modal-content"
+    action="/action_page.php"
+  >
+    <div>
+      <label>אימייל:</label>
+      <input type="text" formControlName="Email" (input)="changeInput()"/>
+    </div>
+
+    @if (formLogIn.get("Email")?.touched) {
+      @if (formLogIn.get("Email")?.hasError("required")) {
+        <div class="red">אויששש, שכחת אותי....</div>
+      }
+      @else if (formLogIn.get("Email")?.hasError("email")) {
+        <div class="red">יש להכניס אימייל תקין⚠️</div>
+      }
+    }
+    <label>סיסמה</label>
+    <div class="inputEye">
+      <input
+        [type]="showPassword ? 'text' : 'password'"
+        formControlName="UserPassword"
+         (input)="changeInput()"
+      />
+      <button type="button" class="eyes" (click)="PasswordVisibility()">
+        @if (!showPassword) {
+          <mat-icon>visibility</mat-icon>
+        } @else {
+          <mat-icon>visibility_off</mat-icon>
+        }
+      </button>
+    </div>
+  
+
+    @if (formLogIn.get("UserPassword")?.touched) {
+      @if (formLogIn.get("UserPassword")?.hasError("required")) {
+        <div class="red">אויששש, שכחת אותי....</div>
+      }
+      @else if (formLogIn.get("UserPassword")?.hasError("invalidpassword")) {
+        <div class="red">
+          יש להכניס סיסמה עם אותיות גדולות וקטנות, מספרים ותווים מיוחדים⚠️
+        </div>
+      }
+    }
+
+    <br /><br />
+
+    <p class="toReset" (click)="openReset()">
+      שכחת סיסמה? לא נורא לחצי כאן לאיפוס
+    </p>
+
+    <button
+      class="btn btn-outline-secondary signupbtn"
+      type="submit"
+      [disabled]="formLogIn.invalid"
+    >
+      כניסה
+    </button>
+
+      @if (userNotFount) {
+      <div>
+        <br/>
+      <button class="btnAdd btn" 
+      
+      (click)="openDialogRegistrations()">
+        <span>רוצה להיצטרף אלינו?</span>
+        <span>
+          <mat-icon class="mat-icon-btn">person_add</mat-icon>
+        </span>
+      </button>
+      </div>
+    }
+  </form>
+</div>

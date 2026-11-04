@@ -1,0 +1,151 @@
+<div class="reka">
+  @if(this.authService.hasPermission('editHostels')) {
+    <div class="button-container">
+      <button class="filterToFind_not_showSearch" (click)="newHostel()">הוספת מקום לינה</button>
+    </div>
+  }
+  <!-- <div [class]="showSearch ? 'winSearch' : 'winSearch_not_ShowSearch'">
+    
+  </div> -->
+  <div class="filter-panel">
+    <input
+      type="text"
+      class="search-input"
+      (input)="filterTable()"
+      id="searchControl"
+      #searchControl
+      placeholder="חיפוש חופשי: שם, אזור, כשרות, תיאור..."
+    />
+
+    <div class="areas-filter">
+      <span class="areas-label">סינון לפי אזורים:</span>
+      @for (item of RegionsArrayData; track item.regionId) {
+        <label class="area-check">
+          <input type="checkbox" [checked]="selectedRegions.includes(+item.regionId)"
+            (change)="toggleRegion(+item.regionId, $any($event.target).checked)" />
+          {{ item.regionName }}
+        </label>
+      }
+    </div>
+
+    <div class="Reset_feeder">
+      <button type="button" class="reset btn" (click)="resetFilters()">
+        <span>איפוס המסננים</span>
+        <span>
+          <mat-icon class="mat-icon-btn">filter_alt_off</mat-icon>
+        </span>
+      </button>
+    </div>
+  </div>
+  @if (dataSource.data == null || dataSource.data.length === 0) {
+  <h3 class="notFoundInFilter">לא נמצאו מקומות לינה המתאימים לחיפוש</h3>
+  <div class="Reset_feeder">
+    <button mat-button class="reset btn" (click)="resetFilters()">
+      <span>לאיפוס המסננים</span>
+      <span>
+        <mat-icon class="mat-icon-btn">filter_alt_off</mat-icon>
+      </span>
+    </button>
+  </div>
+  } @else {
+  <div class="mat-elevation-z8 table-walking-trail">
+
+
+
+    <table mat-table [dataSource]="dataSource" class="table" matSort>
+
+      <ng-container matColumnDef="like">
+<<<<<<< HEAD
+        <th mat-header-cell *matHeaderCellDef></th>
+=======
+        <th mat-header-cell *matHeaderCellDef ></th>
+>>>>>>> 9f9ae37ac5ba6a38b0a6e5ce0d8d9800cabbaeff
+
+        <td mat-cell *matCellDef="let element">
+
+          <button class="likeButton" (click)="toggleFavorite(userDetails?.userId, element.HostelsId, 'hostel')">
+
+            <img class="img_like" [src]="
+      isLiked['hostel-' + element.HostelsId]
+        ? 'heart_full_blue.png'
+            : 'heart_blue.png'
+    " />
+
+          </button>
+
+        </td>
+      </ng-container>
+
+      <!-- HostelsName Column -->
+      <ng-container matColumnDef="HostelsName">
+        <th mat-header-cell *matHeaderCellDef class="HeaderOnTable" mat-sort-header>
+          | שם מקום הלינה
+        </th>
+        <td mat-cell *matCellDef="let element" class="contentTable">
+          {{ element.HostelsName }}
+        </td>
+      </ng-container>
+      <!-- Description Column -->
+      <ng-container matColumnDef="Description">
+        <th mat-header-cell *matHeaderCellDef class="HeaderOnTable" mat-sort-header>| תיאור</th>
+        <td mat-cell *matCellDef="let element" class="contentTable">
+          {{ element.Description ? element.Description.substring(0, 30) : '' }}{{ element.Description?.length > 30 ?
+          '...' : element.Description ? '.' : '' }}
+        </td>
+      </ng-container>
+
+      <!-- regionId Column -->
+      <ng-container matColumnDef="regionId">
+        <th mat-header-cell *matHeaderCellDef class="HeaderOnTable" mat-sort-header>| אזור</th>
+        <td mat-cell *matCellDef="let element" class="contentTable">
+          {{ element.regionId | regionName | async }}
+        </td>
+      </ng-container>
+
+      <!-- NumberOfPlaces Column -->
+      <ng-container matColumnDef="NumberOfPlaces">
+        <th mat-header-cell *matHeaderCellDef class="HeaderOnTable" mat-sort-header>
+          <div class="sort">
+            | מספר מקומות
+            <!-- <button (click)="sortByNumOFPlaces()" class="showDetails">
+              @if (!sortByPlaces) {
+              <mat-icon>arrow_downward</mat-icon>
+              } @else {
+              <mat-icon>arrow_upward</mat-icon>
+              }
+            </button> -->
+          </div>
+        </th>
+        <td mat-cell *matCellDef="let element" class="contentTable">
+          {{ element.NumberOfPlaces }}
+        </td>
+      </ng-container>
+
+      <!--kashrutId Column-->
+      <ng-container matColumnDef="kashrutId">
+        <th mat-header-cell *matHeaderCellDef class="HeaderOnTable" mat-sort-header>| כשרות</th>
+        <td mat-cell *matCellDef="let element" class="contentTable">
+          {{ element.kashrutId | kashrutName | async }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="DetailsButton">
+        <th mat-header-cell *matHeaderCellDef class="HeaderOnTable" mat-sort-header></th>
+        <td mat-cell *matCellDef="let element" class="contentTable">
+          <button class="showDetails" (click)="openDialogRegistrations(element)">
+            <mat-icon class="showDetelis-icon">zoom_in</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+
+    <mat-paginator [pageSizeOptions]="[20, 30, 50]" showFirstLastButtons aria-label="בחירת עמוד" class="paginator"
+      [length]="dataSource?.data?.length">
+    </mat-paginator>
+  </div>
+  }
+</div>

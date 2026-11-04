@@ -1,0 +1,21 @@
+<div class="dialog-container">
+  <div class="dialog-header">
+    <img src="logo_for_light.png" alt="לוגו" class="logo" />
+    <button mat-icon-button (click)="onClose()" class="close-btn">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <p class="title">שלום לך מוזמנת להצטרף אלינו!!</p>
+  <!-- <app-new-user-registrations></app-new-user-registrations> -->
+
+  <div ngTabs class="tabs">
+    <mat-tab-group>
+      <mat-tab label="רכזת">
+        <app-coordinator-registrations></app-coordinator-registrations>
+      </mat-tab>
+      <mat-tab label="מדריכת טיולים">
+        <app-guide-registrations></app-guide-registrations>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</div>

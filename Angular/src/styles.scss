@@ -1,0 +1,251 @@
+/* You can add global styles to this file, and also import other style files */
+@import "primeicons/primeicons.css";
+html,
+body {
+  height: 100%;
+    margin: 0;
+
+}
+body {
+  margin: 0;
+  font-family: "Heebo", sans-serif;
+  color: #1d1d1f;
+  background-color: #fffeff;
+}
+.red {
+  color: red;
+  font-size: 0.9rem;
+  margin-top: -30px;
+}
+
+
+.sort{
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: baseline;
+    justify-content: space-between;
+}
+
+
+.filterToFind {
+    padding: 20px;
+    // border: 1px solid #5F16EB;
+    background-color: #F6F6FF;
+    border-radius: 5px;
+    margin:15px;
+    width: 70%;
+}
+//לבדוק למה לא עובד
+.filterToFind_not_showSearch{
+    
+    padding: 10px;
+    border: 1px solid #5F16EB;
+    background-color: #F6F6FF;
+    border-radius: 5px;
+    margin:15px;
+    width: 195px;
+    margin-left: calc(15px + 5%);
+    
+
+}
+.filter {
+    
+    display: flex;
+    justify-content: space-around;
+    align-items: center; /* מרכז את התוכן בתוך השורה */
+    flex-wrap: wrap;
+}
+
+.filter-item {
+    margin-right: 15px; /* רווח בין הפריטים */
+}
+
+label {
+    font-weight: bold;
+    margin-right: 5px; /* רווח בין התווית ל-select */
+    margin-left: 5px;
+}
+
+select {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-right: 5px;
+        margin-left: 5px;
+
+
+}
+
+.search {
+    padding: 5px 10px;
+    background-color: #FF5C67;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 10px;
+    transition: transform 0.2s ease, 
+    box-shadow 0.2s ease; 
+    display: flex;
+    align-items: center;
+}
+
+.search:hover {
+    color: #004aad;
+    transform: translateY(-1px); 
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+}
+
+
+option:hover {
+  background-color: #7c79ae;
+  color: white;
+}
+
+.winSearch {
+    display: flex;
+    // justify-content: center; /* מרכז את התוכן לרוחב */
+    flex-direction: column;
+    align-items: center;
+
+}
+.winSearch_not_ShowSearch{
+    display: flex;
+    justify-content: flex-end;
+    
+}
+
+.toFilter {
+ display: flex;
+     justify-content: space-between;
+    //  gap: 39px;
+}
+
+.img_search{
+    height: 55px;
+    margin-left: 4px;
+}
+
+.img_search :hover{
+    height: 65px;
+}
+.label_search{
+    display: flex;
+    align-items: flex-end;
+        transition: transform 0.2s ease, 
+    box-shadow 0.2s ease; 
+}
+
+
+
+.Reset_feeder{
+    display: flex;
+    justify-content: center;
+}
+.reset{
+    padding: 5px 10px;
+    color: #FF5C67;
+    background-color: transparent;
+   border:1px solid #FF5C67;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 10px;
+    transition: transform 0.2s ease, 
+    box-shadow 0.2s ease; 
+    display: flex;
+    align-items: center
+}
+
+.reset:hover {
+    color: #004aad;
+ background-color: #FF5C67;
+    transform: translateY(-1px); 
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+}
+
+.reka{
+    // background-color: #FAFAFF;
+    // background-color: #FDFDFF;
+    background-color: #FFFEFF;
+        box-shadow: 0 4px 10px rgba(0.4, 0.4, 0.4, 0.4);
+        width: 94%;
+        padding: 25px;
+         margin: 25px auto;
+         border-radius: 12px;
+
+}
+.notFoundInFilter{
+    //לא עובד
+    text-align: center;
+    font-size: 24px;
+  font-weight: bold;
+  margin-top: 20px;
+}
+/* Importing Bootstrap SCSS file. */
+@import 'bootstrap/scss/bootstrap';
+
+/* Importing Bootstrap SCSS file. */
+@import 'bootstrap/scss/bootstrap';
+
+
+.img_like{
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    
+}
+.likeButton{
+    border: 0px;
+    background-color: transparent;
+  
+   
+    cursor: pointer;
+    &:hover{
+        transform: scale(1.1);
+    }
+}
+.likeAndEdit{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+
+
+.role-dialog .mat-dialog-container {
+  /* If not needed, this could be removed */
+  /* border-radius: 5px !important; */
+}
+.mat-dialog-container {
+  border-radius: 5px !important; /* קצוות מעוגלים של 5 פיקסלים */
+  overflow: hidden; /* מוסיף כדי למנוע קצוות מעוגלים של אלמנטים בתוך הפופאפ */
+}
+
+/* ═══════════════════════════════════════════════════════════
+   פוטר תחתון (sticky footer):
+   - ה-div (router_outlet) בגובה מלא של המסך
+   - התוכן (הקומפוננטה שבתוך ה-router-outlet) ממלא את החלל
+   - הקומפוננטה ממורכזת בחלל הפנוי (בדף קצר)
+   - הפוטר נדחף לתחתית העמוד
+   ממוקם ב-global כדי לוודא שה-selectors תופסים את הקומפוננטה
+   שנטענת בתוך ה-router-outlet (יש לה view encapsulation משלה)
+═══════════════════════════════════════════════════════════ */
+.router_outlet {
+  display: flex;
+  flex-direction: column;
+  /* header בגובה 100px נמצא מחוץ ל-div, מחסירים אותו כדי שהפוטר יגיע לתחתית המסך */
+  min-height: calc(100vh - 100px);
+}
+
+/* תגית ה-router-outlet ממלאת את כל החלל הפנוי */
+.router_outlet router-outlet {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* הקומפוננטה הנטענת מתמרכזת אנכית ואופקית בחלל הפנוי (בדף קצר) */
+.router_outlet router-outlet > * {
+  margin: auto;
+}

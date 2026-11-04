@@ -1,0 +1,366 @@
+.admin-page {
+  direction: rtl;
+  max-width: 1500px;
+  margin: 50px auto;
+  padding: 24px 20px;
+  font-family: heebo, sans-serif;
+  color: #444;
+}
+
+.page-title {
+  color: #5f16eb;
+  border-bottom: 2px solid #dccdf5;
+  padding-bottom: 10px;
+  margin: 0 0 22px;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+/* ── תיבת החיפוש החופשי ── */
+.search-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  max-width: 380px;
+  margin-bottom: 22px;
+}
+
+.search-icon {
+  position: absolute;
+  right: 12px;
+  color: #a78fd6;
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+  pointer-events: none;
+}
+
+.search-input {
+  width: 100%;
+  border: 1.5px solid #dccdf5;
+  border-radius: 24px;
+  padding: 9px 40px 9px 34px;
+  font-family: heebo, sans-serif;
+  font-size: 14px;
+  color: #444;
+  background-color: #faf8ff;
+  transition: border-color 0.18s, box-shadow 0.18s, background-color 0.18s;
+}
+
+.search-input::placeholder {
+  color: #b3a6cf;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #6f2fe0;
+  background-color: #ffffff;
+  box-shadow: 0 3px 10px rgba(111, 47, 224, 0.15);
+}
+
+.search-clear {
+  position: absolute;
+  left: 8px;
+  border: none;
+  background: none;
+  color: #a78fd6;
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 50%;
+  transition: color 0.15s, background-color 0.15s;
+}
+
+.search-clear:hover {
+  color: #6f2fe0;
+  background-color: #f0eaff;
+}
+
+
+.loading,
+.empty,
+.error {
+  text-align: center;
+  padding: 50px 0;
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.loading {
+  color: #7a2be6;
+}
+
+.empty {
+  color: #a99;
+}
+
+.error {
+  // color: #e83a45;
+    color: #FF5656;
+
+  background-color: #fff0f1;
+  border: 1px solid #ffb3b8;
+  border-radius: 10px;
+  padding: 18px;
+}
+
+/* ── רשת הכרטיסים: 2 בעמוד ── */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 30px;
+  align-items: start;
+}
+
+/* מסך צר — עמודה אחת. */
+// @media (max-width: 760px) {
+//   .cards {
+//     grid-template-columns: 1fr;
+//   }
+// }
+
+/* ── כרטיס מדריכה ── */
+.guide-card {
+  border: 1.5px solid #dccdf5;
+  border-radius: 12px;
+  background-color: #ffffff;
+  box-shadow: 0 3px 12px rgba(111, 47, 224, 0.08);
+  overflow: hidden;
+  min-width: 0; /* מאפשר כיווץ תקין בתוך עמודת grid */
+  transition: box-shadow 0.2s, border-color 0.2s;
+}
+
+.guide-card:hover {
+  box-shadow: 0 6px 18px rgba(111, 47, 224, 0.15);
+  border-color: #cfbaf0;
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  background-color: #f5f0ff;
+  border-bottom: 1px solid #e3d8f8;
+}
+
+.avatar-icon {
+  color: #6f2fe0;
+  font-size: 22px;
+  width: 22px;
+  height: 22px;
+}
+
+.name {
+  margin: 0;
+  color: #3c3c3c;
+  font-size: 16px;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.card-body {
+  padding: 10px 14px 4px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px 12px;
+}
+
+.field {
+  display: flex;
+  gap: 6px;
+  font-size: 13.5px;
+  min-width: 0;
+}
+
+.label {
+  color: #6f2fe0;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.value {
+  color: #3c3c3c;
+  font-weight: 400;
+  word-break: break-word;
+}
+
+/* ── קבצים (קורות חיים ותעודות) ── */
+.files-section {
+  padding: 4px 14px 10px;
+}
+
+.files-section h4 {
+  margin: 8px 0 6px;
+  color: #6f2fe0;
+  font-size: 13px;
+  font-weight: 600;
+  border-bottom: 1px dashed #dccdf5;
+  padding-bottom: 4px;
+}
+
+.no-files {
+  color: #a99;
+  font-style: italic;
+  margin: 4px 0;
+  font-size: 13px;
+}
+
+.files-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.files-list li {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+
+.file-icon {
+  color: #6f2fe0;
+  font-size: 16px;
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+.file-kind {
+  color: #6f2fe0;
+  font-size: 11.5px;
+  background-color: #f5f0ff;
+  border: 1px solid #dccdf5;
+  border-radius: 12px;
+  padding: 1px 8px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.file-link {
+  color: #3c3c3c;
+  text-decoration: none;
+  font-size: 13px;
+  border-bottom: 1px solid #cfbaf0;
+  transition: color 0.15s, border-color 0.15s;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.file-link:hover {
+  color: #6f2fe0;
+  border-color: #6f2fe0;
+}
+
+/* ── כפתור אישור ── */
+.card-actions {
+  padding: 4px 14px 12px;
+}
+
+.approve-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  border: 1px solid #2e9e5b;
+  background-color: #e8f7ee;
+  color: #1d7a44;
+  border-radius: 18px;
+  padding: 6px 16px;
+  font-family: heebo, sans-serif;
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.approve-btn:hover:not(:disabled) {
+  background-color: #2e9e5b;
+  border-color: #2e9e5b;
+  color: #ffffff;
+}
+
+.approve-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.approve-btn mat-icon {
+  font-size: 16px;
+  width: 16px;
+  height: 16px;
+}
+
+/* ── מקטע המדריכות המאושרות ── */
+.approved-title {
+  margin-top: 34px;
+}
+
+.approved-card {
+  border-color: #c9e8d4;
+}
+
+/* תג "מאושרת" בראש הכרטיס — בצד שמאל של השורה (RTL). */
+.approved-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  margin-inline-start: auto;
+  background-color: #e8f7ee;
+  border: 1px solid #2e9e5b;
+  color: #1d7a44;
+  border-radius: 12px;
+  padding: 1px 9px;
+  font-size: 11.5px;
+  font-weight: 600;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.badge-icon {
+  font-size: 14px;
+  width: 14px;
+  height: 14px;
+}
+
+/* ── כפתור ביטול אישור ── */
+.disapprove-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  border: 1px solid #e05a5a;
+  background-color: #fff0f1;
+  color: #c33a3a;
+  border-radius: 18px;
+  padding: 6px 16px;
+  font-family: heebo, sans-serif;
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.disapprove-btn:hover:not(:disabled) {
+  background-color: #e05a5a;
+  border-color: #e05a5a;
+  color: #ffffff;
+}
+
+.disapprove-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.disapprove-btn mat-icon {
+  font-size: 16px;
+  width: 16px;
+  height: 16px;
+}

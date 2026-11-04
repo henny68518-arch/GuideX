@@ -1,0 +1,21 @@
+<div class="confirm-dialog">
+  <div class="dialog-header">
+    <div class="dialog-title">אישור מחיקה</div>
+    <button mat-icon-button class="dialog-close" (click)="onCancel()" aria-label="סגירה">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <div class="dialog-content">
+    <p>{{ data.message }}</p>
+  </div>
+
+  <div class="dialog-actions">
+    <button mat-stroked-button class="btn-cancel" (click)="onCancel()">
+      {{ data.cancelText || 'ביטול' }}
+    </button>
+    <button mat-flat-button class="btn-delete" (click)="onConfirm()">
+      {{ data.confirmText || 'מחיקה' }}
+    </button>
+  </div>
+</div>

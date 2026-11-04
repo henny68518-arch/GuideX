@@ -1,0 +1,82 @@
+:host {
+  display: block;
+  direction: rtl;
+  font-family: 'Heebo', sans-serif;
+}
+
+.confirm-dialog {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 20px 24px;
+  min-width: 340px;
+  max-width: 400px;
+  color: #1f2937;
+}
+
+// ————— שורת כותרת —————
+.dialog-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #f1f2f4;
+}
+
+.dialog-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.dialog-close {
+  color: #9ca3af;
+
+  &:hover {
+    color: #4b5563;
+  }
+}
+
+// ————— הודעה —————
+.dialog-content {
+  font-size: 15px;
+  line-height: 1.7;
+  color: #4b5563;
+  margin-bottom: 24px;
+
+  p {
+    margin: 0;
+  }
+}
+
+// ————— כפתורים בצד ימין —————
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+
+  button {
+    min-width: 96px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-family: 'Heebo', sans-serif;
+  }
+
+  .btn-delete {
+    background-color: #dc2626;
+    color: #ffffff;
+
+    &:hover {
+      background-color: #b91c1c;
+    }
+  }
+
+  .btn-cancel {
+    color: #4b5563;
+    border-color: #d1d5db;
+
+    &:hover {
+      background-color: #f3f4f6;
+    }
+  }
+}

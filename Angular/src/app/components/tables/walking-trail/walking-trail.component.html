@@ -1,0 +1,157 @@
+<div class="reka">
+  @if(this.authService.hasPermission('editRoutes')) {
+    <div class="button-container">
+      <button class="filterToFind_not_showSearch" (click)="newWalkingTrail()">הוספת מסלול</button>
+    </div>
+  }
+
+
+
+  <div class="filter-panel">
+    <input
+      type="text"
+      class="search-input"
+      (input)="filterTable()"
+      id="searchControl"
+      #searchControl
+      placeholder="חיפוש חופשי: שם, אזור, תיאור..."
+    />
+
+    <div class="areas-filter">
+      <span class="areas-label">סינון לפי אזורים:</span>
+      @for (item of RegionsArrayData; track item.regionId) {
+        <label class="area-check">
+          <input type="checkbox" [checked]="selectedRegions.includes(+item.regionId)"
+            (change)="toggleRegion(+item.regionId, $any($event.target).checked)" />
+          {{ item.regionName }}
+        </label>
+      }
+    </div>
+
+    <div class="Reset_feeder">
+      <button type="button" class="reset btn" (click)="resetFilters()">
+        <span>איפוס המסננים</span>
+        <span>
+          <mat-icon class="mat-icon-btn">filter_alt_off</mat-icon>
+        </span>
+      </button>
+    </div>
+  </div>
+  @if (isLoading) {
+  <h3>טוען נתונים...</h3>
+  } @else if (dataSource.data.length == 0 || dataSource.data == null) {
+  <h3 class="notFoundInFilter">לא נמצאו מסלולים המתאימים לחיפוש</h3>
+  <div class="Reset_feeder">
+    <button mat-button class="reset btn" (click)="resetFilters()">
+      <span>לאיפוס המסננים</span>
+      <span>
+        <mat-icon class="mat-icon-btn">filter_alt_off</mat-icon>
+      </span>
+    </button>
+  </div>
+  } @else {
+  <div class="mat-elevation-z8 table-walking-trail">
+    <table mat-table [dataSource]="dataSource" class="table" matSort>
+      <ng-container matColumnDef="like">
+        <th mat-header-cell *matHeaderCellDef></th>
+
+        <td mat-cell *matCellDef="let element">
+          <button class="likeButton" (click)="
+                toggleFavorite(
+                  userDetails?.userId,
+                  element.WalkingTrailId,
+                  'trail'
+                )
+              ">
+            <img class="img_like" [src]="
+                  isLiked['trail-' + element.WalkingTrailId]
+                    ? 'heart_full_blue.png'
+                    : 'heart_blue.png'
+                " />
+          </button>
+        </td>
+      </ng-container>
+
+      <!-- WalkingTrailName Column -->
+      <ng-container class="nameContainer" matColumnDef="WalkingTrailName">
+        <th mat-header-cell *matHeaderCellDef class="HeaderOnTable" mat-sort-header>
+          | שם המסלול
+        </th>
+        <td mat-cell *matCellDef="let element" class="contentTable">
+          {{ element.WalkingTrailName }}
+        </td>
+      </ng-container>
+      <!-- Description Column -->
+      <ng-container matColumnDef="Description">
+        <th mat-header-cell *matHeaderCellDef class="HeaderOnTable" mat-sort-header>
+          | תיאור
+        </th>
+        <td mat-cell *matCellDef="let element" class="contentTable">
+          {{
+          element.Description?.length > 30
+          ? element.Description.substring(0, 30) + "..."
+          : element.Description || "."
+          }}
+        </td>
+      </ng-container>
+
+      <!-- regionId Column -->
+      <ng-container matColumnDef="regionId">
+        <th mat-header-cell *matHeaderCellDef class="HeaderOnTable" mat-sort-header>
+          | אזור המסלול
+        </th>
+        <td mat-cell *matCellDef="let element" class="contentTable">
+          {{element.regionId | regionName | async}}
+        </td>
+      </ng-container>
+
+      <!-- RouteDuration Column -->
+      <ng-container matColumnDef="RouteDuration">
+        <th mat-header-cell *matHeaderCellDef class="HeaderOnTable" mat-sort-header>
+          <div class="sort">
+            | משך המסלול
+            <!-- <button (click)="sortByNumOFPlaces()" class="showDetails">
+              @if (!sortByTime) {
+              <mat-icon>arrow_downward</mat-icon>
+              } @else {
+              <mat-icon>arrow_upward</mat-icon>
+              }
+            </button> -->
+          </div>
+        </th>
+        <td mat-cell *matCellDef="let element" class="contentTable">
+          {{ walkingTrail.formatDuration(element.RouteDuration) }}
+        </td>
+      </ng-container>
+
+      <!-- Difficulty Column -->
+      <ng-container matColumnDef="Difficulty">
+        <th mat-header-cell *matHeaderCellDef class="HeaderOnTable" mat-sort-header>
+          | דרגת קושי
+        </th>
+        <td mat-cell *matCellDef="let element" class="contentTable">
+          {{ element.Difficulty }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="DetailsButton">
+        <th mat-header-cell *matHeaderCellDef class="HeaderOnTable"></th>
+        <td mat-cell *matCellDef="let element" class="contentTable">
+          <button class="showDetails" (click)="openDialogRegistrations(element)">
+            <mat-icon class="showDetelis-icon">zoom_in</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+
+    <mat-paginator [pageSizeOptions]="[20, 30, 50]" showFirstLastButtons aria-label="בחירת עמוד" class="paginator"
+      [length]="dataSource?.data?.length">
+    </mat-paginator>
+  </div>
+  }
+</div>

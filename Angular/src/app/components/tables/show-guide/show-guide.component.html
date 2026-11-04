@@ -1,0 +1,57 @@
+<div class="hostel-dialog">
+  <div class="dialog-header">
+    <div class="header-actions">
+      <button (click)="openRatingDialog()" class="rating-btn" aria-label="דירוגים">
+        <mat-icon>star</mat-icon>
+        <span>דירוגים</span>
+      </button>
+      <!-- ממוצע דירוג (מבחוץ) -->
+      @if (ratingAverage > 0 || ratingCount > 0) {
+      <div class="rating-summary" title="לחיצה לפתיחת כל הדירוגים" (click)="openRatingDialog()">
+        @for (i of [1,2,3,4,5]; track i) {
+        <mat-icon [class.filled]="i <= ratingAverageRounded">star</mat-icon>
+        }
+        <span class="rating-score">{{ ratingAverage | number:'1.0-1' }}</span>
+      </div>
+      }
+    </div>
+    <button (click)="onClose()" class="action-btn cancel" aria-label="סגירה">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <div class="dialog-body">
+    <!-- שם המדריכה -->
+    <div class="field-block">
+      <h2 class="field-title">{{ fullName(data) }}</h2>
+    </div>
+
+    <!-- פרטים -->
+    <div class="details-grid">
+      <div class="detail-item">
+        <span class="detail-label">עיר</span>
+        <span class="detail-value">{{ data.city ?? '—' }}</span>
+      </div>
+
+      <div class="detail-item">
+        <span class="detail-label">טלפון</span>
+        <span class="detail-value">{{ data.phoneNumber ?? '—' }}</span>
+      </div>
+
+      <div class="detail-item">
+        <span class="detail-label">אימייל</span>
+        <span class="detail-value">{{ data.email ?? '—' }}</span>
+      </div>
+
+      <div class="detail-item">
+        <span class="detail-label">עדה</span>
+        <span class="detail-value">{{ getReligiousName(data.religiousId) }}</span>
+      </div>
+
+      <div class="detail-item">
+        <span class="detail-label">אזורי התמחות</span>
+        <span class="detail-value">{{ getRegionsNames(data.regionId) || 'לא צוין' }}</span>
+      </div>
+    </div>
+  </div>
+</div>

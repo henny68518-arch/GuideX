@@ -1,0 +1,505 @@
+.textOnWlcomePage {
+  text-align: center;
+  font-family: "Heebo", sans-serif; /* כתב זהה לשאר הדף */
+  color: #2b2b2b;
+  background-color: #ffffff;
+  overflow-x: hidden;
+}
+
+/* ---------- מסך פתיחה ---------- */
+.toPicture {
+  position: relative;
+  background-image: url("/toWelcomePage.png");
+  background-size: cover; /* כדי למלא את כל הרקע */
+  background-position: center; /* למרכז את התמונה */
+  width: 100%;
+  height: 72vh; /* גובה מסך הפתיחה */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 26px;
+  overflow: hidden;
+}
+
+.toPicture::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  /* שכבת כחול משופעת עם שקיפות רכה — במקום צבע אחיד */
+  background: linear-gradient(
+    160deg,
+    rgba(16, 100, 210, 0.72) 0%,
+    rgba(16, 100, 210, 0.55) 55%,
+    rgba(0, 74, 173, 0.68) 100%
+  );
+  z-index: 1;
+}
+
+/* כפתורים צפים קבועים בצד הדף — תמיד גלויים בזמן גלילה */
+.floating-buttons {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* הסרת הצל/הסגנון שנועד למיקום במרכז התמונה */
+.container {
+  display: none;
+}
+
+.logo_dark {
+  position: relative;
+  z-index: 2;
+  filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.35));
+}
+
+.logo {
+  width: 500px;
+  max-width: 90vw;
+  display: block;
+  margin: 0 auto;
+}
+
+/* ---------- כפתורים ---------- */
+.btn {
+  margin: 0;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 30px;
+  font-size: 16px;
+  font-weight: 700;
+  border-radius: 50px; /* כפתורים קפסוליים ומודרניים */
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background-color 0.2s ease;
+  background-color: #0f6fdb;
+  color: #ffffff;
+  box-shadow: 0 6px 18px rgba(0, 74, 173, 0.22);
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(0, 74, 173, 0.3);
+}
+
+.mat-icon-btn {
+  display: inline-flex;
+  margin-top: 2px;
+}
+
+/* הכפתורים הצפים — עיצוב שטוח ומודרני */
+.floating-btn {
+  padding: 12px 22px;
+  font-size: 15px;
+  min-width: 210px;
+  flex: none;
+}
+
+/* כפתור ראשי — "רוצה להיצטרף אלינו?" */
+.floating-btn.primary {
+  background-color: #ff6670;
+  color: #ffffff;
+  box-shadow: 0 6px 18px rgba(251, 89, 86, 0.28);
+}
+
+.floating-btn.primary:hover {
+  background-color: #ff6670;
+  box-shadow: 0 10px 26px rgba(251, 89, 86, 0.4);
+}
+
+/* כפתור משני — "אנחנו כבר מכירות!" */
+.floating-btn.secondary {
+  background-color: #ffffff;
+  color: #ff6670;
+  border: 2px solid #ff6670;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+}
+
+.floating-btn.secondary:hover {
+  background-color: #f0f5ff;
+  color: #ff6670;
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.12);
+}
+
+/* ---------- טקסט הפתיחה ---------- */
+.welcome-text {
+  font-size: 21px;
+  font-weight: bold;
+  color: #004aad;
+  max-width: 1280px;
+  line-height: 1.8;
+  margin: 60px auto 20px;
+  padding: 0 20px;
+  position: relative;
+}
+
+/* קווי-עיטור עדינים מסביב לטקסט הפתיחה */
+.welcome-text::before,
+.welcome-text::after {
+  content: "";
+  display: inline-block;
+  width: 48px;
+  height: 3px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #ff5c67, #004aad);
+  vertical-align: middle;
+  margin: 0 14px 6px;
+}
+
+/* ---------- מדור עדויות ---------- */
+.section-heading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin: 40px auto 16px;
+}
+
+.heading-icon {
+  width: 46px;
+  height: 46px;
+  font-size: 24px;
+  padding: 10px;
+  border-radius: 50%;
+  color: #ffffff;
+  background: linear-gradient(135deg, #004aad, #0f6fdb);
+  box-shadow: 0 6px 16px rgba(0, 74, 173, 0.35);
+}
+
+.heading-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #004aad;
+}
+
+.messages {
+  margin: 24px 0 10px;
+}
+
+.message-container {
+  min-height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.message-container p {
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 74, 173, 0.12);
+  border: 1px solid rgba(0, 74, 173, 0.08);
+  padding: 26px 44px;
+  max-width: 780px;
+  font-size: 19px;
+  font-weight: 600;
+  color: #333;
+  line-height: 1.7;
+  animation: fadeSlide 0.5s ease;
+}
+
+.message-sender {
+  font-size: 15px;
+  font-weight: 600;
+  color: #004aad;
+  display: inline;
+  margin-right: 6px;
+}
+
+/* ---------- סטטיסטיקות ---------- */
+.stats-section {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  max-width: 1180px;
+  margin: 50px auto 40px;
+  padding: 36px 20px;
+  /* רקע בגרדיאנט עדין מעניין יותר */
+  background: linear-gradient(135deg, #f0f5ff 0%, #f9f9f9 60%, #fff5f6 100%);
+  border-radius: 20px;
+  border: 1px solid rgba(0, 74, 173, 0.06);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1 1 160px;
+  padding: 10px 8px;
+  border-radius: 14px;
+  transition: transform 0.25s ease, background-color 0.25s ease;
+}
+
+.stat-item:hover {
+  transform: translateY(-4px);
+  background-color: rgba(255, 255, 255, 0.85);
+}
+
+.stat-number {
+  font-size: 40px;
+  font-weight: 800;
+  /* מספר עם הדרגת צבע עדינה */
+  background: linear-gradient(135deg, #004aad, #0f6fdb);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  line-height: 1.1;
+}
+
+.stat-label {
+  font-size: 16px;
+  color: #555;
+  margin-top: 6px;
+  font-weight: 500;
+}
+
+/* ---------- כרטיסים / יתרונות ---------- */
+.card-container {
+  display: flex; /* תצוגה אופקית */
+  flex-wrap: wrap; /* אפשר לסדר בשורות נוספות אם אין מקום */
+  gap: 28px; /* רווח בין הכרטיסים */
+  padding: 20px;
+  max-width: 1300px; /* הגדלת רוחב מרבי לכרטיסים */
+  margin: 30px auto;
+}
+
+.card {
+  flex: 1 1 240px; /* מכוון רוחב בסיסי וסביר */
+  max-width: 300px;
+  background-color: #ffffff;
+  border-radius: 18px; /* פינות מעוגלות יותר */
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(0, 74, 173, 0.06);
+  padding: 30px 24px;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 36px rgba(0, 74, 173, 0.18);
+}
+
+.card h2 {
+  color: #004aad; /* צבע כותרת */
+  font-size: 20px;
+  margin-bottom: 14px;
+}
+
+.card p {
+  color: #555; /* צבע טקסט */
+  font-size: 15px;
+  line-height: 1.7;
+  margin-bottom: 10px;
+}
+
+.picCard {
+  max-height: 56px;
+  max-width: 56px;
+  object-fit: contain;
+  margin-bottom: 10px;
+  /* עיגול עדין ומסגרת דרך סמנת פילטר רך */
+  filter: drop-shadow(0 4px 8px rgba(0, 74, 173, 0.18));
+}
+
+/* ---------- מדור "איך זה עובד" ---------- */
+.how-it-works {
+  max-width: 1200px;
+  margin: 50px auto;
+  padding: 50px 20px;
+}
+
+.section-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #004aad;
+  margin-bottom: 10px;
+}
+
+.section-subtitle {
+  font-size: 16px;
+  color: #555;
+  margin-bottom: 40px;
+}
+
+.steps {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  justify-content: center;
+}
+
+.step {
+  position: relative;
+  flex: 1 1 210px;
+  max-width: 260px;
+  background-color: #ffffff;
+  border-radius: 18px;
+  padding: 34px 22px 26px;
+  border: 1px solid rgba(0, 74, 173, 0.06);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.step:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 36px rgba(0, 74, 173, 0.18);
+}
+
+.step-number {
+  position: absolute;
+  top: -16px;
+  right: 50%;
+  transform: translateX(50%);
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  /* עיגול עם הדרגה */
+  background: linear-gradient(135deg, #ff5c67, #ff7a83);
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 17px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 14px rgba(255, 92, 103, 0.4);
+}
+
+.step-icon {
+  font-size: 44px;
+  width: 44px;
+  height: 44px;
+  color: #004aad;
+  margin: 14px 0 8px;
+  filter: drop-shadow(0 3px 6px rgba(0, 74, 173, 0.2));
+}
+
+.step h3 {
+  font-size: 18px;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.step p {
+  font-size: 15px;
+  color: #555;
+  line-height: 1.6;
+}
+
+/* ---------- מקטע CTA ---------- */
+.cta-section {
+  max-width: 1100px;
+  margin: 50px auto 80px;
+  padding: 46px 20px;
+  /* רקע CTA בגרדיאנט עדין ומושך */
+  background: linear-gradient(135deg, #f0f5ff 0%, #f9f9f9 55%, #fff5f6 100%);
+  border-radius: 20px;
+  border: 1px solid rgba(0, 74, 173, 0.06);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+}
+
+.cta-section h2 {
+  font-size: 28px;
+  font-weight: 700;
+  color: #004aad;
+  margin-bottom: 12px;
+}
+
+.cta-section p {
+  font-size: 16px;
+  color: #555;
+  max-width: 640px;
+  margin: 0 auto 26px;
+  line-height: 1.7;
+}
+
+.cta-btn {
+  font-size: 16px;
+  padding: 14px 32px;
+  background-color: #ff5c67; /* אותו ורוד כמו כפתורי הרשמה */
+  color: #ffffff;
+  border-radius: 50px;
+  font-weight: 700;
+  box-shadow: 0 6px 16px rgba(255, 92, 103, 0.35);
+}
+
+.cta-btn:hover {
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(255, 92, 103, 0.45);
+}
+
+/* ---------- אנימציות ---------- */
+@keyframes fadeSlide {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ---------- התאמה למובייל ---------- */
+@media (max-width: 640px) {
+  .toPicture {
+    height: auto;
+    min-height: 72vh;
+    padding: 40px 16px;
+  }
+
+  .logo {
+    width: 300px;
+  }
+
+  .welcome-text {
+    font-size: 18px;
+    margin: 44px auto 20px;
+  }
+
+  /* מוסיפים את העיטורים גם במובייל — קטנים יותר */
+  .welcome-text::before,
+  .welcome-text::after {
+    width: 26px;
+  }
+
+  .btn {
+    width: 100%;
+    max-width: 320px;
+  }
+
+  .floating-buttons {
+    right: 12px;
+    bottom: 12px;
+    width: auto;
+  }
+
+  .floating-btn {
+    min-width: 0;
+    width: auto;
+  }
+
+  .stat-number {
+    font-size: 34px;
+  }
+
+  .message-container p {
+    padding: 24px 24px;
+    font-size: 17px;
+  }
+
+  .cta-section h2 {
+    font-size: 22px;
+  }
+}

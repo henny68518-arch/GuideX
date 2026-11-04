@@ -1,0 +1,160 @@
+<div class="textOnWlcomePage">
+  <div class="toPicture">
+    <div class="logo_dark">
+      <img src="logo_for_dark.png" alt="לוגו" class="logo" />
+    </div>
+  </div>
+
+  <div class="floating-buttons">
+    <button class="btn floating-btn primary" (click)="openDialogRegistrations()">
+      <span>רוצה להיצטרף אלינו?</span>
+      <span>
+        <mat-icon class="mat-icon-btn">person_add</mat-icon>
+      </span>
+    </button>
+    <button class="btn floating-btn secondary" (click)="openDialogLogin()">
+      <span>אנחנו כבר מכירות!</span>
+      <span>
+        <mat-icon class="mat-icon-btn">login</mat-icon>
+      </span>
+    </button>
+  </div>
+
+  <p class="welcome-text">
+    ברוכה הבאה ל-GuideX, כאן תקבלי מידע רחב על טיולים, אכסניות, אטרקציות ומדריכות
+    טיולים כדי שתוכלי לתכנן את הטיול הבא שלך בקלות ובמהירות ובלי לבזבז זמן על חיפושים מיותרים. בנוסף, תוכלי לשתף את החוויות שלך עם הקהילה שלנו. אנחנו כאן כדי לעזור לך למצוא את המסלול המושלם עבורך, עם מדריכות מוסמכות ומקומות לינה מאושרים ומסוננים. הצטרפי אלינו עכשיו ותתחילי לתכנן את הטיול הבא שלך!
+  </p>
+
+  <div class="section-heading">
+    <mat-icon class="heading-icon">format_quote</mat-icon>
+    <h2 class="heading-title">מה הקהילה שלנו מספרת?</h2>
+  </div>
+
+  <div class="messages">
+    <div class="message-container">
+      @for (message of messages; track message; let i = $index) {
+        @if (
+          i >= currentMessageIndex && i < currentMessageIndex + numMessages
+        ) {
+          <p>
+            "{{ message.text }}"
+            <span class="message-sender">({{ message.sender }})</span>
+          </p>
+        }
+      }
+    </div>
+  </div>
+
+  <div class="stats-section">
+    <div class="stat-item">
+      <span class="stat-number">120+</span>
+      <span class="stat-label">מסלולים מאושרים</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-number">40+</span>
+      <span class="stat-label">אכסניות מסוננות</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-number">50+</span>
+      <span class="stat-label"> אטרקציות מהנות</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-number">25+</span>
+      <span class="stat-label">מדריכות מוסמכות</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-number">300+</span>
+      <span class="stat-label">חברות קהילה</span>
+    </div>
+  </div>
+
+  <div class="card-container">
+    <div class="card">
+      <h2>
+        <img src="lll.png" class="picCard" /><br />
+        מציאת מסלולים
+      </h2>
+      <p>
+        כי למצוא מסלול לבד זה נחמד… עד שזה נהיה 18 שעות ביממה. כאן מוצאים מהר,
+        בלי בלאגן — לפי אזור, גיל וזהו.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>
+        <img src="bbb.png" class="picCard" /><br />
+        מדריכות מוסמכות
+      </h2>
+      <p>
+        כי “אני מכירה את השטח” זה נחמד, אבל כאן יש באמת מי שעברה הכשרה, זמינה
+        ומתאימה לנו.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>
+        <img src="ccc.png" class="picCard" /><br />
+        מקומות לינה
+      </h2>
+      <p>
+        כי אף אחד לא רוצה לגלות בסוף היום שה“צימר” זה בעצם מחסן משודרג. כמובן שרק
+        מקומות מאושרים ומסוננים.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>
+        <img src="forum.png" class="picCard" /><br />
+        קהילה ופורום
+      </h2>
+      <p>
+        כי תמיד יש מישהי שכבר הייתה שם, חזרה עם תשובות, וחסכה לכולם כאב ראש.
+      </p>
+    </div>
+  </div>
+
+  <div class="how-it-works">
+    <h2 class="section-title">איך זה עובד?</h2>
+    <p class="section-subtitle">מסלול פשוט בדרך לטיול הבא של המוסד</p>
+    <div class="steps">
+      <div class="step">
+        <span class="step-number">1</span>
+        <mat-icon class="step-icon">app_registration</mat-icon>
+        <h3>פתיחת חשבון</h3>
+        <p>הרשמה מהירה לרכזת הטיולים של המוסד.</p>
+      </div>
+      <div class="step">
+        <span class="step-number">2</span>
+        <mat-icon class="step-icon">search</mat-icon>
+        <h3>חיפוש מסלולים</h3>
+        <p>בחירת יעד, אכסניה ומדריכה שמתאימים למוסד.</p>
+      </div>
+      <div class="step">
+        <span class="step-number">3</span>
+        <mat-icon class="step-icon">event_note</mat-icon>
+        <h3>איסוף פרטים</h3>
+        <p>ניהול רשימת המטיילות והדרישות במקום אחד.</p>
+      </div>
+      <div class="step">
+        <span class="step-number">4</span>
+        <mat-icon class="step-icon">airport_shuttle</mat-icon>
+        <h3>יציאה לדרך</h3>
+        <p>סידור טיול מאושר ומסונן, ברוגע ובביטחון.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="cta-section">
+    <h2>מוכנה לתכנן את הטיול הבא של המוסד?</h2>
+    <p>
+      הכלי מרכז עבורך מסלולים מאושרים, אכסניות מסוננות, אטרקציות מהנות ומדריכות מוסמכות —
+      בלי חיפושים מיותרים.
+    </p>
+    <button class="btn cta-btn" (click)="openDialogRegistrations()">
+      <span>הצטרפי אלינו עכשיו</span>
+      <span>
+        <mat-icon class="mat-icon-btn">arrow_forward</mat-icon>
+      </span>
+    </button>
+  </div>
+</div>

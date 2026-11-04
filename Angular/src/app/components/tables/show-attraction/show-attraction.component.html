@@ -1,0 +1,180 @@
+<div class="hostel-dialog">
+  <div class="dialog-header">
+    @if (!isAddNew) {
+    <div class="header-actions">
+      @if (this.authService.hasPermission('editAttractions')) {
+      <button class="icon-btn danger" (click)="deleteAttraction()" aria-label="מחיקת אטרקציה">
+        <mat-icon>delete</mat-icon>
+      </button>
+      <button class="icon-btn" (click)="canEdit()" aria-label="עריכה">
+        <mat-icon>edit</mat-icon>
+      </button>
+      }
+      <button class="like-btn" (click)="toggleFavorite()" aria-label="הוספה למועדפים">
+        <img class="like-img" [src]="isLiked ? 'heart_full_blue.png' : 'heart_blue.png'" />
+      </button>
+      <button class="rating-btn" (click)="openRatingDialog()" aria-label="דירוגים">
+        <mat-icon>star</mat-icon>
+        <span>דירוגים</span>
+      </button>
+      </div>
+      <!-- ממוצע דירוג (מבחוץ) -->
+      @if (data.attractionId > 0 && (ratingAverage > 0 || ratingCount > 0)) {
+      <div class="rating-summary" title="לחיצה לפתיחת כל הדירוגים" (click)="openRatingDialog()">
+        @for (i of [1,2,3,4,5]; track i) {
+        <mat-icon [class.filled]="i <= ratingAverageRounded">star</mat-icon>
+        }
+        <span class="rating-score">{{ ratingAverage | number:'1.0-1' }}</span>
+      </div>
+      }
+    } @else {
+    <h3 class="add-title">הוספת אטרקציה</h3>
+    }
+
+    <button (click)="onClose()" class="action-btn cancel">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <div class="dialog-body">
+    <!-- שם האטרקציה -->
+    <div class="field-block">
+      @if (!userCanEdit) {
+      <h2 class="field-title">{{ data.attractionsName }}</h2>
+      } @else {
+      <input class="inputToEdit" id="AttractionsName" type="text" [(ngModel)]="data.attractionsName"
+        [placeholder]="isAddNew ? 'שם האטרקציה' : ''" />
+      }
+    </div>
+
+    <!-- תיאור -->
+    @if (!userCanEdit) {
+    <p class="description">{{ data.description }}</p>
+    } @else {
+    <textarea cols="45" id="Description" class="inputToEdit" rows="3" [(ngModel)]="data.description"
+      [placeholder]="isAddNew ? 'תאור האטרקציה' : ''">
+      </textarea>
+    }
+
+    <!-- תמונות האטרקציה -->
+    <div class="gallery">
+      @if (userCanEdit) {
+      <label class="gallery-add">
+        <mat-icon>add_a_photo</mat-icon>
+        <span>הוספת תמונות</span>
+        <input type="file" accept="image/*" multiple (change)="onImagesSelected($event)" />
+      </label>
+      }
+
+      @for (image of images; track image.fileId; let i = $index) {
+      <div class="gallery-item">
+        <img [src]="imageUrl(image.fileId)" alt="תמונה {{ i + 1 }}"
+          (click)="openImagePreview(imageUrl(image.fileId))" />
+        @if (userCanEdit) {
+        <button class="gallery-delete" (click)="deleteImage(image.fileId, i)" aria-label="מחיקת תמונה">
+          <mat-icon>close</mat-icon>
+        </button>
+        }
+      </div>
+      }
+
+      @for (pending of pendingImages; track pending.name; let i = $index) {
+      <div class="gallery-item">
+        <img [src]="pendingImageUrl(pending)" alt="תמונה חדשה {{ i + 1 }}"
+          (click)="openImagePreview(pendingImageUrl(pending))" />
+        <button class="gallery-delete" (click)="removePendingImage(i)" aria-label="הסרת תמונה">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+      }
+    </div>
+
+    <!-- פרטים -->
+    <div class="details-grid">
+      <div class="detail-item">
+        <span class="detail-label">אזור</span>
+        @if (!userCanEdit) {
+        <span class="detail-value">{{ data.regionId ? (data.regionId | regionName | async) : '—' }}</span>
+        } @else {
+        <select class="inputToEdit" id="regionId" [(ngModel)]="data.regionId">
+          <option [ngValue]="0">בחירת אזור</option>
+          @for (item of RegionsArrayData; track item.regionId) {
+          <option [ngValue]="item.regionId">{{ item.regionName }}</option>
+          }
+        </select>
+        }
+      </div>
+
+      <div class="detail-item">
+        <span class="detail-label">סוג אטרקציה</span>
+        @if (!userCanEdit) {
+        <span class="detail-value">{{ data.attractionTypeId ? (data.attractionTypeId | attractionTypeName | async) : '—' }}</span>
+        } @else {
+        <select class="inputToEdit" id="AttractionsTypeId" [(ngModel)]="data.attractionTypeId">
+          <option [ngValue]="0">בחירת סוג אטרקציה</option>
+          @for (item of AttractionsArrayData; track item) {
+          <option [ngValue]="item.attractionTypeId">{{ item.attractionTypeName }}</option>
+          }
+        </select>
+        }
+      </div>
+
+      <div class="detail-item">
+        <span class="detail-label">שמירת שבת</span>
+        @if (!userCanEdit) {
+        <span class="detail-value">
+          @if (data.shomerShabat == 1) { לא ידוע }
+          @else if (data.shomerShabat == 2) { שומר שבת }
+          @else { אינו שומר שבת }
+        </span>
+        } @else {
+        <select id="ShomerShabat" class="inputToEdit" [(ngModel)]="data.shomerShabat"
+          (ngModelChange)="changeShomerShabat()">
+          <option [ngValue]="0">אינו שומר שבת</option>
+          <option [ngValue]="1">לא ידוע</option>
+          <option [ngValue]="2">שומר שבת</option>
+        </select>
+        }
+      </div>
+
+      @if (data.shomerShabat != 0) {
+      <div class="detail-item">
+        <span class="detail-label">כתובת</span>
+        @if (!userCanEdit) {
+        <span class="detail-value">{{ data.address }}</span>
+        } @else {
+        <input class="inputToEdit" id="Address" type="text" [(ngModel)]="data.address" />
+        }
+      </div>
+
+      <div class="detail-item">
+        <span class="detail-label">טלפון</span>
+        @if (!userCanEdit) {
+        <span class="detail-value">{{ data.phone }}</span>
+        } @else {
+        <input class="inputToEdit" id="Phone" type="text" [(ngModel)]="data.phone" />
+        }
+      </div>
+      }
+    </div>
+  </div>
+
+  <div class="dialog-footer">
+    @if (userCanEdit) {
+    <button (click)="saveEdit()" class="action-btn save">
+      <mat-icon>check</mat-icon>
+      <span>{{ isAddNew ? 'שמירה' : 'שמירת שינויים' }}</span>
+    </button>
+    }
+  </div>
+
+  <!-- תצוגת תמונה גדולה (lightbox) -->
+  @if (previewImageUrl) {
+  <div class="image-preview-overlay" (click)="closeImagePreview()">
+    <button class="image-preview-close" (click)="closeImagePreview()" aria-label="סגירת התמונה">
+      <mat-icon>close</mat-icon>
+    </button>
+    <img class="image-preview-img" [src]="previewImageUrl" alt="תצוגה גדולה" (click)="$event.stopPropagation()" />
+  </div>
+  }
+</div>

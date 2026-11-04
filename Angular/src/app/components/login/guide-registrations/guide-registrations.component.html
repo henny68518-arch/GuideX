@@ -1,0 +1,201 @@
+<div class="hostel-dialog">
+  <div class="dialog-header">
+    <h3 class="add-title">הרשמת מדריכה</h3>
+    
+  </div>
+
+  <div class="dialog-body">
+    <form [formGroup]="formGuide" (ngSubmit)="newGuide()" class="form">
+      <!-- ─── פרטים אישיים ─── -->
+      <div class="section-title">פרטים אישיים</div>
+      <div class="details-grid">
+        <div class="detail-item">
+          <span class="detail-label">שם פרטי</span>
+          <input class="inputToEdit" type="text" formControlName="FirstName" />
+          @if (formGuide.get("FirstName")?.touched) {
+            @if (formGuide.get("FirstName")?.hasError("required")) {
+              <span class="err">אויששש, שכחת אותי....</span>
+            }
+            @if (formGuide.get("FirstName")?.hasError("minlength")) {
+              <span class="err">יש להכניס מינימום 2 תווים</span>
+            }
+          }
+        </div>
+
+        <div class="detail-item">
+          <span class="detail-label">שם משפחה</span>
+          <input class="inputToEdit" type="text" formControlName="LastName" />
+          @if (formGuide.get("LastName")?.touched) {
+            @if (formGuide.get("LastName")?.hasError("required")) {
+              <span class="err">אויששש, שכחת אותי....</span>
+            }
+            @if (formGuide.get("LastName")?.hasError("minlength")) {
+              <span class="err">יש להכניס מינימום 2 תווים</span>
+            }
+          }
+        </div>
+
+        <div class="detail-item">
+          <span class="detail-label">מספר זהות</span>
+          <input
+            class="inputToEdit"
+            type="text"
+            formControlName="IdNumber"
+            (input)="searchGuide()"
+          />
+          @if (formGuide.get("IdNumber")?.touched) {
+            @if (formGuide.get("IdNumber")?.hasError("required")) {
+              <span class="err">אויששש, שכחת אותי....</span>
+            }
+            @if (formGuide.get("IdNumber")?.hasError("invalidID")) {
+              <span class="err">יש להכניס מספר תעודת זהות תקינה</span>
+            }
+          }
+        </div>
+
+        <div class="detail-item">
+          <span class="detail-label">מספר טלפון</span>
+          <input class="inputToEdit" type="text" formControlName="PhoneNumber" />
+          @if (formGuide.get("PhoneNumber")?.touched) {
+            @if (formGuide.get("PhoneNumber")?.hasError("required")) {
+              <span class="err">אויששש, שכחת אותי....</span>
+            } @else if (formGuide.get("PhoneNumber")?.hasError("invalidPhone")) {
+              <span class="err">יש להכניס מספר פלאפון נייד תקין</span>
+            }
+          }
+        </div>
+
+        <div class="detail-item">
+          <span class="detail-label">אימייל</span>
+          <input class="inputToEdit" type="email" formControlName="Email" />
+          @if (formGuide.get("Email")?.touched) {
+            @if (formGuide.get("Email")?.hasError("required")) {
+              <span class="err">אויששש, שכחת אותי....</span>
+            }
+            @if (formGuide.get("Email")?.hasError("email")) {
+              <span class="err">יש להכניס כתובת אימייל תקינה</span>
+            }
+          }
+        </div>
+
+        <div class="detail-item">
+          <span class="detail-label">סיסמה</span>
+          <div class="inputEye">
+            <input
+              class="inputToEdit"
+              [type]="showPassword ? 'text' : 'password'"
+              formControlName="UserPassword"
+            />
+            <button type="button" class="eyes" (click)="PasswordVisibility()">
+              @if (!showPassword) {
+                <mat-icon>visibility</mat-icon>
+              } @else {
+                <mat-icon>visibility_off</mat-icon>
+              }
+            </button>
+          </div>
+          @if (formGuide.get("UserPassword")?.touched) {
+            @if (formGuide.get("UserPassword")?.hasError("required")) {
+              <span class="err">אויששש, שכחת אותי....</span>
+            }
+            @if (formGuide.get("UserPassword")?.hasError("invalidpassword")) {
+              <span class="err">
+                יש להכניס סיסמה עם אותיות גדולות וקטנות, מספרים ותווים מיוחדים
+              </span>
+            }
+          }
+        </div>
+      </div>
+
+      <!-- ─── ההתאמה שלך ─── -->
+      <div class="section-title">ההתאמה שלך</div>
+      <div class="details-grid">
+        <div class="detail-item">
+          <span class="detail-label">עיר</span>
+          <input
+            class="inputToEdit"
+            type="text"
+            formControlName="CityId"
+            (input)="filterCity($event)"
+            placeholder="חפש עיר..."
+            list="citiesList"
+          />
+          <datalist id="citiesList">
+            <option disabled>בחר עיר</option>
+            @for (city of filteredCities; track city) {
+              <option [value]="city">{{ city }}</option>
+            }
+          </datalist>
+          @if (formGuide.get("CityId")?.touched) {
+            @if (formGuide.get("CityId")?.hasError("required")) {
+              <span class="err">אויששש, שכחת אותי....</span>
+            }
+          }
+        </div>
+
+        <div class="detail-item">
+          <span class="detail-label">השתייכות דתית</span>
+          <select class="inputToEdit" formControlName="ReligiousId">
+            <option disabled selected>בחר עדה</option>
+            @for (item of religiousData; track item.religiousId) {
+              <option [value]="item.religiousId">{{ item.religiousName }}</option>
+            }
+          </select>
+          @if (formGuide.get("ReligiousId")?.touched) {
+            @if (formGuide.get("ReligiousId")?.hasError("required")) {
+              <span class="err">אויששש, שכחת אותי....</span>
+            }
+          }
+        </div>
+
+        <div class="detail-item span-full">
+          <span class="detail-label">אזורי התמחות</span>
+          <div class="checkbox-group">
+            @for (item of AreasOfExpertises; track item.regionId) {
+              <label class="checkbox-label">
+                <input
+                  type="checkbox"
+                  [value]="item.regionId"
+                  (change)="onCheckboxChange($event)"
+                  [checked]="isChecked(item.regionId)"
+                />
+                {{ item.regionName }}
+              </label>
+            }
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── קבצים ─── -->
+      <div class="section-title">קבצים</div>
+      <div class="details-grid">
+        <div class="detail-item">
+          <span class="detail-label">קבצי תעודות</span>
+          <input class="inputToEdit" type="file" multiple (change)="onFileSelected($event)" />
+          @if (CertificatesFiles.length > 0) {
+            <ul class="file-list">
+              @for (file of CertificatesFiles; track file.name) {
+                <li>{{ file.name }}</li>
+              }
+            </ul>
+          }
+        </div>
+
+        <div class="detail-item">
+          <span class="detail-label">קורות חיים</span>
+          <input class="inputToEdit" type="file" (change)="onOneFileSelected($event)" />
+          @if (resumeFiles) {
+            <span class="note">קובץ נבחר: {{ resumeFiles.name }}</span>
+          }
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="dialog-footer">
+    <button (click)="newGuide()" class="action-btn save" type="button" [disabled]="formGuide.invalid">
+      <mat-icon>person_add</mat-icon>
+      <span>הוספת מדריכה</span>
+    </button>
+  </div>
+</div>

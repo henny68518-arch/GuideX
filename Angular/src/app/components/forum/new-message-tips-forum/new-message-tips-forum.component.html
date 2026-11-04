@@ -1,0 +1,49 @@
+<div class="newMessage">
+  <!-- <div class="titleAndImg"> -->
+     <div class="titleAndImg">
+        <button class="close-btn" (click)="onClose()"><mat-icon class="mat-icon">close</mat-icon></button>
+    <img src="forum.png" class="picCard" />
+  </div>
+    <div>
+      @if (data.parent) {
+        <h5 class="display-6">כתיבת תגובה להודעה</h5>
+        <p>
+          <strong>תגובה להודעה: </strong
+          >{{ forumMessageStore.getTitleByForumId(data.parent) }}
+        </p>
+      } @else {
+        <h5 class="display-6">הודעה חדשה</h5>
+      }
+    </div>
+   
+  <form
+    [formGroup]="formNewMesagge"
+    (ngSubmit)="send()"
+    class="modal-content"
+    action="/action_page.php"
+  >
+    <p>
+      <label><p>כותרת ההודעה: </p> </label><br />
+      <input id="titleName" class="erere" formControlName="titleName" />
+    </p>
+@if (data.parent) {
+        <p>
+          שימו לב כי לא תוצג כותרת ההודעה. 
+        </p>
+      }
+
+    <p>
+      <label><p>תוכן ההודעה: </p></label> <br /><textarea
+        id="message"
+        class="erere"
+        formControlName="message"
+      >
+      </textarea>
+    </p>
+
+    <button class="btn" type="submit" [disabled]="formNewMesagge.invalid">
+      שליחת ההודעה
+      <mat-icon class="mat-icon-btn">send</mat-icon>
+    </button>
+  </form>
+</div>

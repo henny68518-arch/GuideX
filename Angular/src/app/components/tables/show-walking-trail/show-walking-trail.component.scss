@@ -1,0 +1,477 @@
+.hostel-dialog {
+  position: relative;
+  direction: rtl;
+  font-size: 15px;
+  color: #3a3a3a;
+  background: #ffffff;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 10px 40px rgba(95, 22, 235, 0.15);
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ─────────── כותרת ─────────── */
+.dialog-header {
+  padding: 18px 20px 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.add-title {
+  color: #5f16eb;
+  font-size: 22px;
+  font-weight: 700;
+  margin: 0;
+  text-align: right;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* ─────────── ממוצע דירוג (מבחוץ) ─────────── */
+.rating-summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  background: #f8f6fd;
+  border: 1px solid #e3d9f7;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.2s;
+
+  &:hover {
+    background: #f1edfc;
+    transform: translateY(-1px);
+  }
+
+  mat-icon {
+    color: #d8d0ef;
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+
+    &.filled {
+      color: #f5a623;
+    }
+  }
+
+  .rating-score {
+    font-size: 14px;
+    font-weight: 600;
+    color: #5f16eb;
+  }
+}
+
+.icon-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  border: 1px solid #e3d9f7;
+  background: #fbfaff;
+  color: #5f16eb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s, transform 0.2s;
+
+  mat-icon {
+    font-size: 22px;
+    width: 22px;
+    height: 22px;
+  }
+
+  &:hover {
+    background: #5f16eb;
+    color: #fff;
+    transform: scale(1.06);
+  }
+
+  &.danger:hover {
+    background: #e53935;
+    border-color: #e53935;
+    color: #fff;
+  }
+}
+
+.rating-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 14px;
+  border-radius: 10px;
+  border: 1px solid #e3d9f7;
+  background: #fbfaff;
+  color: #5f16eb;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s, transform 0.2s;
+
+  mat-icon {
+    color: #f5a623;
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+  }
+
+  &:hover {
+    background: #5f16eb;
+    color: #fff;
+    transform: scale(1.04);
+  }
+}
+
+.like-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  border: 1px solid #e3d9f7;
+  background: #fbfaff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.2s;
+
+  &:hover {
+    background: #f3eefe;
+    transform: scale(1.06);
+  }
+
+  .like-img {
+    width: 24px;
+    height: 24px;
+    display: block;
+  }
+}
+
+/* ─────────── גוף הדיאלוג ─────────── */
+.dialog-body {
+  padding: 20px 20px 8px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.field-block {
+  text-align: center;
+  margin-bottom: 12px;
+}
+
+.field-title {
+  margin: 0;
+  color: #5f16eb;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.description {
+  color: #6b6b6b;
+  text-align: center;
+  line-height: 1.6;
+  margin: 4px 0 16px;
+}
+
+/* ─────────── שדות עריכה ─────────── */
+.inputToEdit {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #e3d9f7;
+  border-radius: 8px;
+  padding: 9px 12px;
+  font-size: 15px;
+  color: #3a3a3a;
+  background: #fbfaff;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  font-family: inherit;
+
+  &:focus {
+    border-color: #5f16eb;
+    box-shadow: 0 0 0 3px rgba(95, 22, 235, 0.12);
+  }
+}
+
+textarea.inputToEdit {
+  resize: vertical;
+  min-height: 70px;
+}
+
+/* ─────────── גלריית תמונות ─────────── */
+.gallery {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  margin: 14px 0 18px;
+}
+
+.gallery-add {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  width: 100px;
+  height: 100px;
+  border: 2px dashed #b49af0;
+  border-radius: 12px;
+  color: #5f16eb;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background-color 0.2s, border-color 0.2s;
+  background: rgba(95, 22, 235, 0.03);
+
+  mat-icon {
+    font-size: 30px;
+    width: 30px;
+    height: 30px;
+  }
+
+  &:hover {
+    background-color: rgba(95, 22, 235, 0.08);
+    border-color: #5f16eb;
+  }
+
+  input[type='file'] {
+    display: none;
+  }
+}
+
+.gallery-item {
+  position: relative;
+  width: 100px;
+  height: 100px;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 12px;
+    border: 1px solid #e3d9f7;
+    cursor: zoom-in;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+
+    &:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+    }
+  }
+}
+
+.gallery-delete {
+  position: absolute;
+  top: -8px;
+  left: -8px;
+  background: #5f16eb;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.2s, transform 0.2s;
+
+  mat-icon {
+    font-size: 15px;
+    width: 15px;
+    height: 15px;
+  }
+
+  &:hover {
+    background: #e53935;
+    transform: scale(1.1);
+  }
+}
+
+/* ─────────── רשת פרטים ─────────── */
+.details-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 14px;
+  padding: 16px;
+  background: #f8f6fd;
+  border-radius: 12px;
+}
+
+.detail-item {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  text-align: right;
+}
+
+.detail-label {
+  font-size: 13px;
+  color: #5f16eb;
+  font-weight: 600;
+}
+
+.detail-value {
+  font-size: 15px;
+  color: #3a3a3a;
+}
+
+.age-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.checkbox-inline {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 15px;
+  color: #3a3a3a;
+  cursor: pointer;
+
+  input[type='checkbox'] {
+    accent-color: #5f16eb;
+    width: 16px;
+    height: 16px;
+  }
+}
+
+.seasons-block {
+  margin: 14px 0;
+  padding: 0;
+}
+
+/* ─────────── תיבות סימון (עונות, מסלול רטוב) ─────────── */
+.checkbox-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  font-size: 15px;
+  color: #3a3a3a;
+
+  label {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+  }
+
+  input[type='checkbox'] {
+    accent-color: #5f16eb;
+    width: 16px;
+    height: 16px;
+  }
+}
+
+/* ─────────── תחתית / פעולות ─────────── */
+.dialog-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 14px 20px;
+  border-top: 1px solid #eee8fb;
+  background: #fff;
+}
+
+.action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 10px;
+  border-radius: 10px;
+  border: none;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.2s;
+
+  mat-icon {
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+  }
+
+  &:hover {
+    transform: translateY(-1px);
+  }
+
+  &.save {
+    background: #5f16eb;
+    color: #fff;
+
+    &:hover {
+      background: #4d0fd0;
+    }
+  }
+
+  &.cancel {
+    background: #f1edfc;
+    color: #5f16eb;
+
+    &:hover {
+      background: #e6dffa;
+    }
+  }
+}
+
+/* ─────────── תצוגת תמונה גדולה (lightbox) ─────────── */
+.image-preview-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  cursor: zoom-out;
+}
+
+.image-preview-img {
+  max-width: 90vw;
+  max-height: 90vh;
+  object-fit: contain;
+  border-radius: 8px;
+  cursor: default;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+.image-preview-close {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.4);
+  }
+
+  mat-icon {
+    font-size: 24px;
+    width: 24px;
+    height: 24px;
+  }
+}
