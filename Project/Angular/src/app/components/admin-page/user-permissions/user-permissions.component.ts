@@ -1,5 +1,5 @@
 import { Component, OnDestroy } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialog } from '@angular/material/dialog';
 
@@ -16,7 +16,7 @@ import { EditUserDetailComponent } from '../../edit-user-detail/edit-user-detail
 @Component({
   selector: 'app-user-permissions',
   standalone: true,
-  imports: [CommonModule, MatIconModule],
+  imports: [MatIconModule],
   templateUrl: './user-permissions.component.html',
   styleUrl: './user-permissions.component.scss',
 })

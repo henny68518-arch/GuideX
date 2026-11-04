@@ -1,5 +1,5 @@
 import { Component, ViewChild, AfterViewInit, ElementRef } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FormsModule } from '@angular/forms';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import {
@@ -26,13 +26,12 @@ interface AreaOption {
   selector: 'app-table-guide',
   standalone: true,
   imports: [
-    CommonModule,
     FormsModule,
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
-    MatIconModule,
-  ],
+    MatIconModule
+],
   templateUrl: './table-guide.component.html',
   styleUrl: './table-guide.component.scss',
 })

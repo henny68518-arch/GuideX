@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { MatIconModule } from '@angular/material/icon';
 
 import { Srv_Guide } from '../../../Services/srv-guide.service';
@@ -22,7 +22,7 @@ import {
 @Component({
   selector: 'app-admin-guide-permission',
   standalone: true,
-  imports: [CommonModule, MatIconModule],
+  imports: [MatIconModule],
   templateUrl: './admin-guide-permission.component.html',
   styleUrl: './admin-guide-permission.component.scss',
 })

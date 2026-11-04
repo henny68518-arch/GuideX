@@ -7,7 +7,7 @@ import {
 } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatIcon } from '@angular/material/icon';
-import { CommonModule } from '@angular/common';
+
 import { ServiceUsersService } from '../../Services/srv-users';
 import { Srv_Guide } from '../../Services/srv-guide.service';
 import { ServiceAllService } from '../../Services/service-all.service';
@@ -18,7 +18,7 @@ import { AuthService } from '../../Services/auth-service.service';
 
 @Component({
   selector: 'app-edit-user-detail',
-  imports: [ReactiveFormsModule, MatIcon, CommonModule],
+  imports: [ReactiveFormsModule, MatIcon],
   templateUrl: './edit-user-detail.component.html',
   styleUrl: './edit-user-detail.component.scss',
 })

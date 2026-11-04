@@ -10,7 +10,7 @@ import { MatIcon } from '@angular/material/icon';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
-import { CommonModule } from '@angular/common';
+
 import { Router } from '@angular/router';
 import { ServiceAllService } from '../../../Services/service-all.service';
 import { IdIsraelValidator } from '../../../Services/israel_ID';
@@ -30,11 +30,10 @@ import { HttpClient } from '@angular/common/http';
     ReactiveFormsModule,
     MultiSelectModule,
     FormsModule,
-    CommonModule,
     MatFormFieldModule,
     MatSelectModule,
     regionNamePipe
-  ],
+],
   templateUrl: './guide-registrations.component.html',
   styleUrl: './guide-registrations.component.scss',
   standalone: true,

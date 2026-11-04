@@ -16,9 +16,9 @@
       <!-- סיכום: ממוצע + מספר הדירוגים -->
       <div class="summary">
         <span class="stars" aria-label="ממוצע">
-          <ng-container *ngFor="let i of [1,2,3,4,5]">
+          @for (i of [1,2,3,4,5]; track i) {
             <mat-icon [class.filled]="i <= averageRounded">star</mat-icon>
-          </ng-container>
+          }
         </span>
         <span class="score">{{ list.average | number:'1.0-1' }} ({{ list.count }} דירוגים)</span>
       </div>
@@ -33,9 +33,9 @@
               <div class="rating-top">
                 <span class="who">{{ raterName(r) }}</span>
                 <span class="stars-sm">
-                  <ng-container *ngFor="let i of [1,2,3,4,5]">
+                  @for (i of [1,2,3,4,5]; track i) {
                     <mat-icon [class.filled]="i <= r.numberOfStars">star</mat-icon>
-                  </ng-container>
+                  }
                 </span>
                 @if (r.date) {
                   <span class="date">{{ r.date | hebrewDateConverter | async }}</span>
@@ -58,14 +58,14 @@
               <mat-icon
                 class="pick"
                 [class.filled]="s <= selectedStars"
-                (click)="pickStar(s)">star</mat-icon>
+              (click)="pickStar(s)">star</mat-icon>
             }
           </div>
           <textarea
             [(ngModel)]="note"
             rows="3"
             maxlength="600"
-            placeholder="כתבו הערה לדירוג (עד 600 תווים)"></textarea>
+          placeholder="כתבו הערה לדירוג (עד 600 תווים)"></textarea>
           @if (submitError) {
             <div class="feedback error">{{ submitError }}</div>
           }
@@ -75,9 +75,11 @@
   </div>
 
   <div class="dialog-footer">
-    <button (click)="submit()" class="action-btn save" *ngIf="canAdd && !isSubmitting">
-      <mat-icon>check</mat-icon>
-      <span>שמירת דירוג</span>
-    </button>
+    @if (canAdd && !isSubmitting) {
+      <button (click)="submit()" class="action-btn save">
+        <mat-icon>check</mat-icon>
+        <span>שמירת דירוג</span>
+      </button>
+    }
   </div>
 </div>
