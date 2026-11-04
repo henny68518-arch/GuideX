@@ -1,4 +1,4 @@
-import { Component, inject, Input, signal } from '@angular/core';
+﻿import { Component, inject, Input, signal } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -6,7 +6,6 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
-import { DropdownModule } from 'primeng/dropdown';
 import { CardModule } from 'primeng/card';
 import { Router } from '@angular/router';
 import { MatDialogRef } from '@angular/material/dialog';
@@ -25,7 +24,7 @@ import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-coordinator-registrations',
-  imports: [ReactiveFormsModule, MatIconModule, DropdownModule, CardModule],
+  imports: [ReactiveFormsModule, MatIconModule, CardModule],
   templateUrl: './coordinator-registrations.component.html',
   styleUrls: ['./coordinator-registrations.component.scss'],
   standalone: true,
@@ -57,7 +56,7 @@ export class CoordinatorRegistrationsComponent {
     public authService: AuthService,
     public http: HttpClient
   ) {
-      // טעינת רשימת התפקידים ורשימת סוגי המוסד/העדות מהשרת
+      // ׳˜׳¢׳™׳ ׳× ׳¨׳©׳™׳׳× ׳”׳×׳₪׳§׳™׳“׳™׳ ׳•׳¨׳©׳™׳׳× ׳¡׳•׳’׳™ ׳”׳׳•׳¡׳“/׳”׳¢׳“׳•׳× ׳׳”׳©׳¨׳×
       this.srv_all.getRolesArray().subscribe((roles: any[]) => {
         this.RoleIdData = roles;
       });
@@ -86,7 +85,7 @@ export class CoordinatorRegistrationsComponent {
       this.cities = cities;
       this.filteredCities = this.cities;
     });
-    console.log("רשימת הערים: ", this.cities);
+    console.log("׳¨׳©׳™׳׳× ׳”׳¢׳¨׳™׳: ", this.cities);
 
     this.schools = this.srvSchools.GetSchools();
 
@@ -95,10 +94,10 @@ export class CoordinatorRegistrationsComponent {
 
  
   AgeSchoolIdData = [
-    { id: 1, name: 'יסודי' },
-    { id: 2, name: 'חט"ב' },
-    { id: 3, name: 'תיכון' },
-    { id: 4, name: 'אחר' },
+    { id: 1, name: '׳™׳¡׳•׳“׳™' },
+    { id: 2, name: '׳—׳˜"׳‘' },
+    { id: 3, name: '׳×׳™׳›׳•׳' },
+    { id: 4, name: '׳׳—׳¨' },
   ];
 
   formCoordinator = new FormGroup({
@@ -147,7 +146,7 @@ export class CoordinatorRegistrationsComponent {
     const selectedCity = this.formCoordinator.get('CityId')?.value;
 
     if (!selectedCity || !this.filteredCities.includes(selectedCity)) {
-      alert('אנא בחר עיר מהרשימה.');
+      alert('׳׳ ׳ ׳‘׳—׳¨ ׳¢׳™׳¨ ׳׳”׳¨׳©׳™׳׳”.');
       return;
     }
 
@@ -165,8 +164,8 @@ export class CoordinatorRegistrationsComponent {
     }
 
     if (this.formCoordinator.valid) {
-      // בניית נתוני הרישום — נשלחים לשרת בפעולה אחת.
-      // שם העיר נשלח כ-string (ללא טבלת City), וה-Identity של השרת מייצר את המזהים.
+      // ׳‘׳ ׳™׳™׳× ׳ ׳×׳•׳ ׳™ ׳”׳¨׳™׳©׳•׳ ג€” ׳ ׳©׳׳—׳™׳ ׳׳©׳¨׳× ׳‘׳₪׳¢׳•׳׳” ׳׳—׳×.
+      // ׳©׳ ׳”׳¢׳™׳¨ ׳ ׳©׳׳— ׳›-string (׳׳׳ ׳˜׳‘׳׳× City), ׳•׳”-Identity ׳©׳ ׳”׳©׳¨׳× ׳׳™׳™׳¦׳¨ ׳׳× ׳”׳׳–׳”׳™׳.
       const payload: CoordinatorRegisterPayload = {
         firstName: this.formCoordinator.get('FirstName')?.value || '',
         lastName: this.formCoordinator.get('LastName')?.value || '',
@@ -176,7 +175,7 @@ export class CoordinatorRegistrationsComponent {
         email: this.formCoordinator.get('Email')?.value || '',
         userPassword: this.formCoordinator.get('UserPassword')?.value || '',
         roleId: Number(this.formCoordinator.get('RoleId')?.value),
-        // מוסד קיים → schoolId; מוסד חדש → null (והפרטים למטה)
+        // ׳׳•׳¡׳“ ׳§׳™׳™׳ ג†’ schoolId; ׳׳•׳¡׳“ ׳—׳“׳© ג†’ null (׳•׳”׳₪׳¨׳˜׳™׳ ׳׳׳˜׳”)
         schoolId: needToAddSchool ? null : schoolIdToSave,
       };
 
@@ -197,20 +196,20 @@ export class CoordinatorRegistrationsComponent {
         );
       }
 
-      console.log('Payload רישום כורדינטור:', payload);
+      console.log('Payload ׳¨׳™׳©׳•׳ ׳›׳•׳¨׳“׳™׳ ׳˜׳•׳¨:', payload);
 
       this.srv_Coordinators
         .registerCoordinator(payload)
         .subscribe((res: any) => {
           const userId = res?.userId;
-          console.log('רישום הצליח, userId:', userId);
+          console.log('׳¨׳™׳©׳•׳ ׳”׳¦׳׳™׳—, userId:', userId);
 
-          // שמירת פרטי המשתמש ב-LOCAL STORAGE לפי ה-ID שקיבלנו מהשרת
+          // ׳©׳׳™׳¨׳× ׳₪׳¨׳˜׳™ ׳”׳׳©׳×׳׳© ׳‘-LOCAL STORAGE ׳׳₪׳™ ׳”-ID ׳©׳§׳™׳‘׳׳ ׳• ׳׳”׳©׳¨׳×
           // const userObj = { email: payload.email, userId };
           // localStorage.setItem('user_data', JSON.stringify(userObj));
 
           // this.formCoordinator.reset();
-          // this.dialogRef.close(); // סגור את הדיאלוג
+          // this.dialogRef.close(); // ׳¡׳’׳•׳¨ ׳׳× ׳”׳“׳™׳׳׳•׳’
           // this.router.navigate(['welcome/Home_Page']);
           const aaa = 'https://localhost:7098/api/Login/login';
       const userInput = {
@@ -223,18 +222,18 @@ export class CoordinatorRegistrationsComponent {
           console.log('User found:', response);
 
           if (response) {
-            // מפענח את ה-JWT ושומר את מלא פרטי המשתמש
-            // (firstName, userId, email, permission) ב-LOCAL STORAGE
+            // ׳׳₪׳¢׳ ׳— ׳׳× ׳”-JWT ׳•׳©׳•׳׳¨ ׳׳× ׳׳׳ ׳₪׳¨׳˜׳™ ׳”׳׳©׳×׳׳©
+            // (firstName, userId, email, permission) ׳‘-LOCAL STORAGE
             this.authService.login(response.token);
 
 
             this.router.navigate(['welcome/Home_Page']);
           } else {
-            alert('אירעה שגיאה בהתחברות לאחר ההרשמה. נא לנסות שוב.');
+            alert('׳׳™׳¨׳¢׳” ׳©׳’׳™׳׳” ׳‘׳”׳×׳—׳‘׳¨׳•׳× ׳׳׳—׳¨ ׳”׳”׳¨׳©׳׳”. ׳ ׳ ׳׳ ׳¡׳•׳× ׳©׳•׳‘.');
           }
         },
         error => {
-          alert('אירעה שגיאה בהתחברות לאחר ההרשמה. נא לנסות שוב.');
+          alert('׳׳™׳¨׳¢׳” ׳©׳’׳™׳׳” ׳‘׳”׳×׳—׳‘׳¨׳•׳× ׳׳׳—׳¨ ׳”׳”׳¨׳©׳׳”. ׳ ׳ ׳׳ ׳¡׳•׳× ׳©׳•׳‘.');
         }
 
 
@@ -244,7 +243,7 @@ export class CoordinatorRegistrationsComponent {
     });
 
     } else {
-      console.error('טופס לא תקין:', this.formCoordinator.errors);
+      console.error('׳˜׳•׳₪׳¡ ׳׳ ׳×׳§׳™׳:', this.formCoordinator.errors);
     }
   }
 
@@ -272,7 +271,7 @@ export class CoordinatorRegistrationsComponent {
   }
 
   SearchInList(event: Event) {
-    const inputValue = (event.target as HTMLInputElement).value; // קבלת ערך השדה
+    const inputValue = (event.target as HTMLInputElement).value; // ׳§׳‘׳׳× ׳¢׳¨׳ ׳”׳©׳“׳”
     const foundSchool = this.filteredSchools.find(
       (school) => school.SchoolName === inputValue,
     );
@@ -284,7 +283,7 @@ export class CoordinatorRegistrationsComponent {
       this.formCoordinator.get('PhoneSecretary')?.setValue('');
       this.formCoordinator.get('TypeSchoolId')?.setValue('');
       this.formCoordinator.get('AgeSchoolId')?.setValue('');
-      this.setSchoolFieldsEnabled(true); // אם לא נמצא מוסד, השבת שדות
+      this.setSchoolFieldsEnabled(true); // ׳׳ ׳׳ ׳ ׳׳¦׳ ׳׳•׳¡׳“, ׳”׳©׳‘׳× ׳©׳“׳•׳×
       return;
     }
 
@@ -317,7 +316,7 @@ export class CoordinatorRegistrationsComponent {
         foundSchool.AgeSchoolId != null ? String(foundSchool.AgeSchoolId) : '',
       );
 
-    this.setSchoolFieldsEnabled(false); // אם נמצא מוסד, אפשר את השדות
+    this.setSchoolFieldsEnabled(false); // ׳׳ ׳ ׳׳¦׳ ׳׳•׳¡׳“, ׳׳₪׳©׳¨ ׳׳× ׳”׳©׳“׳•׳×
   }
 
   setSchoolFieldsEnabled(enabled: boolean) {
@@ -338,3 +337,4 @@ export class CoordinatorRegistrationsComponent {
     }
   }
 }
+
