@@ -1,0 +1,6 @@
+@GuideX_HostAddress = http://localhost:7098
+
+GET {{GuideX_HostAddress}}/
+Accept: application/json
+
+###
