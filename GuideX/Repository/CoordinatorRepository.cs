@@ -13,7 +13,7 @@ namespace GuideX.Repository
         {
             _context = context;
         }
-
+        
        
         public async Task<int> RegisterCoordinatorAsync(CoordinatorRegisterDto dto)
         {

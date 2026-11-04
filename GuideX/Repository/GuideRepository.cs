@@ -95,7 +95,6 @@ namespace GuideX.Repository
                 await _context.SaveChangesAsync(); 
             }
 
-            // עדה
             guide.ReligiousId = int.TryParse(dto.ReligiousId, out var religiousId) ? religiousId : guide.ReligiousId;
 
             _context.GuidesRegion.RemoveRange(guide.GuidesRegion);
