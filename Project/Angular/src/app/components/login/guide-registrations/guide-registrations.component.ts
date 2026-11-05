@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -36,6 +36,7 @@ import { HttpClient } from '@angular/common/http';
 ],
   templateUrl: './guide-registrations.component.html',
   styleUrl: './guide-registrations.component.scss',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: true,
 })
 export class GuideRegistrationsComponent {

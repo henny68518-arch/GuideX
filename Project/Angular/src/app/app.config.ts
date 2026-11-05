@@ -5,6 +5,7 @@ import {
   HTTP_INTERCEPTORS,
   provideHttpClient,
   withInterceptorsFromDi,
+  withXhr
 } from '@angular/common/http';
 
 import { routes } from './app.routes';
@@ -15,7 +16,7 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     // נדרש לעיצוב/reactivity של Material — ללא זה הדיאלוגים נפתחים "גולמיים".
     provideAnimationsAsync(),
-    provideHttpClient(withInterceptorsFromDi()),
+    provideHttpClient(withXhr(), withInterceptorsFromDi()),
     provideRouter(routes),
     // מצרף את ה-JWT לכל בקשה HTTP אוטומטית
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

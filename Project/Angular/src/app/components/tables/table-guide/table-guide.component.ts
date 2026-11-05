@@ -1,4 +1,4 @@
-import { Component, ViewChild, AfterViewInit, ElementRef } from '@angular/core';
+import { Component, ViewChild, AfterViewInit, ElementRef, ChangeDetectionStrategy } from '@angular/core';
 
 import { FormsModule } from '@angular/forms';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
@@ -33,6 +33,7 @@ interface AreaOption {
     MatIconModule
 ],
   templateUrl: './table-guide.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './table-guide.component.scss',
 })
 export class TableGuideComponent implements AfterViewInit {

@@ -1,4 +1,4 @@
-import { Component, ViewChild, AfterViewInit, ElementRef } from '@angular/core';
+import { Component, ViewChild, AfterViewInit, ElementRef, ChangeDetectionStrategy } from '@angular/core';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import {
   MatPaginator,
@@ -35,6 +35,7 @@ import { RefreshService } from '../../../Services/RefreshService';
     KashrutNamePipe
 ],
   templateUrl: './hostels.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./hostels.component.scss'],
 })
 export class HostelsComponent implements AfterViewInit {

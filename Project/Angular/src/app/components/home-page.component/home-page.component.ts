@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { ScrollTopModule } from 'primeng/scrolltop';
 import { MatIcon } from '@angular/material/icon';
 import { Router} from '@angular/router';
@@ -12,6 +12,7 @@ import { AuthService } from '../../Services/auth-service.service';
     MatIcon,
   ],
   styleUrls: ['./home-page.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: true,
 })
 export class HomePageComponent {

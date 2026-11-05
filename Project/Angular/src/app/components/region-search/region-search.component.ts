@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
@@ -25,6 +25,7 @@ import { ShowGuideComponent } from '../tables/show-guide/show-guide.component';
   standalone: true,
   imports: [FormsModule, MatIconModule],
   templateUrl: './region-search.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./region-search.component.scss'],
 })
 export class RegionSearchComponent {

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 
 import { MatIconModule } from '@angular/material/icon';
 
@@ -24,6 +24,7 @@ import {
   standalone: true,
   imports: [MatIconModule],
   templateUrl: './admin-guide-permission.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './admin-guide-permission.component.scss',
 })
 export class AdminGuidePermissionComponent {

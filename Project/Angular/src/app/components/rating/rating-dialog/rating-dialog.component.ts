@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatDialogModule, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
@@ -21,6 +21,7 @@ export interface RatingDialogData {
   standalone: true,
   imports: [CommonModule, HebrewDateConverterPipe, FormsModule, MatDialogModule, MatIconModule],
   templateUrl: './rating-dialog.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./rating-dialog.component.scss'],
 })
 export class RatingDialogComponent {

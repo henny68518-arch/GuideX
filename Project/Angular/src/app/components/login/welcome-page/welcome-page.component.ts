@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { CheckerGuideOrCoordinatorComponent } from '../checker-guide-or-coordinator/checker-guide-or-coordinator.component';
 import { SighInPageComponent } from '../sigh-in-page/sigh-in-page.component';
@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
   imports: [MatIcon],
   templateUrl: './welcome-page.component.html',
   styleUrls: ['./welcome-page.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: true,
 })
 export class WelcomePageComponent {

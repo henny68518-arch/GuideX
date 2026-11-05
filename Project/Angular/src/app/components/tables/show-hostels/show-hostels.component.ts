@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, ChangeDetectionStrategy } from '@angular/core';
 import {
   MAT_DIALOG_DATA,
   MatDialog,
@@ -34,6 +34,7 @@ import { RatingEntityType } from '../../../Interfaces/int-rating';
     FormsModule,
   ],
   templateUrl: './show-hostels.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './show-hostels.component.scss',
 })
 export class ShowHostelsComponent {

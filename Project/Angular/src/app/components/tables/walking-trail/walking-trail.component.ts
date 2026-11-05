@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, AfterViewInit, ViewChild, ElementRef, ChangeDetectionStrategy } from '@angular/core';
 import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
@@ -20,6 +20,7 @@ import { RefreshService } from '../../../Services/RefreshService';
   standalone: true,
   templateUrl: './walking-trail.component.html',
   styleUrls: ['./walking-trail.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     MatPaginatorModule,
     MatTableModule,

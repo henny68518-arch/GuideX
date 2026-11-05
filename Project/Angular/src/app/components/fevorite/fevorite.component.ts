@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { AuthService } from '../../Services/auth-service.service';
 import { srv_Favorite } from '../../Services/srv_Favorite';
 import { SrvWalkingTrailService } from '../../Services/srv-WalkingTrail.service';
@@ -18,6 +18,7 @@ import { int_Favorite } from '../../Interfaces/int_Favorite';
   standalone: true,
   imports: [],
   templateUrl: './fevorite.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './fevorite.component.scss',
 })
 export class FevoriteComponent {

@@ -1,4 +1,4 @@
-﻿import { Component, inject, Input, signal } from '@angular/core';
+﻿import { Component, inject, Input, signal, ChangeDetectionStrategy } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -27,6 +27,7 @@ import { HttpClient } from '@angular/common/http';
   imports: [ReactiveFormsModule, MatIconModule, CardModule],
   templateUrl: './coordinator-registrations.component.html',
   styleUrls: ['./coordinator-registrations.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: true,
 })
 export class CoordinatorRegistrationsComponent {

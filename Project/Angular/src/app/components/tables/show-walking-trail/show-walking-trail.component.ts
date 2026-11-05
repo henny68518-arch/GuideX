@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, ChangeDetectionStrategy } from '@angular/core';
 import {
   MAT_DIALOG_DATA,
   MatDialog,
@@ -27,6 +27,7 @@ import { RatingEntityType } from '../../../Interfaces/int-rating';
   selector: 'app-show-walking-trail',
   imports: [MatIcon, regionNamePipe, CommonModule, FormsModule],
   templateUrl: './show-walking-trail.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './show-walking-trail.component.scss',
 })
 export class ShowWalkingTrailComponent {

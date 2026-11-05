@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import {
   MAT_DIALOG_DATA,
@@ -24,6 +24,7 @@ import { GuideRegistrationsComponent } from '../guide-registrations/guide-regist
   ],
   templateUrl: './checker-guide-or-coordinator.component.html',
   styleUrl: './checker-guide-or-coordinator.component.scss',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: true,
 })
 export class CheckerGuideOrCoordinatorComponent {

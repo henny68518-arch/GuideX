@@ -1,4 +1,4 @@
-import { Component, ViewChild, AfterViewInit, ElementRef } from '@angular/core';
+import { Component, ViewChild, AfterViewInit, ElementRef, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import {
@@ -41,6 +41,7 @@ import { RefreshService } from '../../../Services/RefreshService';
     CommonModule,
   ],
   templateUrl: './attractions.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./attractions.component.scss'],
 })
 export class AttractionsComponent implements AfterViewInit {

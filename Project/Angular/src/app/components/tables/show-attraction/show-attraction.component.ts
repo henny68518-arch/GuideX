@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, ChangeDetectionStrategy } from '@angular/core';
 // import { BrowserModule } from '@angular/platform-browser';
 import {
   MAT_DIALOG_DATA,
@@ -30,6 +30,7 @@ import { RatingEntityType } from '../../../Interfaces/int-rating';
   imports: [CommonModule, MatIcon, AttractionTypeNamePipe, regionNamePipe, FormsModule],
   templateUrl: './show-attraction.component.html',
   styleUrl: './show-attraction.component.scss',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: true,
 })
 export class ShowAttractionComponent {

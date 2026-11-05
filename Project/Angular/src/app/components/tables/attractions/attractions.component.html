@@ -63,7 +63,7 @@
               class="likeButton"
               (click)="
                 toggleFavorite(
-                  userDetails?.userId,
+                  $safeNavigationMigration(userDetails?.userId),
                   element.attractionId,
                   'attraction'
                 )
@@ -158,7 +158,7 @@
         showFirstLastButtons
         aria-label="בחירת עמוד"
         class="paginator"
-        [length]="dataSource?.data?.length"
+        [length]="$safeNavigationMigration(dataSource?.data?.length)"
       >
       </mat-paginator>
     </div>

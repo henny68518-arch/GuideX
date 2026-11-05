@@ -1,4 +1,4 @@
-import { Component, Inject, inject } from '@angular/core';
+import { Component, Inject, inject, ChangeDetectionStrategy } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -20,6 +20,7 @@ import { AuthService } from '../../Services/auth-service.service';
   selector: 'app-edit-user-detail',
   imports: [ReactiveFormsModule, MatIcon],
   templateUrl: './edit-user-detail.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './edit-user-detail.component.scss',
 })
 export class EditUserDetailComponent {

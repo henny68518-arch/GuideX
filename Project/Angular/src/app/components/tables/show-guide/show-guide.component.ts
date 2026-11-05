@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, ChangeDetectionStrategy } from '@angular/core';
 import {
   MAT_DIALOG_DATA,
   MatDialog,
@@ -20,6 +20,7 @@ import { RatingEntityType } from '../../../Interfaces/int-rating';
   standalone: true,
   imports: [CommonModule, MatIcon],
   templateUrl: './show-guide.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './show-guide.component.scss',
 })
 export class ShowGuideComponent {

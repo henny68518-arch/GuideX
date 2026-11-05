@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, ChangeDetectionStrategy } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatIcon } from "@angular/material/icon";
 
@@ -6,6 +6,7 @@ import { MatIcon } from "@angular/material/icon";
   selector: 'app-succeeded-alert',
   imports: [MatIcon],
   templateUrl: './succeeded-alert.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './succeeded-alert.component.scss'
 })
 export class SucceededAlertComponent {

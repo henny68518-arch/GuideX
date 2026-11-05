@@ -1,4 +1,4 @@
-import { Component, Inject, inject } from '@angular/core';
+import { Component, Inject, inject, ChangeDetectionStrategy } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatIcon } from '@angular/material/icon';
 import {
@@ -17,6 +17,7 @@ import { SrvForumMessageService } from '../../../Services/srv-forum-message.serv
   selector: 'app-new-message-tips-forum',
   imports: [MatIcon, ReactiveFormsModule],
   templateUrl: './new-message-tips-forum.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './new-message-tips-forum.component.scss',
 })
 export class NewMessageTipsForumComponent {

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { HeaderComponent } from "../header/header.component";
 import { FooterComponent } from "../footer/footer.component";
 import { RouterOutlet } from "@angular/router";
@@ -7,6 +7,7 @@ import { RouterOutlet } from "@angular/router";
   selector: 'app-home',
   imports: [HeaderComponent, FooterComponent, RouterOutlet],
   templateUrl: './home.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './home.component.scss'
 })
 export class HomeComponent {

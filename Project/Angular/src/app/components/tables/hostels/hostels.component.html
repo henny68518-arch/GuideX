@@ -63,7 +63,7 @@
 
         <td mat-cell *matCellDef="let element">
 
-          <button class="likeButton" (click)="toggleFavorite(userDetails?.userId, element.HostelsId, 'hostel')">
+          <button class="likeButton" (click)="toggleFavorite($safeNavigationMigration(userDetails?.userId), element.HostelsId, 'hostel')">
 
             <img class="img_like" [src]="
       isLiked['hostel-' + element.HostelsId]
@@ -144,7 +144,7 @@
     </table>
 
     <mat-paginator [pageSizeOptions]="[20, 30, 50]" showFirstLastButtons aria-label="בחירת עמוד" class="paginator"
-      [length]="dataSource?.data?.length">
+      [length]="$safeNavigationMigration(dataSource?.data?.length)">
     </mat-paginator>
   </div>
   }

@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialog } from '@angular/material/dialog';
@@ -18,6 +18,7 @@ import { EditUserDetailComponent } from '../../edit-user-detail/edit-user-detail
   standalone: true,
   imports: [MatIconModule],
   templateUrl: './user-permissions.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './user-permissions.component.scss',
 })
 export class UserPermissionsComponent implements OnDestroy {

@@ -1,4 +1,4 @@
-import { Component, inject, Inject } from '@angular/core';
+import { Component, inject, Inject, ChangeDetectionStrategy } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -30,6 +30,7 @@ import { AuthService } from '../../../Services/auth-service.service';
   ],
   templateUrl: './sigh-in-page.component.html',
   styleUrl: './sigh-in-page.component.scss',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: true,
 })
 export class SighInPageComponent {

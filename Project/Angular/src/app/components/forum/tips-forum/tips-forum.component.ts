@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { int_ForumMessage } from '../../../Interfaces/int_ForumMessage';
 import { MatIcon } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
@@ -15,6 +15,7 @@ import { ConfirmDeleteDialogComponent } from '../../confirm-delete-dialog/confir
   selector: 'app-tips-forum',
   imports: [MatIcon, CommonModule, HebrewDateConverterPipe],
   templateUrl: './tips-forum.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './tips-forum.component.scss',
 })
 export class TipsForumComponent {
